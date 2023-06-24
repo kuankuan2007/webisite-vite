@@ -25,7 +25,7 @@
 
 自定义自己的分支名(建议为 `fork_user[_feature])`)
 
-**`<mark>`开启Git大小写敏感 `</mark>`**(划重点)
+**<mark>开启Git大小写敏感</mark> **(划重点)
 
 ```bash
 git config core.ignorecase false
