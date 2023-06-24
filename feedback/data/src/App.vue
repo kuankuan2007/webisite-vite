@@ -2,7 +2,10 @@
   <myheader title="宽宽2007·反馈"></myheader>
   <div class="main" v-if="finished">
     <h1 class="title">{{ data.title }}</h1>
-    <span :class="['statue',data.statue]">{{ data.statue }}</span>
+    <!-- <span :class="['statue',data.statue]">{{ data.statue }}</span> -->
+    <myselecter :values="[
+      'Waiting','A1','A2','A3','B1','B2','B3','Finish'
+    ]" :choice="data.statue" @update:choice="data.statue=$event" :class="['statue',data.statue]"/>
     <p class="info">{{ data.time }} · {{ data.user }}</p>
     <h2>内容</h2>
     <markdownShower ref="contentInput" :content="data.content" :headerLevelStart="3" />
@@ -20,8 +23,7 @@
 import myheader from "../../../src/common/components/header.vue"
 import markdownShower from "../../../src/common/components/markdownShower.vue";
 import { ref } from "vue"
-import myInputText from "../../../src/common/components/input/text.vue"
-import myInputButton from "../../../src/common/components/input/button.vue"
+import myselecter from "../../../src/common/components/input/selecter.vue"
 import  {getFeadbackData} from "../../../src/common/script/connection"
 import { showMessage } from "../../../src/common/script/infomations";
 import {getQueryVariable} from "../../../src/common/script/normal"
@@ -57,10 +59,11 @@ getFeadbackData(id.value).then((result)=>{
   padding: 20px;
   border-radius: calc(20px * var(--theme-border-radius));
 }
-.info{
-  font-size: 0.5em;
+.main .info{
+  font-size: 0.8em;
   margin: 0;
   padding: 0;
+  padding-left: 5px;
 }
 h2 {
   position: relative;
@@ -102,6 +105,7 @@ h2::before {
     padding-right: 10px;
     line-height: 20px;
     border-radius: calc(10px * var(--theme-border-radius));
+    z-index: 2;
 }
 .statue.Waiting{
     background-color: var(--theme-strong2);

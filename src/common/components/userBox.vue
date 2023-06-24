@@ -7,12 +7,38 @@
 <script setup>
 import { getUserName } from "../script/connection.js";
 import {ref} from "vue"
+let props = defineProps({
+    jump:{
+        type:String,
+        required:false,
+        default:""
+    },toLogin:{
+        type:Boolean,
+        required:false,
+        default:false
+    }
+})
 let username = ref("")
-localStorage.check="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoicm9vdCIsInNlc3Npb25JRCI6IlE2eE1pWThla293ekJXeE54RFNIUE1LNmc5UEM2cVZ6Z1k5NzNkQ2dZZmtVQVh0MUY5Z2V5M0lMYlBUYkVvQnFiWXFHT2RSejc4UDJoaDJ1OTVGS2M3ZW9GMGFMeTJhaFRnSXdNZXQ2ZVNCOHR3MnhPZzhVVVJFUTk5eGN2TGdHelh5V1lHMEVHWkVNQmFRMXVpaTdVMVhuR2VScmlmcFVIbVlFRlFPWHZTdjNsOHJBT21SdGl2Z1FzY0hVMjZPd2xHb0RWWUVjYjVuemxWcnRSTkN6dTlYdTJEN21ta3hJYzF1eUZzMUdvWkVPeUJ0REtJSXlPWmF3bUxUazA4dU4ifQ.gsU9yOtWwgF-S0yL2p1JtgVGF0yv7LSo5fRoGygh6JY"
 let finished = ref(false)
 getUserName().then((retsult)=>{
+    console.log(retsult,props.toLogin)
+    if (retsult && props.jump){
+        location.href = props.jump
+    }
+    if (props.toLogin && !retsult){
+        location.href = `/login/?from=${encodeURI(location.href)}`
+    }
     username.value=retsult
     finished.value = true
+},(reason)=>{
+    console.log(reason)
+    let retsult = ""
+    if (retsult && props.jump){
+        location.href = props.jump
+    }
+    if (props.toLogin && !retsult){
+        location.href = `/login/?from=${encodeURI(location.href)}`
+    }
 })
 function login() {
     location.href = `/login?from=${new URL(location.href).pathname}`

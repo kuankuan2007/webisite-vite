@@ -82,7 +82,7 @@ defineExpose({
   margin: 0;
   height: 30px;
   line-height: 30px;
-  font-size: 20px;
+  font-size: 1em;
   top: 50%;
   transform: translate(0,-50%);
   left: 30px;

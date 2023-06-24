@@ -1,4 +1,5 @@
 import {showMessage} from './infomations'
+import {getQueryVariable} from './normal'
 export async function checkUser(){
     var userButton = document.querySelector("#user a")
     var userName=await getUserName()
@@ -35,6 +36,12 @@ export async function getUserName(){
     }
     return await retsult.text()
 }
+/**
+ * 
+ * @param {String} flags 
+ * @param {String} password 
+ * @returns 
+ */
 export async function login(flags,password){
     var retsult=await fetch("https://kuankuan.site/user/login",{
         method:'GET',
@@ -50,8 +57,7 @@ export async function login(flags,password){
 	})
     if (retsult.status==200){
         localStorage.setItem("check",await retsult.text())
-        location.href = getQueryVariable("from","/")
-        return  true
+        return true
     }else{
         return false
     }

@@ -12,10 +12,7 @@
     cursor: pointer;
     padding: 0px;
     height: 60px;
-    width: calc(100% - 20px);
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 50px;
+    width: 100%;
     font-size: 24px;
     color: var(--font-color-b);
     border-radius: calc(30px * var(--theme-border-radius));

@@ -11,6 +11,7 @@ export default defineConfig({
         feedback: resolve(__dirname, 'feedback/index.html'),
         newFeedback: resolve(__dirname, 'feedback/new/index.html'),
         dataFeedback: resolve(__dirname, 'feedback/data/index.html'),
+        login: resolve(__dirname, 'login/index.html'),
       },
     },
     terserOptions: {

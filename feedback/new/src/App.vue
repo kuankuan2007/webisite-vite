@@ -1,5 +1,5 @@
 <template>
-  <myheader title="宽宽2007·提交反馈"></myheader>
+  <myheader title="宽宽2007·提交反馈" :toLogin="true"></myheader>
   <div class="main">
     <myInputText ref="titleInput" :value="title" title="标题" @update:value="title = $event.target.value" />
     <h2>内容</h2>
@@ -72,4 +72,10 @@ h2::before {
   width: 10px;
 }
 
+.main .button {
+  margin-top: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: calc(100% - 20px);
+}
 </style>
