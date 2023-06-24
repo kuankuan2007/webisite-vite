@@ -1,0 +1,53 @@
+@import url("./font-icos.css");
+::-webkit-scrollbar {
+
+    width: 12px;
+
+    height: 12px;
+
+}
+
+::-webkit-scrollbar-track-piece {
+
+    background-color: transparent;
+
+    -webkit-border-radius: 6px;
+
+}
+
+::-webkit-scrollbar-thumb:vertical {
+
+    height: 12px;
+
+    background-color: #BDBDBD;
+
+    -webkit-border-radius: calc(12px * var(--theme-border-radius));
+
+    transition: 0.3s;
+
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+
+    width: 12px;
+
+    background-color: #BDBDBD;
+
+    transition: 0.3s;
+    
+    -webkit-border-radius: 6px;
+
+}
+
+::-webkit-scrollbar-thumb:vertical:hover,
+::-webkit-scrollbar-thumb:horizontal:hover {
+
+    background-color: #808080;
+
+}
+*{
+    
+    scrollbar-color: transparent transparent;
+    scrollbar-track-color: transparent;
+    -ms-scrollbar-track-color: transparent;
+}

@@ -1,0 +1,116 @@
+@use "sass:string";
+$base-colors:(
+    "light-full":( #dbdbff, #ffc7c7, #fffff1),
+    "dark-full": (#0e001b, #071f00, #330000),
+    "light-simple": (#dedeff, #ffe0fd, #ffdbf3),
+    "dark-simple": (#0a0018, #3b003d, #350029),
+);
+@function split($s,$n){
+    @if (str-index($s,"-")==null){
+        @return $s;
+    }
+    @if ($n==1){
+        @return str-slice($s,0,str-index($s,"-")-1);
+    }
+    @for $i from $n through 1{
+        @if (str-index($s,"-")==null){
+            @return $s;
+        }
+        @if ($i==1){
+            @return str-slice($s,0,str-index($s,"-")-1);
+        }
+        $s:str-slice($s,str-index($s,"-")+1);
+    }
+}
+@each $key,$colors in $base-colors{
+    html[data-theme-light="#{split($key,1)}"][data-theme-color="#{split($key,2)}"][data-theme-opacity="false"]{
+        $base-color: $colors;
+        @if (split($key,1)=="light") {
+            @for $i from 1 through length($base-color) {
+                @for $j from 1 through 5 {
+                --theme-#{$i}-#{$j}: #{darken(nth($base-color, $i), $j * 2%)};
+                }
+            }
+            @for $i from 1 through length($base-color) {
+                --theme-#{$i}-b: #{darken(nth($base-color, $i), 50%)};
+            }
+        }@else{
+            @for $i from 1 through length($base-color) {
+                @for $j from 1 through 5 {
+                --theme-#{$i}-#{$j}: #{lighten(nth($base-color, $i), $j * 2%)};
+                }
+            }
+            @for $i from 1 through length($base-color) {
+                --theme-#{$i}-b: #{lighten(nth($base-color, $i), 50%)};
+            }
+        }
+    }
+    html[data-theme-light="#{split($key,1)}"][data-theme-color="#{split($key,2)}"][data-theme-opacity="blur"],
+    html[data-theme-light="#{split($key,1)}"][data-theme-color="#{split($key,2)}"][data-theme-opacity="true"]{
+        $base-color: $colors;
+        @if (split($key,1)=="light") {
+            @for $i from 1 through length($base-color) {
+                @for $j from 1 through 10 {
+                --theme-#{$i}-#{$j}: #{rgba(darken(nth($base-color, $i), $j * 2%),.8)};
+                }
+            }
+            @for $i from 1 through length($base-color) {
+                --theme-#{$i}-b: #{darken(nth($base-color, $i), 50%)};
+            }
+        }@else{
+            @for $i from 1 through length($base-color) {
+                @for $j from 1 through 10 {
+                --theme-#{$i}-#{$j}: #{rgba(lighten(nth($base-color, $i), $j * 2%),.8)};
+                }
+            }
+            @for $i from 1 through length($base-color) {
+                --theme-#{$i}-b: #{lighten(nth($base-color, $i), 50%)};
+            }
+        }
+    }
+}
+html[data-theme-light="light"]{
+    --background:#fbe7ff;
+    --font-color-b:#ffffff;
+    --font-color:#000000;
+    --theme-disabled-font: #555555;
+    --theme-disabled-block: #9e9e9e;
+    @import "../../../node_modules/highlight.js/scss/vs.scss"
+}
+html[data-theme-light="dark"]{
+    --font-color-b:#000000;
+    --font-color:#ffffff;
+    --background:#010011;
+    --theme-disabled-font: #888888;
+    --theme-disabled-block: #474747;
+    @import "../../../node_modules/highlight.js/scss/monokai-sublime.scss"
+}
+html[data-theme-color="full"]{
+    --theme-strong1:#0000ff;
+    --theme-strong2:#ff0000;
+    --theme-strong3:#00ff00;
+}
+html[data-theme-color="simple"]{
+    --theme-strong1:#0000ff;
+    --theme-strong2:#ff00c8;
+    --theme-strong3:#ff009d;
+}
+html[data-theme-rounded-border="full"]{
+    --theme-border-radius:1;
+}
+html[data-theme-rounded-border="normal"]{
+    --theme-border-radius:0.5;
+}
+html[data-theme-rounded-border="none"]{
+    --theme-border-radius:0;
+}
+html{
+    --theme-backdrop-blur:0;
+}
+html[data-theme-opacity="blur"]{
+    --theme-backdrop-blur:1;
+}
+body{
+    background: var(--background);
+    color: var(--font-color);
+}

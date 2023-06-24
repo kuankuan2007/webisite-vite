@@ -1,0 +1,28 @@
+{
+  "name": "page-vite",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "highlight.js": "^11.8.0",
+    "mathjax": "^3.2.2",
+    "mathjax-full": "^3.2.2",
+    "showdown": "^2.1.0",
+    "sprintf": "^0.1.5",
+    "vue": "^3.2.47",
+    "xss": "^1.0.14"
+  },
+  "devDependencies": {
+    "@types/mathjax": "^0.0.37",
+    "@types/sprintf": "^0.1.0",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "sass": "^1.63.4",
+    "terser": "^5.18.1",
+    "vite": "^4.3.9"
+  }
+}
