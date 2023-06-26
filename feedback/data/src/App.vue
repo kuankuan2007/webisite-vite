@@ -108,7 +108,7 @@ h2::before {
     z-index: 2;
 }
 .statue.Waiting{
-    background-color: var(--theme-strong2);
+    background-color: var(--theme-2-10);
 }
 .statue.A1{
     background:var(--theme-2-3);
@@ -126,6 +126,6 @@ h2::before {
     background:var(--theme-3-1);
 }
 .statue.Finish{
-    background:var(--theme-strong3);
+    background:var(--theme-3-10);
 }
 </style>

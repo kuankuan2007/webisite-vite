@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue';
-
+/** @type {import('vite').UserConfig} */
 export default defineConfig({
   plugins: [vue()],
   build: {
@@ -12,6 +12,7 @@ export default defineConfig({
         newFeedback: resolve(__dirname, 'feedback/new/index.html'),
         dataFeedback: resolve(__dirname, 'feedback/data/index.html'),
         login: resolve(__dirname, 'login/index.html'),
+        signup: resolve(__dirname, 'signup/index.html'),
       },
     },
     terserOptions: {

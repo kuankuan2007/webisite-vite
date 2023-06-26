@@ -113,7 +113,7 @@ buildNavTree(rootNav).then(
     width: 0 !important;
 }
 .fold-button,.unfold-button{
-    position: fixed;
+    position: absolute;
     font-size: 36px;
     margin: 0;
     cursor: pointer;

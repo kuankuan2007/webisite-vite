@@ -6,6 +6,9 @@
         }" :type="props.type" :value="props.value" @input="valueChange" ref="input" />
         <p class="title" ref="title">{{ props.title }}</p>
         <div class="back"></div>
+        <Transition name="reminder">
+          <p class="reminder" v-show="wrong!=0"><span class="demo-icon">&#xe817;</span>{{ props.reminder[wrong-1] }}</p>
+        </Transition>
     </div>
 </template>
 <script setup>
@@ -27,6 +30,14 @@ let props = defineProps({
         type: String,
         default: "文本",
         required: false
+    },tester: {
+      type: Function,
+      default: ()=>true,
+      required:false
+    },reminder:{
+      type: Array,
+      default: ["内容格式不正确"],
+      required: false
     }
 })
 let inputGroup=ref(null)
@@ -37,14 +48,39 @@ onMounted(()=>{
     inputGroup.value.style.setProperty("--title-width",`${title.value.clientWidth}px`)
   })
 })
+let wrong=ref(false)
+/**
+ * @param {MouseEvent} event 
+ */
 function valueChange(event) {
-    emit("update:value", event)
+  wrong.value=event.target.value?props.tester(event.target.value):0
+  emit("update:value", event)
 }
 defineExpose({
+  wrong,
+  reminder:props.reminder,
   input
 })
 </script>
 <style lang="scss" scoped>
+.reminder{
+  transition: 0.3s;
+  position: absolute;
+  margin: 0;
+  font-size: 0.8em;
+  color: red;
+  pointer-events: none;
+  user-select: none;
+  left: calc(20px + var(--title-width));
+}
+.reminder-enter-from,
+.reminder-leave-to{
+  opacity: 0;
+}
+.reminder-enter-to,
+.reminder-leave-from{
+  opacity: 1;
+}
 .input {
     display: block;
     position: relative;

@@ -1,22 +1,33 @@
 <template>
     <span class="selecter">
-        {{ props.choice }}
+        <span class="shower">
+            {{ props.choice }}
+        </span>
         <span class="demo-icon show-menu">&#xe805;</span>
         <span class="menu">
             <div class="padding-value-list">
-                <ul class="value-list">
+                <ul ref="valueList" class="value-list">
                     <li :class="{
-                        'choices':true,
-                        value:true,
-                        'choice':value===props.choice,
-                    }"
-                    v-for="value in props.values" @click="chaneChoice(value)">{{ value }}</li>
+                        'choices': true,
+                        value: true,
+                        'choice': value === props.choice
+                    }" v-for="value in props.values" @click="chaneChoice(value)" :name="value">{{ value }}</li>
                 </ul>
             </div>
         </span>
     </span>
 </template>
 <script setup>
+import { onMounted,ref } from 'vue';
+let valueList=ref(null)
+onMounted(()=>{
+    for (let i=0; i<valueList.value.children.length; i++){
+        if (valueList.value.children[i].getAttribute("name") === props.choice){
+            valueList.value.scrollTop=Math.max(0,valueList.value.children[i].offsetTop)
+            break
+        }
+    }
+})
 let props = defineProps({
     values: {
         type: Array,
@@ -40,9 +51,9 @@ function chaneChoice(value) {
     padding-left: 10px;
     padding-right: 10px;
     position: relative;
-    border-radius: calc(11px * var());
     transition: 0.3s;
     border-radius: calc(11px * var(--theme-border-radius));
+    display: block;
 }
 
 .menu {
@@ -83,23 +94,27 @@ function chaneChoice(value) {
     border-radius: calc(10px * var(--theme-border-radius));
     backdrop-filter: blur(calc(5px * var(--theme-backdrop-blur)));
 }
-.value-list{
+
+.value-list {
     list-style: none;
     padding: 10px;
     margin: 0;
+    z-index: 100;
 }
-.choices{
+
+.choices {
     padding: 5px;
     padding-top: 3px;
     padding-bottom: 3px;
     cursor: pointer;
     transition: 0.3s;
     border-radius: calc(10px * var(--theme-border-radius));
-    &:hover{
+
+    &:hover {
         background-color: var(--theme-2-1);
     }
-    &.choice{
+
+    &.choice {
         background-color: var(--theme-3-3);
     }
-}
-</style>
+}</style>

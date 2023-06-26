@@ -171,7 +171,7 @@ getNew()
     border-radius: calc(10px * var(--theme-border-radius));
 }
 .item .statue.Waiting{
-    background-color: var(--theme-strong2);
+    background-color: var(--theme-2-10);
 }
 .item .statue.A1{
     background:var(--theme-2-3);
@@ -189,6 +189,6 @@ getNew()
     background:var(--theme-3-1);
 }
 .item .statue.Finish{
-    background:var(--theme-strong3);
+    background:var(--theme-3-10);
 }
 </style>
