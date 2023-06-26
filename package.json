@@ -15,14 +15,17 @@
     "showdown": "^2.1.0",
     "sprintf": "^0.1.5",
     "vue": "^3.2.47",
+    "webpack-bundle-analyzer": "^4.9.0",
     "xss": "^1.0.14"
   },
   "devDependencies": {
     "@types/mathjax": "^0.0.37",
     "@types/sprintf": "^0.1.0",
     "@vitejs/plugin-vue": "^4.2.3",
+    "rollup-plugin-visualizer": "^5.9.2",
     "sass": "^1.63.4",
     "terser": "^5.18.1",
-    "vite": "^4.3.9"
+    "vite": "^4.3.9",
+    "vite-plugin-inspect": "^0.7.29"
   }
 }

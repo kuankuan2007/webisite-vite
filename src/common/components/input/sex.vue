@@ -95,12 +95,12 @@ onMounted(()=>{
     background-color: transparent;
 }
 
-.selecter::v-deep * .value-list {
+.selecter:deep(* .value-list) {
     max-height: 100px;
     overflow-y: scroll;
 }
 
-.selecter::v-deep .shower {
+.selecter:deep(.shower) {
     text-decoration: underline;
 }
 
