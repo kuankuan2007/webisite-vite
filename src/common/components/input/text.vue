@@ -7,7 +7,7 @@
         <p class="title" ref="title">{{ props.title }}</p>
         <div class="back"></div>
         <Transition name="reminder">
-          <p class="reminder" v-show="wrong!=0"><span class="demo-icon">&#xe817;</span>{{ props.reminder[wrong-1] }}</p>
+          <p class="reminder" v-show="wrong!=0&&wrong!=-1"><span class="demo-icon">&#xe817;</span>{{ props.reminder[wrong-1] }}</p>
         </Transition>
     </div>
 </template>
@@ -32,7 +32,7 @@ let props = defineProps({
         required: false
     },tester: {
       type: Function,
-      default: ()=>true,
+      default: ()=>0,
       required:false
     },reminder:{
       type: Array,
@@ -48,18 +48,23 @@ onMounted(()=>{
     inputGroup.value.style.setProperty("--title-width",`${title.value.clientWidth}px`)
   })
 })
-let wrong=ref(false)
+let wrong=ref(props.value?props.tester(props.value):-1)
+function refreshReminder(value,...args){
+  wrong.value=value?props.tester(value,...args):-1
+}
 /**
  * @param {MouseEvent} event 
  */
 function valueChange(event) {
-  wrong.value=event.target.value?props.tester(event.target.value):0
+  refreshReminder(event.target.value)
   emit("update:value", event)
 }
 defineExpose({
   wrong,
   reminder:props.reminder,
-  input
+  input,
+  title:props.title,
+  refreshReminder
 })
 </script>
 <style lang="scss" scoped>
@@ -96,7 +101,7 @@ defineExpose({
     border-color: var(--theme-1-5);
     padding-left: 20px;
     padding-right: 20px;
-    border-style: groove;
+    border-style: solid;
     transition: 0.3s;
   color: var(--font-color);
     &:focus,

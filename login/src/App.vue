@@ -25,18 +25,19 @@ let flag = ref("")
 let password = ref("")
 let flagInput = ref(null)
 let passwordInput = ref(null)
+let form = [
+  flagInput,passwordInput
+]
 function submit() {
-  if (!flag.value) {
-    showMessage("请输入账号", function () {
-      flagInput.value.input.focus()
-    })
-    return
-  }
-  if (!password.value) {
-    showMessage("请输入密码", function () {
-      passwordInput.value.input.focus()
-    })
-    return
+  for (let i of form){
+    if (i.value.wrong==-1){
+      showMessage(`请填写${i.value.title}字段`)
+      return
+    }else if (i.value.wrong!=0) {
+      console.log(i.value.reminder,i.value.wrong-1)
+      showMessage(i.value.reminder[i.value.wrong-1])
+      return
+    }
   }
   login(flag.value, password.value).then((retsult) => {
     if (retsult === true) {
@@ -56,6 +57,7 @@ function submit() {
 
 .main {
   width: 60%;
+  max-width: 500px;
   position: absolute;
   top: 50%;
   left: 50%;

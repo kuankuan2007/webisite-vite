@@ -19,8 +19,11 @@ import mySelecter from "./selecter.vue"
 import { computed, ref ,onMounted,watchEffect} from "vue"
 let emit = defineEmits(["update:value"])
 let wrong = ref(0)
+function refreshReminder(value,...args){
+    wrong.value = props.tester(value,...args)
+}
 function changChoice(value) {
-    wrong.value = props.tester(value)
+    refreshReminder(value)
     emit("update:value", value)
 }
 
@@ -35,7 +38,7 @@ let props = defineProps({
         default: "保密"
     }, tester: {
         type: Function,
-        default: () => true,
+        default: () => 0,
         required: false
     }, reminder: {
         type: Array,
@@ -50,6 +53,12 @@ onMounted(()=>{
     props.title
     inputGroup.value.style.setProperty("--title-width",`${title.value.clientWidth}px`)
   })
+})
+defineExpose({
+    wrong,
+    reminder:props.reminder,
+    title:props.title,
+    refreshReminder
 })
 </script>
 <style scoped lang="scss">
@@ -68,7 +77,7 @@ onMounted(()=>{
     border-radius: calc(30px * var(--theme-border-radius));
     background-color: var(--theme-3-1);
     border-color: var(--theme-1-5);
-    border-style: groove;
+    border-style: solid;
     transition: 0.3s;
     color: var(--font-color);
     align-items: center;

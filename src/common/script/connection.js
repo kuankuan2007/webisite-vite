@@ -62,6 +62,12 @@ export async function login(flags,password){
         return false
     }
 }
+/**
+ * 
+ * @param {String} username 
+ * @param {String} email 
+ * @returns {Promise}
+ */
 export async function checkSignUp(username,email){
     var retsult=await fetch("https://kuankuan.site/user/signup/check",{
         method:'POST',

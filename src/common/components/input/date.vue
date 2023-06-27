@@ -26,6 +26,9 @@ import mySelecter from "./selecter.vue"
 import { computed, ref ,onMounted,watchEffect} from "vue"
 let emit = defineEmits(["update:date"])
 let wrong = ref(0)
+function refreshReminder(value,...args){
+    wrong.value = props.tester(value,...args)
+}
 function changChoice(part, value) {
     let newValue = new Date(props.value)
     if (part === "year") {
@@ -35,7 +38,7 @@ function changChoice(part, value) {
     } if (part === "date") {
         newValue.setDate(parseInt(value, 10))
     }
-    wrong.value = props.tester(newValue)
+    refreshReminder(newValue)
     emit("update:date", newValue)
 }
 
@@ -50,7 +53,7 @@ let props = defineProps({
         default: new Date(2000, 1, 1)
     }, tester: {
         type: Function,
-        default: () => true,
+        default: () => 0,
         required: false
     }, reminder: {
         type: Array,
@@ -83,6 +86,12 @@ let dayList = computed(() => {
         } return Array.from({ length: 30, }, (item, index) => (index + 1).toString())
     }
 })
+defineExpose({
+    wrong,
+    reminder:props.reminder,
+    title:props.title,
+    refreshReminder
+})
 </script>
 <style scoped lang="scss">
 .main-box{
@@ -100,7 +109,7 @@ let dayList = computed(() => {
     border-radius: calc(30px * var(--theme-border-radius));
     background-color: var(--theme-3-1);
     border-color: var(--theme-1-5);
-    border-style: groove;
+    border-style: solid;
     transition: 0.3s;
     color: var(--font-color);
     align-items: center;
