@@ -1,5 +1,5 @@
 import {showMessage} from './infomations'
-import {getQueryVariable} from './normal'
+import {getQueryVariable,dateFormater} from './normal'
 export async function checkUser(){
     var userButton = document.querySelector("#user a")
     var userName=await getUserName()
@@ -85,7 +85,7 @@ export async function checkSignUp(username,email){
     localStorage.setItem("check",await retsult.text())
     return null
 }
-export async function getImageCode(ele,retry=null){
+export async function getImageCode(){
     var retsult =await fetch("https://kuankuan.site/user/safety/image/make",{
         method:'GET',
         headers:{
@@ -93,16 +93,22 @@ export async function getImageCode(ele,retry=null){
         },
     })
     if (retsult.status==200){
-        ele.src=await retsult.text()
-        return "success"
+        return await retsult.text()
     }
     else if (retsult.status==503){
-        showMessage("操作过于频繁请稍后再试",retry)
+        showMessage("操作过于频繁请稍后再试")
+        throw void 0
     }
     else if (retsult.status==403){
         location.href="/login?from="+encodeURI(location.href)
+        throw void 0
     }
 }
+/**
+ * 
+ * @param {String} code 
+ * @returns {Boolean}
+ */
 export async function checkImageCode(code){
     var retsult =await fetch("https://kuankuan.site/user/safety/image/check",{
         method:'POST',
@@ -131,8 +137,11 @@ export function countBackwardsInText(ele,time,finish){
     }
     setTimeout(countBackwardsInText,1000,ele,time-1,finish)
 }
-
-export async function getEmailCode(ele,retry=null){
+/**
+ * 
+ * @returns {boolean}
+ */
+export async function getEmailCode(){
     var retsult =await fetch(`https://kuankuan.site/user/safety/email/make?action=${localStorage.getItem("action")}`,{
         method:'GET',
         headers:{
@@ -140,17 +149,10 @@ export async function getEmailCode(ele,retry=null){
         },
     })
     if (retsult.status==200){
-        ele.classList.add("disabled")
-        countBackwardsInText(ele,60,(ele)=>{
-            try{
-                ele.classList.remove("disabled")
-                ele.innerText="重新发送"
-            }catch{}
-        })
-        return "success"
+        return true
     }
     else if (retsult.status==503){
-        showMessage("操作过于频繁请稍后再试",retry)
+        showMessage("操作过于频繁请稍后再试")
     }
     else if (retsult.status==403){
         location.href="/login?from="+encodeURI(location.href)
@@ -158,7 +160,13 @@ export async function getEmailCode(ele,retry=null){
     else if (retsult.status==401){
         location.href="/check/image?from="+encodeURI(location.href)
     }
+    throw void 0;
 }
+/**
+ * 
+ * @param {String} code 
+ * @returns {Boolean}
+ */
 export async function checkEmailCode(code){
     var retsult =await fetch("https://kuankuan.site/user/safety/email/check",{
         method:'POST',
@@ -179,6 +187,15 @@ export async function checkEmailCode(code){
         showMessage("验证码错误")
     }return false
 }
+/**
+ * 
+ * @param {String} name 
+ * @param {String} email 
+ * @param {Date} birthDate 
+ * @param {String} sex 
+ * @param {String} password 
+ * @returns 
+ */
 export async function confirmSignUp(name,email,birthDate,sex,password){
     var retsult =await fetch(`https://kuankuan.site/user/signup/confirm?action=${localStorage.getItem("action")}`,{
         method:'POST',
@@ -189,18 +206,20 @@ export async function confirmSignUp(name,email,birthDate,sex,password){
         body:JSON.stringify({
             "name":name,
             "email":email,
-            "birthDate":birthDate,
-            "sex":sex,
+            "birthDate":dateFormater(birthDate,"%(year)s-%(month)s-%(day)s"),
+            "sex":sexShower2Save(sex),
             "password":password
         })
     })
     if (retsult.status==200){
         localStorage.setItem("check",await retsult.text())
         location.href = getQueryVariable("from","/")
-        return "success"
+        return true
     }
     else{
-        location.reload()
+        showMessage("意外错误",()=>{
+            location.reload()
+        })
     }
 }
 
@@ -408,4 +427,30 @@ export async function newFeedback(title,content,recirculationStep){
     showMessage("提交成功",()=>{
         location.href="/feedback/data/?id="+id
     })
+}
+/**
+ * 
+ * @param {'男'|'女'|'其他'|'保密'} sex 
+ * @returns {0|1|2|3}
+ */
+export function sexShower2Save(sex){
+    return {
+        "男":0,
+        "女":1,
+        "其他":2,
+        "保密":3,
+    }[sex]
+}
+/**
+ * 
+ * @param {0|1|2|3} sex 
+ * @returns {'男'|'女'|'其他'|'保密'}
+ */
+export function sexSave2Shower(sex){
+    return {
+        0:"男",
+        1:"女",
+        2:"其他",
+        3:"保密",
+    }[sex]
 }

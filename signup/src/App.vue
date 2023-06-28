@@ -2,32 +2,37 @@
   <myheader title="注册" jump="/user/"></myheader>
   <div class="main">
     <h1 class="title">注册</h1>
-    <importtext ref="usernameInput" class="input-box" type="text" title="用户名" :value="username"
-      @update:value="username = $event.target.value" :reminder="['用户名必须是2-32个非空白字符']"
-      :tester="s => /^\S{2,32}$/.test(s) ? 0 : 1" />
-    <importtext ref="emailInput" class="input-box" type="email" title="邮箱" :value="email"
-      @update:value="email = $event.target.value" :reminder="['邮箱格式不正确']"
-      :tester="s => /^[\w.%+-]+@(?:[^/\\\.&\?\#]+\.)+[^/\\\.&\?\#]+$/.test(s) ? 0 : 1" />
-    <importtext ref="passwordInput" class="input-box" type="password" title="密码" :value="password"
+    <importtext ref="usernameInput" class="input-box" :class="{ disabled: state != 0 }" type="text" title="用户名"
+      :value="username" @update:value="username = $event.target.value" :reminder="['用户名必须是2-32个非空白字符']"
+      :tester="s => /^\S{2,32}$/.test(s) ? 0 : 1" :disabled="state > 0" v-if="state == 0 || state == 1"/>
+    <importtext v-if="state == 0 || state == 2" ref="emailInput" class="input-box" :class="{ disabled: state != 0 }" type="email"
+      title="邮箱" :value="email" @update:value="email = $event.target.value" :reminder="['邮箱格式不正确']"
+      :tester="s => /^[\w.%+-]+@(?:[^/\\\.&\?\#]+\.)+[^/\\\.&\?\#]+$/.test(s) ? 0 : 1" :disabled="state > 0" />
+    <importtext v-if="state == 0" ref="passwordInput" class="input-box" type="password" title="密码" :value="password"
       @update:value="password = $event.target.value" :reminder="['密码太短', '密码太长', '密码需要包含数字', '密码需要包含字母', '密码不能包含特殊字符']"
       :tester="s => {
-        passwordInput2.refreshReminder(password2,s)
+        passwordInput2.refreshReminder(password2, s)
         if (s.length < 6) return 1
         else if (s.length > 32) return 2
         else if (!/^(?=.*[0-9]).{6,32}$/.test(s)) return 3
         else if (!/^(?=.*[a-zA-Z]).{6,32}$/.test(s)) return 4
         else if (/^[a-zA-Z0-9]{6,32}$/.test(s)) return 0
         else return 5
-      }" />
-    <importtext ref="passwordInput2" class="input-box" type="password" title="确认密码" :value="password2"
-      @update:value="password2 = $event.target.value" :reminder="['密码不匹配']" :tester="(s,pa=password) => s === pa ? 0 : 1" />
-    <importdate ref="birthDateInput" @update:date="birthDate = $event" style="z-index:1" :value="birthDate"
-      class="input-box" title="出生日期" :reminder="['出生日期应在当前日期之前']" :tester="date => date > new Date() ? 1 : 0" />
-    <importsex ref="sexInput" @update:value="sex = $event" style="z-index:0" :value="sex" class="input-box" title="性别" />
-    <importbutton value="下一步" @click="submit" />
+      }" :disabled="state > 0" />
+    <importtext v-if="state == 0" ref="passwordInput2" class="input-box" type="password" title="确认密码" :value="password2"
+      :disabled="state > 0" @update:value="password2 = $event.target.value" :reminder="['密码不匹配']"
+      :tester="(s, pa = password) => s === pa ? 0 : 1" />
+    <importdate v-if="state == 0" ref="birthDateInput" @update:date="birthDate = $event" style="z-index:1"
+      :value="birthDate" :disabled="state > 0" class="input-box" title="出生日期" :reminder="['出生日期应在当前日期之前']"
+      :tester="date => date > new Date() ? 1 : 0" />
+    <importsex v-if="state == 0" ref="sexInput" @update:value="sex = $event" style="z-index:0" :value="sex"
+      class="input-box" title="性别" :disabled="state > 0" />
+    <imageCode v-if="state == 1" class="input-box" ref="imageCodeInput"/>
+    <emailCode v-if="state == 2" class="input-box" ref="emailCodeInput"/>
+    <importbutton :value="state!=2?'下一步':'完成'" @click="submit" />
     <div class="bottom-button">
       <p>忘记密码</p>
-      <p><a href="/login/">登录</a></p>
+      <p><a :href="`/login/?from=${getQueryVariable('from','/')}`">登录</a></p>
     </div>
   </div>
 </template>
@@ -38,13 +43,16 @@ import importtext from "../../src/common/components/input/text.vue"
 import importsex from "../../src/common/components/input/sex.vue"
 import importdate from "../../src/common/components/input/date.vue"
 import importbutton from "../../src/common/components/input/button.vue"
-import { checkSignUp } from "../../src/common/script/connection"
+import { checkSignUp,confirmSignUp } from "../../src/common/script/connection"
 import { showMessage } from "../../src/common/script/infomations";
-import { getQueryVariable } from "../../src/common/script/normal";
+import imageCode from "../../src/common/components/input/imageCode.vue";
+import emailCode from "../../src/common/components/input/emailCode.vue";
+import {getQueryVariable} from "../../src/common/script/normal"
 let username = ref("")
 let password = ref("")
 let password2 = ref("")
-let emailInput= ref("")
+let emailInput = ref("")
+let imageCodeInput = ref("")
 let birthDate = shallowRef(new Date(1970, 0, 1))
 let sex = ref("保密")
 let email = ref("")
@@ -52,6 +60,7 @@ let usernameInput = ref(null)
 let passwordInput = ref(null)
 let passwordInput2 = ref(null)
 let birthDateInput = ref(null)
+let emailCodeInput = ref(null)
 let sexInput = ref(null)
 let form = [
   usernameInput,
@@ -61,24 +70,35 @@ let form = [
   birthDateInput,
   sexInput
 ]
+let state = ref(0)
 function submit() {
-  for (let i of form){
-    if (i.value.wrong==-1){
-      showMessage(`请填写${i.value.title}字段`)
-      return
-    }else if (i.value.wrong!=0) {
-      console.log(i.value.reminder,i.value.wrong-1)
-      showMessage(i.value.reminder[i.value.wrong-1])
-      return
+  if (state.value == 0) {
+    for (let i of form) {
+      if (i.value.wrong == -1) {
+        showMessage(`请填写${i.value.title}字段`)
+        return
+      } else if (i.value.wrong != 0) {
+        console.log(i.value.reminder, i.value.wrong - 1)
+        showMessage(i.value.reminder[i.value.wrong - 1])
+        return
+      }
     }
+    checkSignUp(username.value, email.value).then((retsult) => {
+      if (retsult === null) {
+        state.value = 1
+      } else {
+        showMessage(retsult.msg)
+      }
+    })
+  }else if (state.value == 1) {
+    imageCodeInput.value.check().then(()=>{
+      state.value = 2
+    })
+  }else if (state.value == 2) {
+    emailCodeInput.value.check().then(()=>{
+      confirmSignUp(username.value,email.value,birthDate.value,sex.value,password.value)
+    })
   }
-  checkSignUp(username.value,email.value).then((retsult)=>{
-    if (retsult===null){
-
-    }else{
-      showMessage(retsult.msg)
-    }
-  })
 
 }
 </script>

@@ -41,7 +41,7 @@ getUserName().then((retsult)=>{
     }
 })
 function login() {
-    location.href = `/login?from=${new URL(location.href).pathname}`
+    location.href = `/login/?from=${new URL(location.href).pathname}`
 }
 function userPage(){
     location.href = `/user/`

@@ -1,9 +1,9 @@
 @use "sass:string";
 $base-colors:(
-    "light-full":( #dbdbff, #ffc7c7, #fffff1),
-    "dark-full": (#0e001b, #071f00, #330000),
-    "light-simple": (#dedeff, #ffe0fd, #ffdbf3),
-    "dark-simple": (#0a0018, #3b003d, #350029),
+    "light-full":( #dbdbff, #ffc7c7, #fffff1, #ffddbd,#ffd8ff),
+    "dark-full": (#0e001b, #071f00, #330000, #291400,#240024),
+    "light-simple": (#dedeff, #ffe0fd, #ffdbf3, #cef3ff,#ffd5fc),
+    "dark-simple": (#0a0018, #3b003d, #350029, #002230,#2b0028),
 );
 @function split($s,$n){
     @if (str-index($s,"-")==null){

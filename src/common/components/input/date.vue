@@ -1,5 +1,5 @@
 <template>
-    <div class="main-box" ref="inputGroup">
+    <div class="main-box" ref="inputGroup" :class="{disabled:props.disabled}">
         <div class="input-group">
             <p class="title" ref="title">
                 {{ props.title }}
@@ -59,6 +59,10 @@ let props = defineProps({
         type: Array,
         default: ["内容格式不正确"],
         required: false
+    },disabled:{
+      type:Boolean,
+      required:false,
+      default:false
     }
 })
 let inputGroup=ref(null)
@@ -94,6 +98,10 @@ defineExpose({
 })
 </script>
 <style scoped lang="scss">
+.disabled {
+  pointer-events: none;
+  filter: contrast(0.5);
+}
 .main-box{
     position: relative;
 }

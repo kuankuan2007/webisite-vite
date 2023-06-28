@@ -1,3 +1,4 @@
+import { sprintf } from "sprintf"
 /**
  * 
  * @param {function} fn
@@ -70,4 +71,23 @@ export function getQueryVariable(variable,elsevalue)
         if(pair[0] == variable){return retsult;}
     }
     return(elsevalue);
+}
+/**
+ * format a date.
+ * Replace the date information with %(xxx)s(see https://www.npmjs.com/package/sprintf-js#format-specification)
+ * Effective information: year, month, day, hour, minute, second
+ * @param {Date} date 
+ * @param {String} base 
+ * @returns {String}
+ */
+export function dateFormater(date,base){
+    let obj={
+        year:date.getFullYear().toString(),
+        month:(date.getMonth()+1).toString(),
+        day:date.getDate().toString(),
+        hour:date.getHours().toString(),
+        minute:date.getMinutes().toString(),
+        second:date.getSeconds().toString(),
+    }
+    return sprintf(base,obj)
 }

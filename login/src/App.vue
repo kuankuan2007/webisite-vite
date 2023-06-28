@@ -9,7 +9,7 @@
     <importbutton value="确认" @click="submit" />
     <div class="bottom-button">
       <p>忘记密码</p>
-      <p><a href="/signup/">注册</a></p>
+      <p><a :href="`/signup/?from=${getQueryVariable('from','/')}`">注册</a></p>
     </div>
   </div>
 </template>

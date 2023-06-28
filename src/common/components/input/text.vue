@@ -1,6 +1,6 @@
 <template>
-    <div class="input-group" ref="inputGroup">
-        <input :class="{
+    <div class="input-group" ref="inputGroup" :class="{disabled:props.disabled}">
+        <input :disabled="props.disabled" :class="{
           input : true,
           'no-empty': props.value.length > 0
         }" :type="props.type" :value="props.value" @input="valueChange" ref="input" />
@@ -38,6 +38,10 @@ let props = defineProps({
       type: Array,
       default: ["内容格式不正确"],
       required: false
+    },disabled:{
+      type:Boolean,
+      required:false,
+      default:false
     }
 })
 let inputGroup=ref(null)
@@ -68,6 +72,10 @@ defineExpose({
 })
 </script>
 <style lang="scss" scoped>
+.disabled {
+  pointer-events: none;
+  filter: contrast(0.5);
+}
 .reminder{
   transition: 0.3s;
   position: absolute;
