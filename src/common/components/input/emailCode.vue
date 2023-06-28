@@ -1,7 +1,7 @@
 <template>
     <div class="input-group" ref="inputGroup">
         <importtext :value="value" @update:value="valueChange" :title="props.title" :reminder="['图片验证码应是6位数字']"
-            :tester="s => /^[0-9]{6}$/.test(s) ? 0 : 1" />
+            :tester="s => /^[0-9]{6}$/.test(s) ? 0 : 1" ref="inputer"/>
         <div class="code-box">
             <div class="code-click">
                 <div class="refresh" :class="{
@@ -19,7 +19,7 @@ import { ref } from "vue";
 import { getEmailCode, checkEmailCode } from "../../script/connection"
 let value = ref("")
 let contDown= ref(0)
-
+let inputer = ref(null)
 function contDownSetter(now){
     if (now<0){
         contDown.value=0
@@ -34,6 +34,13 @@ function refresh() {
     }, (err) => { })
 }
 async function check() {
+    if (inputer.value.wrong==-1){
+        showMessage("请填写邮箱验证码")
+        throw void 0
+    }else if (inputer.value.wrong!=0){
+        showMessage(inputer.value.reminder[inputer.value.wrong-1])
+        throw void 0
+    } 
     let retsult = await checkEmailCode(value.value)
     if (retsult) return
     throw void 0

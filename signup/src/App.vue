@@ -31,7 +31,7 @@
     <emailCode v-if="state == 2" class="input-box" ref="emailCodeInput"/>
     <importbutton :value="state!=2?'下一步':'完成'" @click="submit" />
     <div class="bottom-button">
-      <p>忘记密码</p>
+      <p><a :href="`/login/reset/?from=${getQueryVariable('from','/')}`">忘记密码</a></p>
       <p><a :href="`/login/?from=${getQueryVariable('from','/')}`">登录</a></p>
     </div>
   </div>

@@ -8,7 +8,7 @@
       @update:value="password = $event.target.value" />
     <importbutton value="确认" @click="submit" />
     <div class="bottom-button">
-      <p>忘记密码</p>
+      <p><a :href="`/login/reset/?from=${getQueryVariable('from','/')}`">忘记密码</a></p>
       <p><a :href="`/signup/?from=${getQueryVariable('from','/')}`">注册</a></p>
     </div>
   </div>

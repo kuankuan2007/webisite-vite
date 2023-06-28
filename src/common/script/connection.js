@@ -44,7 +44,6 @@ export async function getUserName(){
  */
 export async function login(flags,password){
     var retsult=await fetch("https://kuankuan.site/user/login",{
-        method:'GET',
         method:'POST',
         headers:{
             "check":localStorage.getItem("check"),
@@ -453,4 +452,61 @@ export function sexSave2Shower(sex){
         2:"其他",
         3:"保密",
     }[sex]
+}
+/**
+ * 
+ * @param {String} flags 
+ */
+export async function checkResetPassword(flags){
+    var retsult=await fetch("https://kuankuan.site/user/resetpassword/check",{
+        method:'POST',
+        headers:{
+            "check":localStorage.getItem("check"),
+            "Content-Type":'application/json'
+        },
+        body:JSON.stringify({
+            "flags":flags,
+        })
+	})
+    if (retsult.status==200){
+        retsult=await retsult.json();
+        localStorage.setItem("check",retsult.check)
+        console.log(retsult);
+        return {
+            name:retsult.name,
+            email:retsult.email
+        }
+    }else{
+        throw void 0
+    }
+}
+/**
+ * 
+ * @param {String} flags 
+ * @param {String} password 
+ * @returns 
+ */
+export async function confirmResetPassword(flags,password){
+    var retsult =await fetch(`https://kuankuan.site/user/resetpassword/confirm?action=${localStorage.getItem("action")}`,{
+        method:'POST',
+        headers:{
+            "Content-Type":'application/json',
+            "check":localStorage.getItem("check"),
+        },
+        body:JSON.stringify({
+            "flags":flags,
+            "password":password
+        })
+    })
+    if (retsult.status==200){
+        showMessage("密码已重置",()=>{
+            location.href = `/login/?from=${getQueryVariable("from","/")}`
+        })
+        return true
+    }
+    else{
+        showMessage("意外错误",()=>{
+            location.reload()
+        })
+    }
 }

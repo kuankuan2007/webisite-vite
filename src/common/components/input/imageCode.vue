@@ -1,7 +1,7 @@
 <template>
     <div class="input-group" ref="inputGroup">
         <importtext :value="value" @update:value="valueChange" :title="props.title" :reminder="['图片验证码应是四位字母/数字']"
-            :tester="s => /^[a-z0-9]{4}$/.test(s) ? 0 : 1" />
+            :tester="s => /^[a-z0-9]{4}$/.test(s) ? 0 : 1" ref="inputer" />
         <div class="code-box">
             <div class="code-click">
                 <img class="img" :src="imgSrc">
@@ -16,14 +16,23 @@
 import importtext from "./text.vue";
 import { ref } from "vue";
 import { getImageCode, checkImageCode } from "../../script/connection"
+import { showMessage } from "../../script/infomations";
 let value = ref("")
 let imgSrc = ref("")
+let inputer = ref(null)
 function refresh() {
     getImageCode().then((src) => {
         imgSrc.value = src
     }, (err) => { })
 }
 async function check() {
+    if (inputer.value.wrong==-1){
+        showMessage("请填写图片验证码")
+        throw void 0
+    }else if (inputer.value.wrong!=0){
+        showMessage(inputer.value.reminder[inputer.value.wrong-1])
+        throw void 0
+    } 
     let retsult = await checkImageCode(value.value)
     if (retsult) return
     throw void 0
