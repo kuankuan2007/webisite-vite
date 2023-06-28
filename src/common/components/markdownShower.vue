@@ -17,13 +17,10 @@ import showdown from "showdown"
 import { FilterXSS, whiteList } from "xss"
 import { computed, ref, onMounted } from "vue";
 import hljs from 'highlight.js';
-import("../script/mathjax.min.js").then(() => {
-    debounceTypeset = debounce(MathJax.typeset, 500)
-}, () => {
-    debounceTypeset = debounce(MathJax.typeset, 500)
-});
+import MathJax from '../script/mathjax.min';
 import { debounce , copyText } from "../script/normal"
 import {showMessage} from "../script/infomations"
+console.log(MathJax,MathJax.typeset)
 let myxss = new FilterXSS({
     whiteList: {
         "a": [
@@ -203,7 +200,14 @@ let converter = new showdown.Converter({
     openLinksInNewWindow: true,
 })
 let shower = ref(null)
-let debounceTypeset = () => { }
+let debounceTypeset = ()=>{}
+function tryMathjax(){
+    if(MathJax.typeset){
+        debounceTypeset = debounce(MathJax.typeset, 500)
+    }
+    setTimeout(tryMathjax,100)
+}
+setTimeout(tryMathjax,100)
 /**
  * 
  * @param {MouseEvent} event 
