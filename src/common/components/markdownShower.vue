@@ -20,6 +20,7 @@ import hljs from 'highlight.js';
 import MathJax from '../script/mathjax.min';
 import { debounce , copyText } from "../script/normal"
 import {showMessage} from "../script/infomations"
+import { mathjax } from "mathjax-full/js/mathjax";
 console.log(MathJax,MathJax.typeset)
 let myxss = new FilterXSS({
     whiteList: {
@@ -200,14 +201,6 @@ let converter = new showdown.Converter({
     openLinksInNewWindow: true,
 })
 let shower = ref(null)
-let debounceTypeset = ()=>{}
-function tryMathjax(){
-    if(MathJax.typeset){
-        debounceTypeset = debounce(MathJax.typeset, 500)
-    }
-    setTimeout(tryMathjax,100)
-}
-setTimeout(tryMathjax,100)
 /**
  * 
  * @param {MouseEvent} event 
@@ -244,7 +237,9 @@ let show = computed(() => {
         ele.appendChild(copy)
     }
     html = tempEle.innerHTML
-    debounceTypeset()
+    setTimeout(() => {
+        MathJax.typeset && MathJax.typeset()
+    })
     return html
 })
 

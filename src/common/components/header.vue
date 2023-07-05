@@ -4,7 +4,7 @@
       <h1 id="title">{{ props.title }}</h1>
     </div>
     <themesChoice/>
-    <userBox :jump="props.jump" :to-login="props.toLogin"/>
+    <userBox :jump="props.jump" :to-login="props.toLogin" :need-info="props.needInfo"/>
     <mynav/>
   </header>
 </template>
@@ -22,6 +22,10 @@ let props=defineProps({
     default:"",
     required:false
   },toLogin:{
+    type:Boolean,
+    default:false,
+    required:false
+  },needInfo:{
     type:Boolean,
     default:false,
     required:false

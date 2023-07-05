@@ -21,6 +21,9 @@ export default defineConfig({
         dataFeedback: resolve(__dirname, 'feedback/data/index.html'),
         login: resolve(__dirname, 'login/index.html'),
         signup: resolve(__dirname, 'signup/index.html'),
+        resetPassworld: resolve(__dirname, 'login/reset/index.html'),
+        user: resolve(__dirname, 'user/index.html'),
+        changepassowrd: resolve(__dirname, 'user/changepassword/index.html'),
       },
     },
     terserOptions: {

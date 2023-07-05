@@ -1,7 +1,7 @@
 <template>
   <div class="markdownEditor" ref="markdownEditor">
     <textarea ref="editer" v-show="set['display'] !== 'hidden' || hiddenModeShowing==='editer'" class="editor" :value="props.content" @input="contentChange"></textarea>
-    <markdownShower ref="shower" v-show="set['display'] !== 'hidden' || hiddenModeShowing==='shower'" class="shower" :content="props.content" :header-level-start="props.headerLevelStart"></markdownShower>
+    <markdownShower ref="shower" v-show="set['display'] !== 'hidden' || hiddenModeShowing==='shower'" class="shower" :content="showcontent" :header-level-start="props.headerLevelStart"></markdownShower>
     <div class="buttons">
       <p v-if="set['display'] === 'hidden'" v-show="hiddenModeShowing==='editer'" @click="hiddenModeShowing='shower'" class="showShowerButton"><span class="demo-icon">&#xe815;</span>预览</p>
       <p v-if="set['display'] === 'hidden'" v-show="hiddenModeShowing==='shower'" @click="hiddenModeShowing='editer'" class="showEditerButton"><span class="demo-icon">&#xf14b;</span>编辑</p>
@@ -31,7 +31,8 @@
 import ALL from "../../../src/common/script/all.js"
 import markdownShower from "./markdownShower.vue";
 import mydialog from "./dialog.vue";
-import { computed, ref, onMounted } from "vue"
+import {debounceRef} from "../script/normal"
+import { watchEffect, ref, onMounted } from "vue"
 let markdownEditor = ref(null)
 let values = {
   display: {
@@ -40,6 +41,8 @@ let values = {
     hidden: "隐藏"
   }
 }
+let showcontent=debounceRef(props.content,500)
+watchEffect(()=>{showcontent.value=props.content})
 let hiddenModeShowing = ref("editer")
 let defaultSet = {
   display: "horizontal"

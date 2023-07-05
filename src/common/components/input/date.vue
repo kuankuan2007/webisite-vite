@@ -6,14 +6,14 @@
             </p>
             <mySelecter @update:choice="changChoice('year', $event)" class="selecter"
                 :values="Array.from({ length: 200 }, (item, index) => (index + 1900).toString())"
-                :choice="props.value.getFullYear().toString()" />
+                :choice="showYear" />
             <p>年</p>
             <mySelecter @update:choice="changChoice('mounth', $event)" class="selecter"
                 :values="Array.from({ length: 12, }, (item, index) => (index + 1).toString())"
-                :choice="(props.value.getMonth() + 1).toString()" />
+                :choice="showMounth" />
             <p>月</p>
             <mySelecter @update:choice="changChoice('date', $event)" class="selecter" :values="dayList"
-                :choice="props.value.getDate().toString()" />
+                :choice="showday" />
             <p>日</p>
         </div>
         <Transition name="reminder">
@@ -29,6 +29,9 @@ let wrong = ref(0)
 function refreshReminder(value,...args){
     wrong.value = props.tester(value,...args)
 }
+let showYear=computed(()=>props.value.getFullYear().toString())
+let showMounth=computed(()=>(props.value.getMonth() + 1).toString())
+let showday=computed(()=>props.value.getDate().toString())
 function changChoice(part, value) {
     let newValue = new Date(props.value)
     if (part === "year") {

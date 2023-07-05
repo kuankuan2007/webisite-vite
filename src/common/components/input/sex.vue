@@ -31,7 +31,7 @@ let props = defineProps({
     title: {
         type: String,
         required: false,
-        default: "日期"
+        default: "性别"
     }, value: {
         type: String,
         required: true,

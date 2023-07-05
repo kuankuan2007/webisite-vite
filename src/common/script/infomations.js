@@ -6,19 +6,22 @@ import infomations from "../components/infomtions.vue";
  * @param {Function} onclose
  */
 export function showMessage(message,onclose=()=>{}){
-    let dialog=document.createElement("div");
-    dialog.classList.add("infomations")
-    document.body.appendChild(dialog);
-    createApp(infomations,{
-        title:"提示",
-        message:message,
-        buttons:{
-            "确认":"ok"
-        },
-        root:dialog,
-        onclose:onclose
-    }).mount(dialog)
-    dialog.addEventListener("button",(event)=>{
-        event.close()
+    return new Promise((resolve,reject)=>{
+        let dialog=document.createElement("div");
+        dialog.classList.add("infomations")
+        document.body.appendChild(dialog);
+        createApp(infomations,{
+            title:"提示",
+            message:message,
+            buttons:{
+                "确认":"ok"
+            },
+            root:dialog,
+            onclose:onclose
+        }).mount(dialog)
+        dialog.addEventListener("button",(event)=>{
+            event.close()
+            resolve()
+        })
     })
 }
