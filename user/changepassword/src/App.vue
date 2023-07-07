@@ -1,6 +1,7 @@
 <template>
   <myheader title="用户设置" :toLogin="true" :need-info="true"/>
   <div class="main">
+    <h1 class="title">修改密码</h1>
     <importtext class="input-ele" v-if="state!=1" :value="userinfo.name" :disabled="true" title="用户"/>
     <importtext class="input-ele" v-if="state==1" :value="userinfo.email" :disabled="true" title="邮箱"/>
     <importimage class="input-ele" v-if="state==0" ref="imagecode"/>
@@ -74,6 +75,13 @@ function next(){
 }
 </script>
 <style scoped lang="scss">
+.title {
+  text-align: center;
+  font-size: 3em;
+  color: var(--theme-strong1);
+  cursor: default;
+}
+
 .main {
   position: absolute;
   left: 50%;

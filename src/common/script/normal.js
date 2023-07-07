@@ -1,44 +1,61 @@
 import { sprintf } from "sprintf"
 import { customRef, ref } from "vue"
 /**
- * 
- * @param {function} fn
- * @param {number} delay 
- * @returns {function}
+ * Creates a debounced version of a function that delays its execution until after a specified delay.
+ * @param {function} fn - The function to be debounced.
+ * @param {number} delay - The delay in milliseconds.
+ * @returns {function} - The debounced function.
  */
 export function debounce(fn, delay = 300) {
     let timer;
+
     return function (...args) {
         clearTimeout(timer);
         timer = setTimeout(() => {
-            fn.call(this, ...args)
+            fn.call(this, ...args);
         }, delay);
-    }
+    };
 }
 /**
+ * Create a textarea element and set its properties.
+ * The element is styled to be hidden offscreen and is appended to the body.
  * 
- * @param {String} text 
- * @returns {HTMLTextAreaElement}
+ * @param {String} text - The text to set as the value of the textarea.
+ * @returns {HTMLTextAreaElement} - The created textarea element.
  */
 function createElement(text) {
+    // Check if the document direction is right-to-left (RTL)
     var isRTL = document.documentElement.getAttribute('dir') === 'rtl';
+
+    // Create the textarea element
     var element = document.createElement('textarea');
-    // 防止在ios中产生缩放效果
+
+    // Set the font size to prevent zooming effect in iOS
     element.style.fontSize = '12pt';
-    // 重置盒模型
+
+    // Reset the box model
     element.style.border = '0';
     element.style.padding = '0';
     element.style.margin = '0';
-    // 将元素移到屏幕外
+
+    // Move the element offscreen
     element.style.position = 'absolute';
     element.style[isRTL ? 'right' : 'left'] = '-9999px';
-    // 移动元素到页面底部
+
+    // Move the element to the bottom of the page
     let yPosition = window.pageYOffset || document.documentElement.scrollTop;
     element.style.top = `${yPosition}px`;
-    //设置元素只读
+
+    // Set the element as read-only
     element.setAttribute('readonly', '');
+
+    // Set the value of the textarea to the provided text
     element.value = text;
+
+    // Append the element to the body
     document.body.appendChild(element);
+
+    // Return the created textarea element
     return element;
 }
 /**
@@ -53,10 +70,11 @@ export function copyText(text) {
     element.remove();
 }
 /**
- * 
- * @param {string} variable 
- * @param {string} elsevalue 
- * @returns {string}
+ * Retrieves the value of a query variable from the URL.
+ * If the variable is not found, returns the provided elsevalue.
+ * @param {string} variable - The name of the query variable to retrieve.
+ * @param {string} elsevalue - The value to return if the variable is not found.
+ * @returns {string} - The value of the query variable, or elsevalue if not found.
  */
 export function getQueryVariable(variable, elsevalue) {
     var query = window.location.search.substring(1);
@@ -91,6 +109,12 @@ export function dateFormater(date, base) {
     }
     return sprintf(base, obj)
 }
+/**
+ * Returns a debounced ref that tracks changes to a value and triggers an update after a specified duration.
+ * @param {*} value - The initial value.
+ * @param {number} duration - The duration in milliseconds.
+ * @returns {Ref} - The debounced ref.
+ */
 export function debounceRef(value, duration = 1000) {
     let timer;
     return customRef((track, trigger) => {
@@ -125,12 +149,16 @@ function getStorageName(value)  {
     return void 0
 }
 /**
+ * Returns a reference to a value stored in a storage object, such as localStorage.
+ * If the value does not exist, it returns the "elsevalue" parameter.
+ * The value can be optionally parsed from a string using JSON.parse.
  * 
- * @param {any} by
- * @param {String} key 
- * @param {Storage} storage 
- * @param {any} elsevalue 
- * @param {boolean} stringify 
+ * @param {String} key - The key used to store the value in the storage object.
+ * @param {Function} by - The function used to create the reference.
+ * @param {Storage} storage - The storage object where the value is stored.
+ * @param {any} elsevalue - The value to return if the key does not exist in the storage object.
+ * @param {boolean} stringify - Indicates whether the value should be parsed from a string.
+ * @returns {Ref} - A reference to the value.
  */
 export function getRefWithStorage(key , by = ref , storage = localStorage, elsevalue = null, stringify = false) {
     let getvalue = (value) => {

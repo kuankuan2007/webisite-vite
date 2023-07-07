@@ -295,7 +295,12 @@ export async function changePassword(password) {
         return true
     } return false
 }
-export async function getChangeEmailCode(ele, email, retry = null) {
+/**
+ * 
+ * @param {String} email 
+ * @returns 
+ */
+export async function getChangeEmailCode(email) {
     var retsult = await fetch(`https://kuankuan.site/user/change/email/send?action=${localStorage.getItem("action")}`, {
         method: 'POST',
         headers: {
@@ -307,17 +312,10 @@ export async function getChangeEmailCode(ele, email, retry = null) {
         })
     })
     if (retsult.status == 200) {
-        ele.classList.add("disabled")
-        countBackwardsInText(ele, 60, (ele) => {
-            try {
-                ele.classList.remove("disabled")
-                ele.innerText = "重新发送"
-            } catch { }
-        })
-        return true
+        return
     }
     else if (retsult.status == 503) {
-        showMessage("操作过于频繁请稍后再试", retry)
+        showMessage("操作过于频繁请稍后再试")
     }
     else if (retsult.status == 403) {
         location.href = "/login?from=" + encodeURI(location.href)
@@ -325,9 +323,14 @@ export async function getChangeEmailCode(ele, email, retry = null) {
         showMessage("邮箱已经被使用过了")
     }
     else if (retsult.status == 401) {
-        location.href = "/check/email?from=" + encodeURI(location.href)
-    } return false
+        location.reload()
+    } throw void 0
 }
+/**
+ * 
+ * @param {string} code 
+ * @returns 
+ */
 export async function checkChangeEmailCode(code) {
     var retsult = await fetch("https://kuankuan.site/user/change/email/check", {
         method: 'POST',

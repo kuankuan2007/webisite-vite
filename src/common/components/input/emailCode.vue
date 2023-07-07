@@ -1,13 +1,13 @@
 <template>
     <div class="input-group" ref="inputGroup">
         <importtext :value="value" @update:value="valueChange" :title="props.title" :reminder="['图片验证码应是6位数字']"
-            :tester="s => /^[0-9]{6}$/.test(s) ? 0 : 1" ref="inputer"/>
+            :tester="s => /^[0-9]{6}$/.test(s) ? 0 : 1" ref="inputer" />
         <div class="code-box">
             <div class="code-click">
                 <div class="refresh" :class="{
-                    'disabled':contDown>0
-                }" @click="refresh">
-                    <p>{{ contDown>0?`${contDown}s`:'重新发送' }}</p>
+                    'disabled': contDown > 0
+                }" @click="checkRefresh">
+                    <p>{{ contDown > 0 ? `${contDown}s` : '重新发送' }}</p>
                 </div>
             </div>
         </div>
@@ -16,36 +16,66 @@
 <script setup>
 import importtext from "./text.vue";
 import { ref } from "vue";
-import { getEmailCode, checkEmailCode } from "../../script/connection"
+import { getEmailCode, checkEmailCode, getChangeEmailCode , checkChangeEmailCode } from "../../script/connection"
 let value = ref("")
-let contDown= ref(0)
+let contDown = ref(0)
 let inputer = ref(null)
-function contDownSetter(now){
-    if (now<0){
-        contDown.value=0
+function contDownSetter(now) {
+    if (now < 0) {
+        contDown.value = 0
         return
     }
     contDown.value = now
-    setTimeout(contDownSetter,1000,now-1)
+    setTimeout(contDownSetter, 1000, now - 1)
 }
-function refresh() {
+function refreshNewEmail() {
+    getChangeEmailCode(props.newEmail).then(() => {
+        contDownSetter(60)
+    }, (err) => { })
+}
+function checkRefresh() {
     getEmailCode().then(() => {
         contDownSetter(60)
     }, (err) => { })
 }
-async function check() {
-    if (inputer.value.wrong==-1){
+function refresh() {
+    if (props.useNewEmail) {
+        return refreshNewEmail()
+    } else {
+        return checkRefresh()
+    }
+}
+async function checkCheck() {
+    if (inputer.value.wrong == -1) {
         showMessage("请填写邮箱验证码")
         throw void 0
-    }else if (inputer.value.wrong!=0){
-        showMessage(inputer.value.reminder[inputer.value.wrong-1])
+    } else if (inputer.value.wrong != 0) {
+        showMessage(inputer.value.reminder[inputer.value.wrong - 1])
         throw void 0
-    } 
+    }
     let retsult = await checkEmailCode(value.value)
     if (retsult) return
     throw void 0
 }
-refresh()
+async function newEmailCheck() {
+    if (inputer.value.wrong == -1) {
+        showMessage("请填写邮箱验证码")
+        throw void 0
+    } else if (inputer.value.wrong != 0) {
+        showMessage(inputer.value.reminder[inputer.value.wrong - 1])
+        throw void 0
+    }
+    let retsult = await checkChangeEmailCode(value.value)
+    if (retsult) return
+    throw void 0
+}
+function check(){
+    if (props.useNewEmail) {
+        return newEmailCheck()
+    } else {
+        return checkCheck()
+    }
+}
 let props = defineProps({
     title: {
         type: String,
@@ -55,9 +85,21 @@ let props = defineProps({
         type: Boolean,
         required: false,
         default: false
+    }, useNewEmail: {
+        type: Boolean,
+        default: false,
+        required: false
+    }, newEmail: {
+        type: String,
+        default: "",
+        required: false
     }
 })
-
+if (props.useNewEmail){
+    contDownSetter(60)
+}else{
+    checkRefresh()
+}
 /**
  * 
  * @param {InputEvent} event 
@@ -74,6 +116,7 @@ defineExpose({
 .input-group {
     position: relative;
 }
+
 .code-click {
     position: relative;
     height: 40px;
@@ -107,12 +150,14 @@ defineExpose({
     transition: 0.3s;
     cursor: pointer;
     z-index: 1;
-    & > p{
+
+    &>p {
         font-size: 20px;
         margin: 0;
         user-select: none;
     }
-    &.disabled{
+
+    &.disabled {
         pointer-events: none;
         background-color: var(--theme-disabled-block);
         background-color: var(--theme-disabled-font);
@@ -122,6 +167,7 @@ defineExpose({
 :deep(.input) {
     padding-right: 120px;
     width: calc(100% - 144px);
+
     &:focus,
     &:active,
     &.no-empty {

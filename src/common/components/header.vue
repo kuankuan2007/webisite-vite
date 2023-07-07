@@ -31,6 +31,9 @@ let props=defineProps({
     required:false
   }
 })
+let title=document.createElement("title")
+title.innerText=props.title
+document.head.appendChild(title)
 </script>
 <style scoped>
 @keyframes  headerChane{

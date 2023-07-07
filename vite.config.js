@@ -24,6 +24,8 @@ export default defineConfig({
         resetPassworld: resolve(__dirname, 'login/reset/index.html'),
         user: resolve(__dirname, 'user/index.html'),
         changepassowrd: resolve(__dirname, 'user/changepassword/index.html'),
+        changeemail: resolve(__dirname, 'user/changeemail/index.html'),
+        blogs: resolve(__dirname, 'blogs/index.html'),
       },
     },
     terserOptions: {
@@ -33,6 +35,6 @@ export default defineConfig({
       },
     },
     minify: "terser",
-    // target: "es2015"
+    target: "es2015"
   },
 })

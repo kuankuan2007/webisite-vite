@@ -12,6 +12,7 @@
     "highlight.js": "^11.8.0",
     "mathjax": "^3.2.2",
     "mathjax-full": "^3.2.2",
+    "particles.js": "^2.0.0",
     "showdown": "^2.1.0",
     "sprintf": "^0.1.5",
     "vue": "^3.2.47",
