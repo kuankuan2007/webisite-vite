@@ -1,1 +1,0 @@
-import{_ as a,a as s,b as e,n as t,u as d}from"./all-f67fe198.js";const l=["disabled"],o=a({__name:"button",props:{disabled:{type:Boolean,required:!1,default:!1}},setup(a){const o=a;return(a,b)=>(s(),e("input",{class:t([{disabled:d(o).disabled},"button"]),disabled:d(o).disabled,type:"button"},null,10,l))}},[["__scopeId","data-v-f272e8be"]]);export{o as i};

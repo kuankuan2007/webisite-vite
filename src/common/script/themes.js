@@ -6,7 +6,7 @@ let themes={
     opacity:"blur",
     roundedBorder:"normal"
 }
-let nowdata={}
+export let nowdata={}
 export let data=reactive(nowdata)
 let matchs=matchMedia('(prefers-color-scheme: dark)')
 function refresh(){
@@ -24,6 +24,7 @@ function refresh(){
     for (let i in nowdata){
         document.documentElement.dataset[`theme${i.slice(0,1).toUpperCase() + i.slice(1)}`]=nowdata[i]
     }
+    sessionStorage.setItem('theme',JSON.stringify(nowdata))
     let event = new Event('themeRefresh');
     event.value=nowdata
     window.dispatchEvent(event);

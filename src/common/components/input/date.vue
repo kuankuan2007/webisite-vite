@@ -117,10 +117,11 @@ defineExpose({
     border-width: 3px;
     height: 54px;
     padding: 0;
-    border-radius: calc(30px * var(--theme-border-radius));
-    background-color: var(--theme-3-1);
+    background-color: transparent;
     border-color: var(--theme-1-5);
     border-style: solid;
+    border-width: 0px;
+    border-bottom-width: 2px;
     transition: 0.3s;
     color: var(--font-color);
     align-items: center;
@@ -137,7 +138,7 @@ defineExpose({
 }
 
 .title {
-    font-size: 1em;
+    font-size: 1.1em;
     margin-left: 10px;
     transition: 0.3s;
     margin: 0;

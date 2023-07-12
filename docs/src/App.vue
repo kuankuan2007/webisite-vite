@@ -1,20 +1,23 @@
 <template>
-  <myheader title="博客"></myheader>
-  <div class="blogs">
-    <blogshower v-for="blog, index in blogs.blogsList" :key="index" :data="blog" />
+  <myheader title="文档"></myheader>
+  <div class="list">
+    <waterfallFlow class="blogs" :column-gap="20" :value-list="docs.pageList" v-slot="{ data }" :eleWidth="300">
+      <blogshower :data="data" />
+    </waterfallFlow>
   </div>
+
   <div id="particles-js" class="background"></div>
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
 import myheader from "../../src/common/components/header.vue"
-import blogs from "../../src/data/blogs"
+import docs from "../../src/data/docs";
 import blogshower from "./components/blog.vue"
 import showBG from "./back"
+import waterfallFlow from "../../src/common/components/waterfallFlow.vue"
 
 
-
-blogs.blogsList.reverse()
+docs.pageList.reverse()
 
 let backgroundCanvas = ref()
 
@@ -46,6 +49,7 @@ onMounted(() => {
   &::-webkit-scrollbar {
     width: 0;
   }
+
   scroll-behavior: smooth;
 }
 
@@ -57,5 +61,17 @@ onMounted(() => {
   height: 100%;
   overflow: hidden;
   z-index: -999;
+}
+.list{
+    width: 100%;
+    height: calc(100% - 80px);
+    position: fixed;
+    padding-top: 80px;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: 0;
+    text-align: center;
 }
 </style>

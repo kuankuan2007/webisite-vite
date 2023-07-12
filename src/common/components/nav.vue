@@ -4,7 +4,7 @@
         <p class="fold-button demo-icon" @click="back">&#xf137;</p>
         <p class="unfold-button demo-icon" @click="unfoldNav">&#xf0c9;</p>
         <ul class="list">
-            <li v-for="i in nowList.nav" @click="jump(i)">
+            <li v-for="i in nowList.nav" @click="jump(i)" class="nums">
                 <p class="demo-icon icon">{{ i.icon }}</p>
                 <p class="word">{{ i.word }}</p>
                 <p class="demo-icon full-button" v-if="'subNav' in i" @click="next(i.subNav,$event)">&#xf138;</p>
@@ -69,7 +69,7 @@ buildNavTree(rootNav).then(
     }
 )
 </script>
-<style scoped>
+<style scoped lang="scss">
 .title{
     font-size: 36px;
     margin: 0;
@@ -101,9 +101,10 @@ buildNavTree(rootNav).then(
 }
 .nav{
     position: fixed;
+    display: block;
     left: 0;
     top: 60px;
-    background-color: var(--theme-1-3);
+    background: var(--theme-1-3);
     backdrop-filter: blur(calc(5px * var(--theme-backdrop-blur)));
     height: calc(100vh - 60px);
     transition: 0.3s;
@@ -130,7 +131,6 @@ buildNavTree(rootNav).then(
     left: calc(100% - 50px);
 }
 .unfold-button:hover,.fold-button:hover{
-    transform: scale(1.2);
     color: var(--theme-2-b);
 }
 .nav.fold .fold-button{
@@ -159,8 +159,12 @@ buildNavTree(rootNav).then(
     transition: 0.3s;
     cursor: pointer;
 }
-.full-button:hover,.icon:hover,.word:hover{
-    color: var(--theme-1-b);
-    transform: scale(1.2);
+.full-button:hover{
+    color: var(--theme-3-b);
+}
+.nums:hover{
+    &>.word,&>.icon{
+        color: var(--theme-1-b);
+    }
 }
 </style>

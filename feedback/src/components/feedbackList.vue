@@ -1,13 +1,13 @@
 <template>
     <div class="list">
         <a class="add" href="/feedback/new/"><span class="demo-icon">&#xe80e</span>新建</a>
-        <waterfallFlow :eleWidth="300" :value-list="data" v-slot="{valueList}" class="watterfall">
-            <a v-for="feedback in valueList" :href="`/feedback/data/?id=${feedback.id}`" class="item">
+        <waterfallFlow :eleWidth="300" :value-list="data" v-slot="{ data }" class="watterfall">
+            <a :href="`/feedback/data/?id=${data.id}`" class="item">
                 <div class="item-padding">
-                    <h2>{{ feedback.title }}</h2>
-                    <p class="time">{{ feedback.time }}</p>
-                    <p class="user">{{ feedback.user }}</p>
-                    <p :class="['statue',feedback.statue]">{{ feedback.statue }}</p>
+                    <h2>{{ data.title }}</h2>
+                    <p class="time">{{ data.time }}</p>
+                    <p class="user">{{ data.user }}</p>
+                    <p :class="['statue', data.statue]">{{ data.statue }}</p>
                 </div>
             </a>
         </waterfallFlow>
@@ -15,7 +15,7 @@
     </div>
 </template>
 <script setup>
-import { ref, reactive , watchEffect} from 'vue'
+import { ref, reactive, watchEffect } from 'vue'
 import { getFeadbackList } from "../../../src/common/script/connection"
 import waterfallFlow from "../../../src/common/components/waterfallFlow.vue"
 let data = reactive([])
@@ -51,23 +51,88 @@ function getNew() {
 }
 getNew()
 </script>
-<style scoped>
-.item{
+<style scoped lang="scss">
+:deep(.item) {
     background: var(--theme-1-1);
     border-radius: calc(20px * var(--theme-border-radius));
     transition: 0.3s;
-    width: 250px;
-    position: absolute;
-    text-decoration:none;
+    text-decoration: none;
     color: var(--font-color);
     border-width: 0px;
     backdrop-filter: blur(calc(5px * var(--theme-backdrop-blur)));
     text-align: left;
+
+    &:hover {
+        background: var(--theme-3-2);
+        transform: translate(0, -3px);
+    }
+
+    & h2 {
+        font-size: 30px;
+        margin: 0;
+        margin-bottom: 5px;
+        word-break: break-all;
+    }
+
+    & .time {
+        font-size: 12px;
+        text-overflow: ellipsis;
+        margin: 0;
+        margin-left: 10px;
+    }
+
+    & .user {
+        font-size: 20px;
+        text-overflow: ellipsis;
+        margin: 0;
+    }
+
+    & .statue {
+        transition: 0.3s;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        margin: 0;
+        font-size: 16px;
+        padding-left: 10px;
+        padding-right: 10px;
+        line-height: 20px;
+        border-radius: calc(10px * var(--theme-border-radius));
+    }
+
+    & .statue.Waiting {
+        background-color: var(--theme-2-10);
+    }
+
+    & .statue.A1 {
+        background: var(--theme-2-3);
+    }
+
+    & .statue.A2 {
+        background: var(--theme-2-2);
+    }
+
+    & .statue.A3 {
+        background: var(--theme-2-1);
+    }
+
+    & .statue.B1 {
+        background: var(--theme-3-3);
+    }
+
+    & .statue.B2 {
+        background: var(--theme-3-2);
+    }
+
+    & .statue.B3 {
+        background: var(--theme-3-1);
+    }
+
+    & .statue.Finish {
+        background: var(--theme-3-10);
+    }
 }
-.item:hover{
-    background: var(--theme-3-2);
-    transform: translate(0,-3px);
-}
+
 .list {
     width: 100%;
     height: calc(100% - 80px);
@@ -93,13 +158,14 @@ getNew()
     margin: 0;
     transition: 0.3s;
     cursor: pointer;
-    text-decoration:none;
+    text-decoration: none;
 }
 
 .add:hover {
     color: var(--theme-strong2);
 }
-.item-padding{
+
+.item-padding {
     padding: 20px;
     padding-top: 30px;
     border-radius: calc(20px * var(--theme-border-radius));
@@ -108,10 +174,12 @@ getNew()
     border-style: groove;
     transition: 0.3s;
 }
-.item-padding:hover{
+
+.item-padding:hover {
     border-color: var(--theme-strong1);
 
 }
+
 .more {
     transition: 0.3s;
     position: relative;
@@ -139,56 +207,8 @@ getNew()
     color: var(--theme-disabled-font);
     pointer-events: none;
 }
-.watterfall{
+
+.watterfall {
     transition: 0.3s;
-}
-.item h2{
-    font-size: 30px;
-    margin: 0;
-    margin-bottom: 5px;
-    word-break: break-all;
-}
-.item .time{
-    font-size: 12px;
-    text-overflow:ellipsis;
-    margin: 0;
-    margin-left: 10px;
-}
-.item .user{
-    font-size: 20px;
-    text-overflow:ellipsis;
-    margin: 0;
-}.item .statue{
-    transition: 0.3s;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    margin: 0;
-    font-size: 16px;
-    padding-left: 10px;
-    padding-right: 10px;
-    line-height: 20px;
-    border-radius: calc(10px * var(--theme-border-radius));
-}
-.item .statue.Waiting{
-    background-color: var(--theme-2-10);
-}
-.item .statue.A1{
-    background:var(--theme-2-3);
-}
-.item .statue.A2{
-    background:var(--theme-2-2);
-}.item .statue.A3{
-    background:var(--theme-2-1);
-}.item .statue.B1{
-    background:var(--theme-3-3);
-}.item .statue.B2{
-    background:var(--theme-3-2);
-}
-.item .statue.B3{
-    background:var(--theme-3-1);
-}
-.item .statue.Finish{
-    background:var(--theme-3-10);
 }
 </style>
