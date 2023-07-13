@@ -22,7 +22,7 @@ export default {
                 "title": "帮助",
                 "width":380,
                 "struct": {
-                    "href": "/docs/docsPage.html?name=%(name)s",
+                    "href": "/docs/docsPage/?name=%(name)s",
                     "word": "%(title)s",
                     "icon": "\ue806"
                 },

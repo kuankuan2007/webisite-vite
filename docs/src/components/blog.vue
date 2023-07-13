@@ -1,5 +1,5 @@
 <template>
-    <a class="docsLink" :href="`/docs/docsPage.html?name=${data.name}`"><div class="docs-show-box">
+    <a class="docsLink" :href="`/docs/docsPage/?name=${data.name}`"><div class="docs-show-box">
         <p class="title">{{props.data.title}}</p>
     </div>
     </a>

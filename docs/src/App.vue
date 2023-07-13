@@ -64,9 +64,9 @@ onMounted(() => {
 }
 .list{
     width: 100%;
-    height: calc(100% - 80px);
+    height: calc(100% - 150px);
     position: fixed;
-    padding-top: 80px;
+    padding-top: 150px;
     top: 0;
     left: 0;
     overflow-x: hidden;

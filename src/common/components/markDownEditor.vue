@@ -3,9 +3,10 @@
     <textarea ref="editer" v-show="set['display'] !== 'hidden' || hiddenModeShowing==='editer'" class="editor" :value="props.content" @input="contentChange"></textarea>
     <markdownShower ref="shower" v-show="set['display'] !== 'hidden' || hiddenModeShowing==='shower'" class="shower" :content="showcontent" :header-level-start="props.headerLevelStart"></markdownShower>
     <div class="buttons">
-      <p v-if="set['display'] === 'hidden'" v-show="hiddenModeShowing==='editer'" @click="hiddenModeShowing='shower'" class="showShowerButton"><span class="demo-icon">&#xe815;</span>预览</p>
-      <p v-if="set['display'] === 'hidden'" v-show="hiddenModeShowing==='shower'" @click="hiddenModeShowing='editer'" class="showEditerButton"><span class="demo-icon">&#xf14b;</span>编辑</p>
+      <p v-if="set['display'] === 'hidden'" v-show="hiddenModeShowing==='editer'" @click="hiddenModeShowing='shower'" class="showShowerButton">预览<span class="demo-icon">&#xe815;</span></p>
+      <p v-if="set['display'] === 'hidden'" v-show="hiddenModeShowing==='shower'" @click="hiddenModeShowing='editer'" class="showEditerButton">编辑<span class="demo-icon">&#xf14b;</span></p>
       <p class="demo-icon setting" @click="showSettings">&#xE80D;</p>
+      <p v-for="data of props.otherButtons" @click="customButtomClick(data.event)" v-html="data.inner"></p>
     </div>
   </div>
   <mydialog class="setting-dialog" ref="settingDialog">
@@ -61,7 +62,10 @@ function changeSet(name, value) {
   set.value[name] = value
   localStorage.setItem("markdownEditorSettings", JSON.stringify(set.value))
 }
-const emit = defineEmits(["update:content"])
+const emit = defineEmits(["update:content","customButtomClick"])
+function customButtomClick(event) {
+  emit("customButtomClick", event)
+}
 function contentChange(event) {
   refrshHeight()
   emit('update:content', event)
@@ -89,6 +93,10 @@ let props = defineProps({
     type: String,
     default: "",
     required: true
+  }, otherButtons: {
+    type: Array,
+    default:[],
+    required:false
   }
 })
 onMounted(() => {
@@ -168,7 +176,7 @@ defineExpose({
   padding: 10px;
   position: relative;
   padding-top: 20px;
-
+  margin-top: 20px;
   &[data-markdown-editor-theme-display="horizontal"] {
     grid-template-columns: 1fr 1fr;
 

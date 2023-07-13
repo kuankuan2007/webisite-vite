@@ -10,17 +10,17 @@ export default function showBG() {
         {
             "particles": {
                 "number": {
-                    "value": 120,
+                    "value": 4,
                     "density": {
                         "enable": true,
                         "value_area": 800
                     }
                 },
                 "color": {
-                    "value": theme.light=="dark"?"#004525":"#ffffff"
+                    "value": theme.light=="dark"?"#004525":"#d4d4ff"
                 },
                 "shape": {
-                    "type": "circle",
+                    "type": "polygon",
                     "stroke": {
                         "width": 0,
                         "color": "#000000"
@@ -35,7 +35,7 @@ export default function showBG() {
                     }
                 },
                 "opacity": {
-                    "value": 0.8,
+                    "value": 0.6,
                     "random": true,
                     "anim": {
                         "enable": true,
@@ -45,8 +45,8 @@ export default function showBG() {
                     }
                 },
                 "size": {
-                    "value": 6,
-                    "random": true,
+                    "value": 150,
+                    "random": false,
                     "anim": {
                         "enable": false,
                         "speed": 10,
@@ -55,9 +55,9 @@ export default function showBG() {
                     }
                 },
                 "line_linked": {
-                    "enable": true,
+                    "enable": false,
                     "distance": 150,
-                    "color": theme.light=="dark"?"#004525":"#ffffff",
+                    "color": "#ffffff",
                     "opacity": 0.4,
                     "width": 1
                 },

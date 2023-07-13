@@ -185,3 +185,21 @@ export function getRefWithStorage(key , by = ref , storage = localStorage, elsev
     })
     return val
 }
+/**
+ * Download a file from the given data.
+ * @param {Any} data - The data to be downloaded.
+ * @param {String} name - The name of the file.
+ * @param {String} [memi='text/plain'] - The MIME type of the file.
+ */
+export function downloadData(data,name,memi='text/plain') {
+    const blob = new Blob([data], {
+        type: memi
+    })
+    const objectURL = URL.createObjectURL(blob)
+    const aTag = document.createElement('a')
+    aTag.href = objectURL
+    aTag.download = name
+    aTag.click()
+    aTag.remove()
+    URL.revokeObjectURL(objectURL)
+}

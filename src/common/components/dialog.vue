@@ -28,9 +28,11 @@ function close(remove=false){
         if (remove){
             dialog.value.remove()
         }
-        props.onclose(remove)
     },300)
 }
+onMounted(()=>{
+    dialog.value.addEventListener("close", props.onclose)
+})
 function show(){
     dialog.value.classList.add("on-entry")
     setTimeout(()=>{

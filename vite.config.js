@@ -26,6 +26,9 @@ export default defineConfig({
         changepassowrd: resolve(__dirname, 'user/changepassword/index.html'),
         changeemail: resolve(__dirname, 'user/changeemail/index.html'),
         blogs: resolve(__dirname, 'blogs/index.html'),
+        docs: resolve(__dirname, 'docs/index.html'),
+        docsPage: resolve(__dirname, 'docs/docsPage/index.html'),
+        chat: resolve(__dirname, 'chat/index.html'),
       },
     },
     terserOptions: {
