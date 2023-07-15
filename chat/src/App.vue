@@ -1,38 +1,65 @@
 <template>
   <myheader title="聊天室" :toLogin="true" />
   <div class="main">
-    <div class="history-box">
+
+    <div class="history-box" ref="historyBox">
       <div class="history-list">
         <button class="get-more" :class="{
           disabled: hasMore != 0
         }" @click="getMore">
           <span> {{ getMoreWords }} </span>
         </button>
-        <historyShower v-for="data in history" :data="data" :key="data.id" />
+        <historyShower v-for="data in history" :data="data" :key="data.id" :right="data.user === username" />
       </div>
     </div>
     <div class="input-box">
+      <Transition name="to-botton">
+        <button @click="toButton" class="to-bottom" v-show="bottomAdded > 0">
+          <span> {{ bottomAdded }} <span class="demo-icon">&#xF13A;</span> </span>
+        </button>
+      </Transition>
       <markdownEditor :other-buttons="[
         {
-          event:'send',
+          event: 'send',
           inner: sendButtonInner
         }
-      ]" :headerLevelStart="2" :content="content" @update:content="content=$event.target.value" @customButtomClick="customButtomClick"/>
+      ]" :headerLevelStart="2" :max-editor-height="maxEditorHeight" :content="content" @update:content="content = $event.target.value"
+        @customButtomClick="customButtomClick" />
     </div>
   </div>
 </template>
 <script setup>
-const sendButtonInner=`发送<span class="demo-icon">\uE818<span>`
-import { computed, onMounted ,ref } from "vue";
+const sendButtonInner = `发送<span class="demo-icon">\uE818<span>`
+import { computed, onMounted, ref, watchEffect } from "vue";
 import myheader from "../../src/common/components/header.vue"
 import historyShower from "./components/history.vue";
 import markdownEditor from "../../src/common/components/markDownEditor.vue";
-import { init, history, hasMore, getMore, bottomAdded,send } from "./ws"
-import { debounceRef } from "../../src/common/script/normal"
+import { onFinishFirstLoad, init, history, hasMore, getMore, bottomAdded, send } from "./ws"
+import { debounceRef, getRefWithStorage , windowSize } from "../../src/common/script/normal"
 onMounted(() => {
   init()
+  watchEffect(() => {
+    bottomAdded.value
+    if (historyBox.value.scrollHeight - historyBox.value.clientHeight - historyBox.value.scrollTop < 300) {
+      setTimeout(toButton, 0)
+    }
+  })
 })
-let content = ref("")
+let maxEditorHeight = computed(() =>{
+  return windowSize.height/4
+})
+let historyBox = ref()
+onFinishFirstLoad(() => {
+  console.log(historyBox.value)
+  historyBox.value.scrollTop = historyBox.value.scrollHeight
+})
+function toButton() {
+  historyBox.value.scrollTop = historyBox.value.scrollHeight
+  bottomAdded.value = 0
+}
+
+let username = getRefWithStorage("username", ref, sessionStorage, "", false)
+let content = debounceRef("", 100)
 let getMoreWords = computed(() => {
   if (hasMore.value === 0) {
     return "加载更多"
@@ -43,7 +70,8 @@ let getMoreWords = computed(() => {
   } return "出错啦"
 })
 function customButtomClick(event) {
-  if (event==="send"){
+  if (event === "send") {
+    content.refresh && content.refresh()
     send(content.value)
     content.value = ""
   }
@@ -59,6 +87,7 @@ function customButtomClick(event) {
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 .history-list {
@@ -101,12 +130,36 @@ function customButtomClick(event) {
 
 .to-bottom {
   position: absolute;
-  bottom: 10px;
+  top: -30px;
+  right: 20px;
+  background-color: var(--theme-strong1);
+  line-height: 20px;
+  font-size: 20px;
+  color: var(--font-color-b);
+  border-color: var(--theme-strong1);
+  border-style: solid;
+  border-radius: calc(15px * var(--theme-border-radius));
+  cursor: pointer;
+  padding-left: 10px;
+  padding-right: 10px;
+  transition: 0.3s;
+
+  &:hover {
+    background-color: transparent;
+    color: var(--theme-strong1);
+  }
+  &.to-botton-enter-from, &.to-botton-leave-to {
+    opacity: 0;
+    transform: translate(80px, 0);
+  }
 }
-.input-box{
+
+.input-box {
+  position: relative;
   background-color: var(--theme-1-3);
 }
-.main{
+
+.main {
   height: 100vh;
   width: 100%;
   position: fixed;

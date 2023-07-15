@@ -1,5 +1,5 @@
 import { sprintf } from "sprintf"
-import { customRef, ref } from "vue"
+import { customRef, reactive, ref } from "vue"
 /**
  * Creates a debounced version of a function that delays its execution until after a specified delay.
  * @param {function} fn - The function to be debounced.
@@ -117,21 +117,28 @@ export function dateFormater(date, base) {
  */
 export function debounceRef(value, duration = 1000) {
     let timer;
-    return customRef((track, trigger) => {
+    let tra,tri;
+    let lastVal;
+    let refresh=()=>{
+        tri()
+        value=lastVal
+    }
+    let nowRef = customRef((track, trigger) => {
+        tri=trigger
+        tra=track
         return {
-
             get() {
                 track()
                 return value
             }, set(val) {
                 clearTimeout(timer);
-                timer = setTimeout(() => {
-                    trigger()
-                    value = val
-                }, duration)
+                lastVal=val
+                timer = setTimeout(refresh, duration)
             }
         }
     })
+    nowRef.refresh=refresh
+    return nowRef
 }
 /**
  * jump to a url
@@ -203,3 +210,11 @@ export function downloadData(data,name,memi='text/plain') {
     aTag.remove()
     URL.revokeObjectURL(objectURL)
 }
+export let windowSize = reactive({
+    width: window.innerWidth,
+    height: window.innerHeight
+})
+window.addEventListener("resize",()=>{
+    windowSize.height = window.innerHeight
+    windowSize.width = window.innerWidth
+})

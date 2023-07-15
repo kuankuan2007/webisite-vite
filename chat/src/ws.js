@@ -15,6 +15,7 @@ export let hasMore = ref(2)
 const simpleGetHistoryMaxLength=20
 let chatConnect
 let inited=false
+let load=void 0;
 export let bottomAdded=ref(0)
 /**
  * Try getting more history.
@@ -59,7 +60,7 @@ function onmessage(e){
             history.unshift(new Message(data.data[i].id,data.data[i].user,data.data[i].statue,data.data[i].message,data.data[i].time))
         }
         if (history.length===data.data.length){
-            bottomAdded.value+=data.data.length
+            load && setTimeout(load)
         }
     }
     if (data.type==="message"){
@@ -77,6 +78,12 @@ function onmessage(e){
     }if (data.type==="ERROR"){
         location.reload()
     }
+}
+/**
+ * @param {function} fn 
+ */
+export function onFinishFirstLoad(fn){
+    load=fn
 }
 /**
  * init the connection

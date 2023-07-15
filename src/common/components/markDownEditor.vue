@@ -74,7 +74,7 @@ function refrshHeight() {
   editer.value.style.minHeight = "unset"
   shower.value.showBox.style.minHeight = "unset"
   markdownEditor.value.style.minHeight = "unset"
-  let allHeight = editer.value.scrollHeight - 20
+  let allHeight = Math.min(props.maxEditorHeight,editer.value.scrollHeight - 20)
   editer.value.style.minHeight = `${allHeight}px`
   shower.value.showBox.style.minHeight = `${allHeight}px`
   markdownEditor.value.style.minHeight = `${allHeight+20}px`
@@ -97,6 +97,10 @@ let props = defineProps({
     type: Array,
     default:[],
     required:false
+  }, maxEditorHeight:{
+    type:Number,
+    default: Infinity,
+    required: false
   }
 })
 onMounted(() => {
@@ -112,6 +116,9 @@ onMounted(() => {
     }
   })
   refrshHeight()
+  watchEffect(() => {
+    markdownEditor.value.style.setProperty("--max-height",props.maxEditorHeight+"px")
+  })
 })
 let settingDialog = ref(null)
 function showSettings(event) {
@@ -157,6 +164,8 @@ defineExpose({
   cursor: default;
   background-color: var(--theme-3-3);
   position: relative;
+  max-height: var(--max-height);
+  overflow-x: scroll;
 }
 
 .shower::before {
@@ -203,10 +212,7 @@ defineExpose({
 
   &[data-markdown-editor-theme-display="hidden"] {
     & .shower {
-      position: absolute;
-      top: 20px;
-      left: 10px;
-      width: calc(100% - 40px);
+      width: calc(100% - 20px);
       height: calc(100% - 50px);
       border-radius: calc(10px * var(--theme-border-radius));
       border-top-right-radius: 0;
