@@ -36,4 +36,10 @@ sessionStorage.getItem=function (key) {
     window.dispatchEvent(setItemEvent);
     return value;
 };
+window.passContextmenuEvent=null
+window.addEventListener("contextmenu",(e)=>{
+    if (window.passContextmenuEvent && e.target==window.passContextmenuEvent){
+        window.passContextmenuEvent=null
+    }
+})
 export default 1

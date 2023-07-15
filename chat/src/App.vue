@@ -1,7 +1,6 @@
 <template>
   <myheader title="聊天室" :toLogin="true" />
   <div class="main">
-
     <div class="history-box" ref="historyBox">
       <div class="history-list">
         <button class="get-more" :class="{

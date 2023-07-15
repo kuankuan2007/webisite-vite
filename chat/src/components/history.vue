@@ -3,15 +3,67 @@
         right: props.right && props.data.statue === 0,
         normal: !(props.right && props.data.statue === 0)
     }">
+
         <div class="message" v-if="data.statue === 0">
-            <p class="info">{{ props.right?`${data.time}`:`${data.time} · ${data.user}` }}</p>
-            <markdownShower class="content" :content="data.message" :header-level-start="2" />
+            <p class="info">{{ props.right ? `${data.time}` : `${data.time} · ${data.user}` }}</p>
+            <contextMenu :data="{
+                title: '消息',
+                menu: [
+                    {
+                        title: '撤回消息',
+                        event: 'recall'
+                    },
+                    {
+                        title: '删除消息',
+                        event: 'delete'
+                    },
+                    {
+                        title: '复制',
+                        sub: {
+                            title: false,
+                            menu: [
+                                {
+                                    title: '纯文本',
+                                    event: 'copy-text'
+                                },
+                                {
+                                    title: 'MarkDown',
+                                    event: 'copy-markdown'
+                                },
+                                {
+                                    title: 'HTML',
+                                    event: 'copy-html'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        title: '管理员',
+                        sub: {
+                            title: false,
+                            menu: [
+                                {
+                                    title: '撤回消息',
+                                    event: 'admin-recall'
+                                },
+                                {
+                                    title: '删除消息',
+                                    event: 'admin-delete'
+                                },
+                            ]
+                        }
+                    }
+                ]
+            }">
+                <markdownShower class="content" :content="data.message" :header-level-start="2" />
+            </contextMenu>
         </div>
         <p class="recalled" v-else>{{ recallWord }}</p>
     </div>
 </template>
 <script setup>
 import { computed } from "vue";
+import contextMenu from "../../../src/common/components/contextMenu.vue"
 import markdownShower from "../../../src/common/components/markdownShower.vue"
 let props = defineProps({
     data: {
@@ -44,7 +96,7 @@ let recallWord = computed(() => {
                 padding-left: 10px;
             }
 
-            &>.content {
+            & .content {
                 background-color: var(--theme-3-2);
 
                 width: fit-content;
@@ -82,6 +134,7 @@ let recallWord = computed(() => {
     &.right {
         &>.message {
             padding-bottom: 20px;
+
             &>.info {
                 font-size: 0.8em;
                 margin: 0;
@@ -89,7 +142,7 @@ let recallWord = computed(() => {
                 text-align: right;
             }
 
-            &>.content {
+            & .content {
                 background-color: var(--theme-1-5);
                 float: right;
                 width: fit-content;
@@ -130,4 +183,5 @@ let recallWord = computed(() => {
     font-size: 1.1em;
     margin: 10px;
     color: var(--theme-disabled-font);
-}</style>
+}
+</style>
