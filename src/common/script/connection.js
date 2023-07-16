@@ -371,19 +371,24 @@ export async function getFeadbackData(id) {
     }
     throw new Error("data not found")
 }
+/**
+ * Retrieves the user rights from the server.
+ * 
+ * @returns {Promise<number>} The user rights or null if the check is not found.
+ */
 export async function getRights() {
     if (localStorage.getItem("check") == null) {
-        return null
+        throw void 0
     }
     var retsult = await fetch(`https://kuankuan.site/user/rights`, {
         headers: {
             check: localStorage.getItem("check")
         }
     })
-    if (retsult.status = 200) {
+    if (retsult.status === 200) {
         return parseInt(await retsult.text())
     }
-    return null
+    throw void 0
 }
 export async function saveFeedback(statue, reply) {
     var retsult = await fetch("https://kuankuan.site/feedback/update", {

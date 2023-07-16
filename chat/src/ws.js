@@ -47,6 +47,19 @@ export function send(message){
         "type":"send"
     }))
 }
+/**
+ * Sends a recall request to the chatConnect server.
+ *
+ * @param {string} id - The ID of the item to recall.
+ * @return {void} This function does not return a value.
+ */
+export function recall(id){
+    chatConnect.send(JSON.stringify({
+        type:"recall",
+        id:id,
+        check:localStorage.getItem("check")
+    }))
+}
 function onmessage(e){
     let data= JSON.parse(e.data)
     if (data.type==="history"){

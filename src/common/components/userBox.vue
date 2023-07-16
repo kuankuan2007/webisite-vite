@@ -5,7 +5,7 @@
     </div>
 </template>
 <script setup>
-import { getInfo, getUserName } from "../script/connection.js";
+import { getInfo, getUserName ,getRights } from "../script/connection.js";
 import { ref } from "vue"
 import ALL from "../script/all.js"
 let props = defineProps({
@@ -18,6 +18,10 @@ let props = defineProps({
         required: false,
         default: false
     }, needInfo: {
+        type: Boolean,
+        required: false,
+        default: false
+    }, needRights: {
         type: Boolean,
         required: false,
         default: false
@@ -75,6 +79,16 @@ else {
         sessionStorage.setItem("username", "")
     })
 }
+if (props.needRights) {
+    getRights().then((retsult) => {
+        console.log(retsult)
+
+        sessionStorage.setItem("userrights", retsult.toString())
+    },(reason) => {
+        console.log(reason)
+        sessionStorage.setItem("userrights", "")
+    })
+}
 function login() {
     location.href = `/login/?from=${encodeURI(location.href)}`
 }
@@ -82,33 +96,24 @@ function userPage() {
     location.href = `/user/`
 }
 </script>
-<style scoped>
-@keyframes linkGroupChane {
-    0% {
-        transform: translate(-50%, -50%) scale(0.8);
-        filter: blur(10px);
-        opacity: 0;
-    }
+<style scoped lang="scss">
 
-    50% {
-        transform: translate(-50%, -50%) scale(0.8);
-        filter: blur(10px);
-        opacity: 0;
-    }
 
-    100% {
-        transform: translate(0, -50%) scale(1);
-        filter: blur(0px);
-        opacity: 1;
-    }
+
+p.user {
+    border-color: var(--theme-2-10);
 }
 
-p.login,
-p.user {
-    animation: linkGroupChane 1s;
+p.login {
+    border-color: var(--theme-strong1);
+
+}
+p.login,p.user {
     font-size: 16px;
     margin: 0;
     padding: 6px;
+    padding-top: 3px;
+    padding-bottom: 3px;
     border-radius: calc(10px*var(--theme-border-radius));
     padding-left: 10px;
     padding-right: 10px;
@@ -116,22 +121,13 @@ p.user {
     text-decoration-line: none;
     transition: 0.3s;
     color: var(--font-color);
-    position: absolute;
     cursor: pointer;
-    right: 5px;
-    top: 50%;
-    transform: translate(0, -50%);
+    border-width: 2px;
+    border-style: solid;
+    &:hover{
+        border-color: var(--theme-strong1);
+        background-color: var(--theme-strong1);
+        color: var(--font-color-b);
+    }
 }
-
-p:hover {
-    transform: scale(1.05) translate(0, -50%);
-}
-
-p.user {
-    background: var(--theme-2-5);
-}
-
-p.login {
-    background: var(--theme-3-5);
-
-}</style>
+</style>

@@ -1,5 +1,7 @@
 <template>
-    <p class="button demo-icon" @click="openThemesChoicer">&#xe80f;</p>
+    <div class="userbox">
+        <p class="button demo-icon" @click="openThemesChoicer">&#xe80f;</p>
+    </div>
     <mydialog class="dialog" ref="themesChoicer" a="1" b="2">
         <h3>主题选择</h3>
         <div>
@@ -62,29 +64,25 @@ let values = {
 import "../style/font-icos.css"
 
 </script>
-<style scoped>
+<style scoped lang="scss">
 h3 {
     font-size: 24px;
     margin: 0;
 }
 
 p.button {
-    position: absolute;
     margin: 0;
     padding: 0;
-    right: 70px;
     font-size: 24px;
-    top: 50%;
-    transform: translate(0, -50%);
     cursor: pointer;
     opacity: 0.7;
     transition: 0.2s;
     color: var(--font-color);
-}
 
-p.button:hover {
-    transform: translate(0, -50%) scale(1.2);
-    opacity: 1;
+    &:hover{
+        opacity: 1;
+        color: var(--theme-strong1);
+    }
 }
 
 ul {

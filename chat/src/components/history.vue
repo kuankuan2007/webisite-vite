@@ -1,70 +1,98 @@
 <template>
-    <div class="message-box" :class="{
+    <div class="message-box" v-show="show" :class="{
         right: props.right && props.data.statue === 0,
         normal: !(props.right && props.data.statue === 0)
     }">
 
         <div class="message" v-if="data.statue === 0">
             <p class="info">{{ props.right ? `${data.time}` : `${data.time} · ${data.user}` }}</p>
-            <contextMenu :data="{
-                title: '消息',
-                menu: [
-                    {
-                        title: '撤回消息',
-                        event: 'recall'
-                    },
-                    {
-                        title: '删除消息',
-                        event: 'delete'
-                    },
-                    {
-                        title: '复制',
-                        sub: {
-                            title: false,
-                            menu: [
-                                {
-                                    title: '纯文本',
-                                    event: 'copy-text'
-                                },
-                                {
-                                    title: 'MarkDown',
-                                    event: 'copy-markdown'
-                                },
-                                {
-                                    title: 'HTML',
-                                    event: 'copy-html'
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        title: '管理员',
-                        sub: {
-                            title: false,
-                            menu: [
-                                {
-                                    title: '撤回消息',
-                                    event: 'admin-recall'
-                                },
-                                {
-                                    title: '删除消息',
-                                    event: 'admin-delete'
-                                },
-                            ]
-                        }
-                    }
-                ]
-            }">
-                <markdownShower class="content" :content="data.message" :header-level-start="2" />
+            <contextMenu @choice="uploadChoice" :data="contextMenuData">
+                <markdownShower class="content" :content="data.message" ref="messageShower" :header-level-start="2" />
             </contextMenu>
         </div>
         <p class="recalled" v-else>{{ recallWord }}</p>
     </div>
 </template>
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
+import { getRefWithStorage, copyText } from "../../../src/common/script/normal"
+import { showMessage } from "../../../src/common/script/infomations"
 import contextMenu from "../../../src/common/components/contextMenu.vue"
 import markdownShower from "../../../src/common/components/markdownShower.vue"
+
+let emit=defineEmits(["recall"])
+let show=ref(true)
+let messageShower = ref()
+function uploadChoice(event) {
+    if (event === "copy-markdown") {
+        copyText(props.data.message)
+        showMessage("复制成功")
+    }
+    else if (event === "copy-html") {
+        copyText(messageShower.value.makeHtml(props.data.message))
+        showMessage("复制成功")
+    }
+    else if (event === "delete") {
+        show.value=false
+    }else if (event === "recall") {
+        emit("recall")
+    }
+}
+let username = getRefWithStorage("username", ref, sessionStorage, "", false)
+let userrights = getRefWithStorage("userrights", ref, sessionStorage, "", false)
+let contextMenuData = computed(() => {
+    let nowData = {
+        title: '消息',
+        menu: [
+            {
+                title: '复制',
+                sub: {
+                    title: false,
+                    menu: [
+                        {
+                            title: 'MarkDown',
+                            event: 'copy-markdown'
+                        },
+                        {
+                            title: 'HTML',
+                            event: 'copy-html'
+                        }
+                    ]
+                },
+            },
+            {
+                title: '删除消息',
+                event: 'delete'
+            }
+        ]
+
+    }
+    if (username.value === props.data.user) {
+        nowData.menu = nowData.menu.concat(
+            [
+                {
+                    title: '撤回消息',
+                    event: 'recall'
+                }
+            ]
+        )
+    }
+    if (userrights.value === "1") {
+        nowData.menu = nowData.menu.concat([{
+            title: '管理员',
+            sub: {
+                title: false,
+                menu: [
+                    {
+                        title: '撤回消息',
+                        event: 'recall'
+                    },
+                ]
+            }
+        }])
+    }
+    return nowData
+})
 let props = defineProps({
     data: {
         type: Object,
@@ -79,7 +107,7 @@ let props = defineProps({
 let recallWord = computed(() => {
     if (props.data.user === props.data.message) {
         return `${props.data.user} 撤回了一条消息`
-    } return `${props.data.user} 撤回了一条 ${props.data.message} 消息`
+    } return `${props.data.message} 撤回了一条 ${props.data.user} 的消息`
 })
 </script>
 <style scoped lang="scss">

@@ -211,9 +211,13 @@ function copyCode(event) {
         showMessage("复制成功")
     }
 }
-let show = computed(() => {
+function makeHtml(markdown){
     let html = converter.makeHtml(props.content)
     html = myxss.process(html)
+    return html
+}
+let show = computed(() => {
+    let html=makeHtml(props.content)
     let tempEle = document.createElement("div")
     tempEle.innerHTML = html
     let codeBlocks = tempEle.querySelectorAll("code")
@@ -244,7 +248,8 @@ let show = computed(() => {
 })
 
 defineExpose({
-    showBox: shower
+    showBox: shower,
+    makeHtml
 })
 </script>
 <style lang="css">

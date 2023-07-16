@@ -1,5 +1,5 @@
 <template>
-  <myheader title="聊天室" :toLogin="true" />
+  <myheader title="聊天室" :need-rights="true" :toLogin="true" />
   <div class="main">
     <div class="history-box" ref="historyBox">
       <div class="history-list">
@@ -8,7 +8,7 @@
         }" @click="getMore">
           <span> {{ getMoreWords }} </span>
         </button>
-        <historyShower v-for="data in history" :data="data" :key="data.id" :right="data.user === username" />
+        <historyShower @recall="recall(data.id)" v-for="data in history" :data="data" :key="data.id" :right="data.user === username" />
       </div>
     </div>
     <div class="input-box">
@@ -33,7 +33,7 @@ import { computed, onMounted, ref, watchEffect } from "vue";
 import myheader from "../../src/common/components/header.vue"
 import historyShower from "./components/history.vue";
 import markdownEditor from "../../src/common/components/markDownEditor.vue";
-import { onFinishFirstLoad, init, history, hasMore, getMore, bottomAdded, send } from "./ws"
+import {  recall, onFinishFirstLoad, init, history, hasMore, getMore, bottomAdded, send } from "./ws"
 import { debounceRef, getRefWithStorage , windowSize } from "../../src/common/script/normal"
 onMounted(() => {
   init()
