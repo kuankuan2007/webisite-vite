@@ -118,11 +118,11 @@ function customButtomClick(event) {
   border-radius: calc(20px * var(--theme-border-radius));
   cursor: pointer;
   background-color: transparent;
-  border-color: black;
+  border-color: var(--font-color);
   transition: 0.3s;
   line-height: 26px;
   border-style: solid;
-
+  color: var(--font-color);
   &:hover {
     background-color: var(--theme-strong1);
     border-color: var(--theme-strong1);

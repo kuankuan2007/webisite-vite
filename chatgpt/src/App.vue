@@ -1,23 +1,13 @@
 <template>
-  <myheader title="聊天室" :need-rights="true" :toLogin="true" />
+  <myheader title="chatGPT问答" :need-rights="true" :toLogin="true" />
   <div class="main">
     <div class="history-box" ref="historyBox">
       <div class="history-list">
-        <button class="get-more" :class="{
-          disabled: hasMore != 0
-        }" @click="getMore">
-          <span> {{ getMoreWords }} </span>
-        </button>
         <historyShower @recall="recall(data.id)" v-for="data in history" :data="data" :key="data.id"
           :right="data.user === username" />
       </div>
     </div>
     <div class="input-box">
-      <Transition name="to-botton">
-        <button @click="toButton" class="to-bottom" v-show="bottomAdded > 0">
-          <span> {{ bottomAdded }} <span class="demo-icon">&#xF13A;</span> </span>
-        </button>
-      </Transition>
       <markdownEditor :place-holder="'按下Ctrl+Enter以发送'" @spicalEnter="spicalEnter" :other-buttons="[
         {
           event: 'send',
