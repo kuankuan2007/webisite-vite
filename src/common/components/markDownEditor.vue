@@ -1,6 +1,6 @@
 <template>
   <div class="markdownEditor" ref="markdownEditor">
-    <textarea ref="editer" v-show="set['display'] !== 'hidden' || hiddenModeShowing==='editer'" class="editor" :value="props.content" @input="contentChange"></textarea>
+    <textarea @keydown="keydown" :placeholder="props.placeHolder" ref="editer" v-show="set['display'] !== 'hidden' || hiddenModeShowing==='editer'" class="editor" :value="props.content" @input="contentChange"></textarea>
     <markdownShower ref="shower" v-show="set['display'] !== 'hidden' || hiddenModeShowing==='shower'" class="shower" :content="showcontent" :header-level-start="props.headerLevelStart"></markdownShower>
     <div class="buttons">
       <p v-if="set['display'] === 'hidden'" v-show="hiddenModeShowing==='editer'" @click="hiddenModeShowing='shower'" class="showShowerButton">预览<span class="demo-icon">&#xe815;</span></p>
@@ -34,6 +34,13 @@ import markdownShower from "./markdownShower.vue";
 import mydialog from "./dialog.vue";
 import {debounceRef} from "../script/normal"
 import { watchEffect, ref, onMounted } from "vue"
+
+function keydown(event){
+  if (event.key==="Enter"){
+    
+    emit("spicalEnter", event)
+  }
+}
 let markdownEditor = ref(null)
 let values = {
   display: {
@@ -62,7 +69,7 @@ function changeSet(name, value) {
   set.value[name] = value
   localStorage.setItem("markdownEditorSettings", JSON.stringify(set.value))
 }
-const emit = defineEmits(["update:content","customButtomClick"])
+const emit = defineEmits(["update:content","customButtomClick","spicalEnter"])
 function customButtomClick(event) {
   emit("customButtomClick", event)
 }
@@ -100,6 +107,10 @@ let props = defineProps({
   }, maxEditorHeight:{
     type:Number,
     default: Infinity,
+    required: false
+  },placeHolder:{
+    type: String,
+    default: "",
     required: false
   }
 })

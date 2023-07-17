@@ -11,7 +11,7 @@ export async function checkUser() {
         userButton.classList.add("user")
     }
     catch { }
-    userButton.setAttribute("href", "/user")
+    userButton.setAttribute("href", "/user/")
     userButton.innerText = userName
     return userName
 }
@@ -390,6 +390,13 @@ export async function getRights() {
     }
     throw void 0
 }
+/**
+ * Saves the feedback by making a POST request to the server.
+ *
+ * @param {string} statue - The status of the feedback.
+ * @param {string} reply - The reply to the feedback.
+ * @return {Promise} A promise that resolves to the response from the server.
+ */
 export async function saveFeedback(statue, reply) {
     var retsult = await fetch("https://kuankuan.site/feedback/update", {
         method: "POST",
@@ -403,13 +410,18 @@ export async function saveFeedback(statue, reply) {
             reply: reply
         })
     })
-    if (retsult.status = 200) {
+    if (retsult.status === 200) {
         showMessage("保存成功")
     } else {
         showMessage("保存失败:" + retsult.status + " " + await retsult.statusText)
     }
 }
-export async function delFeedback(statue, reply) {
+/**
+ * Asynchronously deletes feedback from the server.
+ *
+ * @return {Promise<void>} Returns a promise that resolves when the feedback is successfully deleted.
+ */
+export async function delFeedback() {
     var retsult = await fetch("https://kuankuan.site/feedback/delete", {
         method: "POST",
         headers: {
@@ -420,10 +432,12 @@ export async function delFeedback(statue, reply) {
             id: parseInt(getQueryVariable("id")),
         })
     })
-    if (retsult.status = 200) {
+    if (retsult.status == 200) {
         showMessage("删除成功")
+        return
     } else {
         showMessage("删除失败:" + retsult.status + " " + await retsult.statusText)
+        throw void 0
     }
 }
 /**

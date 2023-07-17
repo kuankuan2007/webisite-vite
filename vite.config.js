@@ -29,6 +29,8 @@ export default defineConfig({
         docs: resolve(__dirname, 'docs/index.html'),
         docsPage: resolve(__dirname, 'docs/docsPage/index.html'),
         chat: resolve(__dirname, 'chat/index.html'),
+        chatgpt: resolve(__dirname, 'chatgpt/index.html'),
+        contactInformation: resolve(__dirname, 'contactInformation/index.html'),
       },
     },
     terserOptions: {

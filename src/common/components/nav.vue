@@ -108,10 +108,13 @@ buildNavTree(rootNav).then(
     backdrop-filter: blur(calc(5px * var(--theme-backdrop-blur)));
     height: calc(100vh - 60px);
     transition: 0.3s;
-    overflow-y: visible;
 }
 .nav.fold{
+    overflow-y: visible;
     width: 0 !important;
+}
+.nav.unfold{
+    overflow-y: scroll;
 }
 .fold-button,.unfold-button{
     position: absolute;

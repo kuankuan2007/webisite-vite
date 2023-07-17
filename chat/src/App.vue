@@ -8,7 +8,8 @@
         }" @click="getMore">
           <span> {{ getMoreWords }} </span>
         </button>
-        <historyShower @recall="recall(data.id)" v-for="data in history" :data="data" :key="data.id" :right="data.user === username" />
+        <historyShower @recall="recall(data.id)" v-for="data in history" :data="data" :key="data.id"
+          :right="data.user === username" />
       </div>
     </div>
     <div class="input-box">
@@ -17,13 +18,13 @@
           <span> {{ bottomAdded }} <span class="demo-icon">&#xF13A;</span> </span>
         </button>
       </Transition>
-      <markdownEditor :other-buttons="[
+      <markdownEditor :place-holder="'按下Ctrl+Enter以发送'" @spicalEnter="spicalEnter" :other-buttons="[
         {
           event: 'send',
           inner: sendButtonInner
         }
-      ]" :headerLevelStart="2" :max-editor-height="maxEditorHeight" :content="content" @update:content="content = $event.target.value"
-        @customButtomClick="customButtomClick" />
+      ]" :headerLevelStart="2" :max-editor-height="maxEditorHeight" :content="content"
+        @update:content="content = $event.target.value" @customButtomClick="customButtomClick" />
     </div>
   </div>
 </template>
@@ -33,8 +34,8 @@ import { computed, onMounted, ref, watchEffect } from "vue";
 import myheader from "../../src/common/components/header.vue"
 import historyShower from "./components/history.vue";
 import markdownEditor from "../../src/common/components/markDownEditor.vue";
-import {  recall, onFinishFirstLoad, init, history, hasMore, getMore, bottomAdded, send } from "./ws"
-import { debounceRef, getRefWithStorage , windowSize } from "../../src/common/script/normal"
+import { recall, onFinishFirstLoad, init, history, hasMore, getMore, bottomAdded, send } from "./ws"
+import { debounceRef, getRefWithStorage, windowSize } from "../../src/common/script/normal"
 onMounted(() => {
   init()
   watchEffect(() => {
@@ -44,8 +45,8 @@ onMounted(() => {
     }
   })
 })
-let maxEditorHeight = computed(() =>{
-  return windowSize.height/4
+let maxEditorHeight = computed(() => {
+  return windowSize.height / 4
 })
 let historyBox = ref()
 onFinishFirstLoad(() => {
@@ -58,7 +59,7 @@ function toButton() {
 }
 
 let username = getRefWithStorage("username", ref, sessionStorage, "", false)
-let content = debounceRef("", 100)
+let content = ref()
 let getMoreWords = computed(() => {
   if (hasMore.value === 0) {
     return "加载更多"
@@ -68,11 +69,20 @@ let getMoreWords = computed(() => {
     return "加载中"
   } return "出错啦"
 })
+function spicalEnter(event) {
+  if (event.ctrlKey) {
+    checkSend()
+  }
+}
+function checkSend() {
+  content.refresh && content.refresh()
+  if(send(content.value)){
+    content.value = ""
+  }
+}
 function customButtomClick(event) {
   if (event === "send") {
-    content.refresh && content.refresh()
-    send(content.value)
-    content.value = ""
+    checkSend()
   }
 }
 </script>
@@ -147,7 +157,9 @@ function customButtomClick(event) {
     background-color: transparent;
     color: var(--theme-strong1);
   }
-  &.to-botton-enter-from, &.to-botton-leave-to {
+
+  &.to-botton-enter-from,
+  &.to-botton-leave-to {
     opacity: 0;
     transform: translate(80px, 0);
   }
@@ -156,6 +168,7 @@ function customButtomClick(event) {
 .input-box {
   position: relative;
   background-color: var(--theme-1-3);
+  height: fit-content;
 }
 
 .main {
@@ -164,6 +177,6 @@ function customButtomClick(event) {
   position: fixed;
   top: 0;
   left: 0;
-  display: grid;
-}
-</style>
+  display: flex;
+  flex-direction: column;
+}</style>

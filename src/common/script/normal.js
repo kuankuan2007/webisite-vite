@@ -118,7 +118,7 @@ export function dateFormater(date, base) {
 export function debounceRef(value, duration = 1000) {
     let timer;
     let tra,tri;
-    let lastVal;
+    let lastVal=value;
     let refresh=()=>{
         tri()
         value=lastVal
