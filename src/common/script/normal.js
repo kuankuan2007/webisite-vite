@@ -218,3 +218,15 @@ window.addEventListener("resize",()=>{
     windowSize.height = window.innerHeight
     windowSize.width = window.innerWidth
 })
+/**
+ * Converts a hyphen-separated string to hump (camel) case.
+ *
+ * @param {string} str - The hyphen-separated string to be converted.
+ * @return {string} The converted hump case string.
+ */
+export function hyphenNaming2HumpNaming(str){
+    var re=/-(\w)/g;
+    return str.replace(re,function ($0,$1){
+        return $1.toUpperCase();
+    });
+}

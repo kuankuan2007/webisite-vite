@@ -18,7 +18,7 @@ export let history = reactive([
     new ChatgptMessage(
         "Sysyem",
         "Welcome to chatgpt!",
-        1
+        1,
     )
 ])
 function onmessage(e) {

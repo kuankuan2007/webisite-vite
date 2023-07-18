@@ -28,12 +28,6 @@ import { init, history, send } from "./ws"
 import { debounceRef, getRefWithStorage, windowSize } from "../../src/common/script/normal"
 onMounted(() => {
   init()
-  watchEffect(() => {
-    bottomAdded.value
-    if (historyBox.value.scrollHeight - historyBox.value.clientHeight - historyBox.value.scrollTop < 300) {
-      setTimeout(toButton, 0)
-    }
-  })
 })
 let maxEditorHeight = computed(() => {
   return windowSize.height / 4

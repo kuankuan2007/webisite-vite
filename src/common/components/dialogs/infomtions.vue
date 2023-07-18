@@ -1,7 +1,7 @@
 <template>
     <myDialog ref="dialog" class="dialog" :onclose="props.onclose">
         <div class="header">
-            <p class="title">{{ props.title }}</p>
+            <p class="title"><span class="demo-icon">{{iconMap.infoCircled}}</span>{{ props.title }}</p>
             <div class="line"></div>
         </div>
         <p class="text">{{ props.message }}</p>
@@ -18,6 +18,8 @@
 <script setup>
 import myDialog from "../dialog.vue"
 import { onMounted, ref } from "vue";
+import iconMap from "../../../data/demo-icon";
+
 let dialog = ref(null)
 let props = defineProps({
     title: {
