@@ -14,6 +14,14 @@
 import userBox from "./userBox.vue"
 import themesChoice from "./themesChoice.vue";
 import mynav from "./nav.vue"
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?446f9e42f304b5b9b7d11732fb496141";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+
 let props = defineProps({
   title: {
     type: String,

@@ -2,6 +2,10 @@
 
 欢迎访问宽宽的个人网站 - [宽宽的小天地](https://kuankuan2007.gitee.io/)！本仓库包含了宽宽的个人网站的源代码。
 
+# Page
+
+本仓库代码的编译结果放在[pages: 宽宽的博客，欢迎编辑和参考 (gitee.com)](https://gitee.com/kuankuan2007/kuankuan2007)仓库
+
 ## 旧版本
 
 在此之前，有一个老版本的宽宽的个人网站已停止维护，您可以在[这里](https://gitee.com/kuankuan2007/website-old)找到。该版本仅供参考和存档，无法进行任何更改。
