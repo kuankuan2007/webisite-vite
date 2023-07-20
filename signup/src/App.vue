@@ -31,8 +31,8 @@
     <emailCode v-if="state == 2" class="input-box" ref="emailCodeInput"/>
     <importbutton :value="state!=2?'下一步':'完成'" @click="submit" />
     <div class="bottom-button">
-      <p><a :href="`/login/reset/?from=${getQueryVariable('from','/')}`">忘记密码</a></p>
-      <p><a :href="`/login/?from=${getQueryVariable('from','/')}`">登录</a></p>
+      <p @click="jumpToWithFrom('/login/reset/')">忘记密码</p>
+      <p @click="jumpToWithFrom('/login/')">登录</p>
     </div>
   </div>
 </template>
@@ -47,7 +47,7 @@ import { checkSignUp,confirmSignUp } from "../../src/common/script/connection"
 import { showMessage } from "../../src/common/script/infomations";
 import imageCode from "../../src/common/components/input/imageCode.vue";
 import emailCode from "../../src/common/components/input/emailCode.vue";
-import {getQueryVariable} from "../../src/common/script/normal"
+import {jumpToWithFrom} from "../../src/common/script/normal"
 let username = ref("")
 let password = ref("")
 let password2 = ref("")

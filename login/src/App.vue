@@ -8,8 +8,8 @@
       @update:value="password = $event.target.value" />
     <importbutton value="确认" @click="submit" />
     <div class="bottom-button">
-      <p><a :href="`/login/reset/?from=${getQueryVariable('from','/')}`">忘记密码</a></p>
-      <p><a :href="`/signup/?from=${getQueryVariable('from','/')}`">注册</a></p>
+      <p @click="jumpToWithFrom('/login/reset/')">忘记密码</p>
+      <p @click="jumpToWithFrom('/signup/')">注册</p>
     </div>
   </div>
 </template>
@@ -20,7 +20,7 @@ import importtext from "../../src/common/components/input/text.vue"
 import importbutton from "../../src/common/components/input/button.vue"
 import { login } from "../../src/common/script/connection"
 import { showMessage } from "../../src/common/script/infomations";
-import { getQueryVariable } from "../../src/common/script/normal";
+import { jumpBackToFrom,jumpToWithFrom } from "../../src/common/script/normal";
 let flag = ref("")
 let password = ref("")
 let flagInput = ref(null)
@@ -41,7 +41,8 @@ function submit() {
   }
   login(flag.value, password.value).then((retsult) => {
     if (retsult === true) {
-      location.href = getQueryVariable("from", "/")
+      jumpBackToFrom()
+      return
     }
     showMessage("账号或密码错误")
   })

@@ -26,8 +26,8 @@
       :tester="(s, pa = password) => s === pa ? 0 : 1" />
     <importbutton :value="state!=3?'下一步':'确认'" @click="submit" />
     <div class="bottom-button">
-      <p><a :href="`/login/?from=${getQueryVariable('from','/')}`">登录</a></p>
-      <p><a :href="`/signup/?from=${getQueryVariable('from','/')}`">注册</a></p>
+      <p @click="jumpToWithFrom('/login/')">登录</p>
+      <p @click="jumpToWithFrom('/signup/')">注册</p>
     </div>
   </div>
 </template>
@@ -40,7 +40,7 @@ import emailCode from "../../../src/common/components/input/emailCode.vue"
 import importbutton from "../../../src/common/components/input/button.vue"
 import { checkResetPassword,confirmResetPassword } from "../../../src/common/script/connection"
 import { showMessage } from "../../../src/common/script/infomations";
-import { getQueryVariable } from "../../../src/common/script/normal";
+import { jumpToWithFrom } from "../../../src/common/script/normal";
 let flag = ref("")
 let name = ref("")
 let email = ref("")

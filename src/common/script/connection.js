@@ -1,5 +1,5 @@
 import { showMessage } from './infomations'
-import { getQueryVariable, dateFormater } from './normal'
+import { getQueryVariable , jumpBackToFrom, dateFormater, jumpToWithFrom } from './normal'
 export async function checkUser() {
     var userButton = document.querySelector("#user a")
     var userName = await getUserName()
@@ -212,7 +212,7 @@ export async function confirmSignUp(name, email, birthDate, sex, password) {
     })
     if (retsult.status == 200) {
         localStorage.setItem("check", await retsult.text())
-        location.href = getQueryVariable("from", "/")
+        location.href = jumpBackToFrom()
         return true
     }
     else {
@@ -540,7 +540,7 @@ export async function confirmResetPassword(flags, password) {
     })
     if (retsult.status == 200) {
         showMessage("密码已重置", () => {
-            location.href = `/login/?from=${getQueryVariable("from", "/")}`
+            jumpToWithFrom("/login/")
         })
         return true
     }

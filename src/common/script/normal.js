@@ -230,3 +230,27 @@ export function hyphenNaming2HumpNaming(str){
         return $1.toUpperCase();
     });
 }
+/**
+ * Redirects the user to a specified URL with an additional "from" query parameter.
+ *
+ * @param {string} baseURL - The base URL to redirect to.
+ * @return {void} This function does not return a value.
+ */
+export function jumpToWithFromNow(baseURL){
+    window.location.href = `${baseURL}${baseURL.includes("?")?"":"?"}&from=${encodeURIComponent(location.href)}`
+}
+/**
+ * Jumps back to the previous page while passing the "from" parameter in the URL.
+ * @return {type} description of return value
+ */
+export function jumpBackToFrom(){
+    window.location.href = decodeURIComponent(getQueryVariable("from","/"))
+}
+/**
+ * Redirects the user to a new URL by appending a `from` query parameter.
+ *
+ * @return {void} No return value.
+ */
+export function jumpToWithFrom(baseURL){
+    window.location.href = `${baseURL}${baseURL.includes("?")?"":"?"}&from=${getQueryVariable("from","/")}`
+}

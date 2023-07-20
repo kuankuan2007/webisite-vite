@@ -11,6 +11,7 @@
   </div>
 </template>
 <script setup>
+import {getQueryVariable} from "../../../src/common/script/normal"
 import myheader from "../../../src/common/components/header.vue"
 import markDownEditor from "../../../src/common/components/markDownEditor.vue";
 import { ref } from "vue"
@@ -18,9 +19,9 @@ import myInputText from "../../../src/common/components/input/text.vue"
 import myInputButton from "../../../src/common/components/input/button.vue"
 import  {newFeedback} from "../../../src/common/script/connection"
 import { showMessage } from "../../../src/common/script/infomations";
-let content = ref("")
-let recirculationStep = ref("")
-let title = ref("")
+let content = ref(decodeURIComponent(getQueryVariable("content","")))
+let recirculationStep = ref(decodeURIComponent(getQueryVariable("recirculationStep","")))
+let title = ref(decodeURIComponent(getQueryVariable("title","")))
 let titleInput = ref("")
 let contentInput = ref("")
 function submit() {

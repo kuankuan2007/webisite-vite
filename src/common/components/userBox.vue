@@ -8,6 +8,7 @@
 import { getInfo, getUserName ,getRights } from "../script/connection.js";
 import { ref } from "vue"
 import ALL from "../script/all.js"
+import {jumpToWithFromNow} from  "../../../src/common/script/normal"
 let props = defineProps({
     jump: {
         type: String,
@@ -29,13 +30,16 @@ let props = defineProps({
 })
 let username = ref("")
 let finished = ref(false)
+function jumpLogin(){
+    jumpToWithFromNow("/login/")
+}
 if (props.needInfo) {
     getInfo().then((retsult) => {
         if (retsult && props.jump) {
             location.href = props.jump
         }
         if (props.toLogin && !retsult) {
-            location.href = `/login/?from=${encodeURI(location.href)}`
+            jumpLogin()
         }
         username.value = retsult.name
         finished.value = true
@@ -48,7 +52,7 @@ if (props.needInfo) {
             location.href = props.jump
         }
         if (props.toLogin && !retsult) {
-            location.href = `/login/?from=${encodeURI(location.href)}`
+            jumpLogin()
         }
         sessionStorage.setItem("userinfo", JSON.stringify({
             state: false,
@@ -62,7 +66,7 @@ else {
             location.href = props.jump
         }
         if (props.toLogin && !retsult) {
-            location.href = `/login/?from=${encodeURI(location.href)}`
+            jumpLogin()
         }
         username.value = retsult
         finished.value = true
@@ -74,7 +78,7 @@ else {
             location.href = props.jump
         }
         if (props.toLogin && !retsult) {
-            location.href = `/login/?from=${encodeURI(location.href)}`
+            jumpLogin()
         }
         sessionStorage.setItem("username", "")
     })
@@ -90,7 +94,7 @@ if (props.needRights) {
     })
 }
 function login() {
-    location.href = `/login/?from=${encodeURI(location.href)}`
+    jumpLogin()
 }
 function userPage() {
     location.href = `/user/`
