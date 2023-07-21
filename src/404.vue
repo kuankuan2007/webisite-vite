@@ -83,14 +83,14 @@ let specialURLMap = {
         to: `\/docs\/docsPage\/\?name=%(retsult[1])s`,
         tip: "帮助文档页面已迁移"
     }, "docsdata2": {
-        from: /\/docs\/(?:.*\/)*(.*)\/?/,
+        from: /\/docs\/(.*)\//,
         tip: "帮助文档页面已迁移",
         to: `\/docs\/docsPage\/\?name=%(retsult[1])s`
     }
 }
 
 for (let name in specialURLMap) {
-    let retsult = location.href.match(specialURLMap[name].from)
+    let retsult = "https://kuankuan2007.gitee.io/docs/docsPage.html?name=qq-robot".match(specialURLMap[name].from)
     console.log(retsult);
     if (retsult) {
         nextURL.value = sprintf(specialURLMap[name].to, { retsult: retsult })
