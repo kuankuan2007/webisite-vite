@@ -90,7 +90,7 @@ let specialURLMap = {
 }
 
 for (let name in specialURLMap) {
-    let retsult = "https://kuankuan2007.gitee.io/docs/docsPage.html?name=qq-robot".match(specialURLMap[name].from)
+    let retsult = location.href.match(specialURLMap[name].from)
     console.log(retsult);
     if (retsult) {
         nextURL.value = sprintf(specialURLMap[name].to, { retsult: retsult })
