@@ -83,7 +83,7 @@ let specialURLMap = {
         to: `\/docs\/docsPage\/\?name=%(retsult[1])s`,
         tip: "帮助文档页面已迁移"
     }, "docsdata2": {
-        from: /\/docs\/(.*)\//,
+        from: /\/docs\/([^\/]*)\/?/,
         tip: "帮助文档页面已迁移",
         to: `\/docs\/docsPage\/\?name=%(retsult[1])s`
     }
