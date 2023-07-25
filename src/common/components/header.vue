@@ -21,7 +21,10 @@ var _hmt = _hmt || [];
   var s = document.getElementsByTagName("script")[0]; 
   s.parentNode.insertBefore(hm, s);
 })();
-
+let manifestBox = document.createElement("link");
+manifestBox.setAttribute("rel", "manifest")
+manifestBox.setAttribute("href",new URL("/src/manifest.json"))
+document.body.appendChild(manifestBox);
 let props = defineProps({
   title: {
     type: String,
