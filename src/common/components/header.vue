@@ -15,16 +15,19 @@ import userBox from "./userBox.vue"
 import themesChoice from "./themesChoice.vue";
 import mynav from "./nav.vue"
 var _hmt = _hmt || [];
-(function() {
+(function () {
   var hm = document.createElement("script");
   hm.src = "https://hm.baidu.com/hm.js?446f9e42f304b5b9b7d11732fb496141";
-  var s = document.getElementsByTagName("script")[0]; 
+  var s = document.getElementsByTagName("script")[0];
   s.parentNode.insertBefore(hm, s);
 })();
-let manifestBox = document.createElement("link");
-manifestBox.setAttribute("rel", "manifest")
-manifestBox.setAttribute("href",new URL("/src/manifest.json"))
-document.body.appendChild(manifestBox);
+setTimeout(() => {
+  let manifestBox = document.createElement("link");
+  manifestBox.setAttribute("rel", "manifest")
+  manifestBox.setAttribute("href", new URL("/manifest.json"))
+  document.body.appendChild(manifestBox);
+}, 0);
+
 let props = defineProps({
   title: {
     type: String,
@@ -53,7 +56,7 @@ title.innerText = props.title
 document.head.appendChild(title)
 </script>
 <style scoped>
-.right-bottons{
+.right-bottons {
   position: absolute;
   display: flex;
   right: 10px;
@@ -61,6 +64,7 @@ document.head.appendChild(title)
   height: 100%;
   column-gap: 10px;
 }
+
 header {
   z-index: 2;
   position: fixed;
@@ -117,4 +121,5 @@ header {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}</style>
+}
+</style>
