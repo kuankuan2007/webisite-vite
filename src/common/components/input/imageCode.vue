@@ -1,7 +1,7 @@
 <template>
     <div class="input-group" ref="inputGroup">
         <importtext :value="value" @update:value="valueChange" :title="props.title" :reminder="['图片验证码应是四位字母/数字']"
-            :tester="s => /^[a-z0-9]{4}$/.test(s) ? 0 : 1" ref="inputer" />
+            :tester="s => /^[a-z0-9A-Z]{4}$/.test(s) ? 0 : 1" ref="inputer" />
         <div class="code-box">
             <div class="code-click">
                 <img class="img" :src="imgSrc">
