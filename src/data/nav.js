@@ -1,7 +1,7 @@
 import docs from './docs'
 import repositories from './repositories'
 export default {
-    "width":270,
+    "width":200,
     "title":"菜单",
     "nav": [
         {
@@ -20,7 +20,7 @@ export default {
             "icon": "\ue802",
             "subNav": {
                 "title": "帮助",
-                "width":380,
+                "width":260,
                 "struct": {
                     "href": "/docs/docsPage/?name=%(name)s",
                     "word": "%(title)s",
@@ -75,7 +75,7 @@ export default {
             "icon": "\uf053",
             "subNav": {
                 "title": "Gitee",
-                "width":330,
+                "width":260,
                 "struct": {
                     "href": "https://gitee.com/kuankuan2007/%(name)s",
                     "word": "%(title)s",
@@ -93,7 +93,7 @@ export default {
             "icon": "\ue814",
             "subNav": {
                 "title": "Gitlab",
-                "width":330,
+                "width":260,
                 "struct": {
                     "href": "https://gitlab.com/kuankuan2007/%(name)s",
                     "word": "%(title)s",
@@ -111,7 +111,7 @@ export default {
             "icon": "\uf056",
             "subNav": {
                 "title": "Github",
-                "width":330,
+                "width":260,
                 "struct": {
                     "href": "https://github.com/kuankuan2007/%(name)s",
                     "word": "%(title)s",
