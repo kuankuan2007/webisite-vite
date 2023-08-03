@@ -24,7 +24,7 @@ var _hmt = _hmt || [];
 setTimeout(() => {
   let manifestBox = document.createElement("link");
   manifestBox.setAttribute("rel", "manifest")
-  manifestBox.setAttribute("href", new URL("/manifest.json"))
+  manifestBox.setAttribute("href","/manifest.json")
   document.body.appendChild(manifestBox);
 }, 0);
 
