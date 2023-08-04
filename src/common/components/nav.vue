@@ -9,8 +9,8 @@
                 inactive: index < nowList.length - 1,
                 active: index === nowList.length - 1
             }" :style="{
-                '--width': nowData.width + 'px'
-            }" v-for="nowData, index in nowList" :key="nowData">
+    '--width': nowData.width + 'px'
+}" v-for="nowData, index in nowList" :key="nowData">
                 <p class="title">
                     {{ nowData.title }}
                 </p>
@@ -33,17 +33,17 @@ let finished = ref(false)
 let data = reactive({})
 let nowList = ref([])
 function onNavEnter(el) {
-    setTimeout(()=>{el.classList.add('in')})
+    setTimeout(() => { el.classList.add('in') })
 }
 /**
  * 
  * @param {Element} el 
  */
 function onNavLeave(el) {
-    let children=el.parentElement.children
-    for( let i=children.length ;i>=0;i-- ){
-        if (children[i]===el){
-            children[i-1]&&children[i-1].classList.add("in")
+    let children = el.parentElement.children
+    for (let i = children.length; i >= 0; i--) {
+        if (children[i] === el) {
+            children[i - 1] && children[i - 1].classList.add("in")
         }
     }
     el.classList.remove('in')
@@ -151,18 +151,22 @@ buildNavTree(rootNav).then(
         opacity: 0;
         transform: translate(-100%, 0);
     }
+
     .nav-list.in & {
         opacity: 1;
         transform: translate(0, 0);
     }
+
     .nav-list.inactive & {
         opacity: 0;
         transform: translate(100%, 0);
     }
 }
-.nav-list .list{
+
+.nav-list .list {
     scrollbar-width: none;
-    &::-webkit-scrollbar{
+
+    &::-webkit-scrollbar {
         width: 0;
     }
 }
@@ -183,8 +187,9 @@ buildNavTree(rootNav).then(
     margin: 0;
     top: 60px;
     position: absolute;
-    height: calc(100%);
+    height: 100%;
     overflow-y: scroll;
+    width: calc((var(--width) + 70px)*2);
 }
 
 .list li {
@@ -242,5 +247,4 @@ buildNavTree(rootNav).then(
             color: var(--theme-1-b);
         }
     }
-}
-</style>
+}</style>

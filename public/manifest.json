@@ -1,17 +1,27 @@
 {
-    "name":"宽宽的小天地",
-    "version":"1.0.0",
+    "name": "宽宽的小天地",
+    "version": "1.0.0",
     "author": "宽宽2007",
-    "description":"宽宽自己的网站，包括一些文档、Chatgpt等内容",
-    "start_url":"index.html",
-    "short_name":"kuankuan",
+    "description": "宽宽自己的网站，包括一些文档、Chatgpt等内容",
+    "start_url": "index.html",
+    "short_name": "kuankuan",
     "display": "standalone",
     "id": "kuankuan.site",
-    "icons":[
+    "icons": [
         {
-            "src":"logo.png",
-            "size":"1024x1024",
-            "type":"image/png"
+            "src": "logo.png",
+            "sizes": "1024x1024",
+            "type": "image/png",
+            "purpose": "any"
         }
-    ]
+    ],
+    "background_color": "#ffffff",
+    "theme_color": "#0e2aff",
+    "shortcuts": [
+        {
+            "name": "ChatGPT",
+            "url": "/chatgpt/",
+            "description": "Talk with ChatGPT"
+        }
+    ],
 }
