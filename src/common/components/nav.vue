@@ -166,12 +166,6 @@ buildNavTree(rootNav).then(
         width: 0;
     }
 }
-.nav-list .list{
-    opacity: 1;
-}
-.nav-list.inactive .list{
-    opacity: 0;
-}
 
 .nav-list.inactive .list {
     pointer-events: none;
