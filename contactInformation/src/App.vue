@@ -10,6 +10,14 @@
     </div>
 
 
+    <h2>QQ频道</h2>
+    <div>
+      <a href="https://pd.qq.com/s/7iqf08bgx">
+        <p>宽宽的小天地</p>
+      </a>
+    </div>
+
+
     <h2>微信</h2>
     <div>
       <p>福瑞 : furrykuankuan</p>
@@ -89,4 +97,5 @@ onMounted(() => {
   height: 100%;
   overflow: hidden;
   z-index: -999;
-}</style>
+}
+</style>
