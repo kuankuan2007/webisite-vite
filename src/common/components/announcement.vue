@@ -57,7 +57,8 @@ fetch("https://kuankuan.site/world/announcement.json").then(respone => respone.j
 })
 function addLooked(id){
     looked.add(id)
-    localStorage.setItem("announcementLooked",JSON.stringify(new Array(...looked)))
+    looked.values()
+    localStorage.setItem("announcementLooked",JSON.stringify([...looked.values()]))
 }
 let themesChoicer = ref(null)
 function openAnnouncementShower() {
