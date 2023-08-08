@@ -5,6 +5,9 @@ import Inspect from 'vite-plugin-inspect';
 import { visualizer } from "rollup-plugin-visualizer";
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
+  server:{
+    port:81
+  },
   plugins: [vue(),Inspect(),visualizer({
     gzipSize: true,
     brotliSize: true,

