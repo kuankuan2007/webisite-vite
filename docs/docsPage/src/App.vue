@@ -85,6 +85,7 @@ fetch(getContentUrl(name)).then((respone) => {
     min-width: 30px;
     border-radius: calc(15px * var(--theme-border-radius));
     transition: 0.3s;
+    color: var(--theme-font-color);
     cursor: pointer;
     &:hover{
       background-color: transparent;

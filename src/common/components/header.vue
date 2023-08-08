@@ -4,6 +4,7 @@
       <h1 id="title">{{ props.title }}</h1>
     </div>
     <div class="right-bottons">
+      <announcement/>
       <themesChoice />
       <userBox :need-rights="needRights" :jump="props.jump" :to-login="props.toLogin" :need-info="props.needInfo" />
     </div>
@@ -14,6 +15,7 @@
 import userBox from "./userBox.vue"
 import themesChoice from "./themesChoice.vue";
 import mynav from "./nav.vue"
+import announcement from "./announcement.vue";
 var _hmt = _hmt || [];
 (function () {
   var hm = document.createElement("script");
