@@ -2,57 +2,67 @@
   <myheader title="联系我们" />
   <div id="particles-js" class="background"></div>
   <ul class="main">
-
-    <h2>QQ</h2>
     <div>
-      <p>福瑞 : 3169748076</p>
-      <p>其他 : 2163826131</p>
+      <div class="title">
+        <h2>QQ</h2>
+      </div>
+      <div>
+        <links tips="添加好友" href="https://qm.qq.com/q/uyUcVvYqWs" content="福瑞 : 3169748076" />
+        <links tips="添加好友"  href="https://qm.qq.com/q/kGOteCwCFq" content="其他 : 2163826131" />
+      </div>
     </div>
-
-
-    <h2>QQ频道</h2>
     <div>
-      <a href="https://pd.qq.com/s/7iqf08bgx">
-        <p>宽宽的小天地</p>
-      </a>
+      <div class="title">
+        <h2>QQ频道</h2>
+      </div>
+      <div>
+        <links href="https://pd.qq.com/s/7iqf08bgx" content="宽宽的小天地" />
+      </div>
     </div>
-
-
-    <h2>微信</h2>
     <div>
-      <p>福瑞 : furrykuankuan</p>
-      <p>其他 : gouhaoming2007</p>
+      <div class="title">
+        <h2>微信</h2>
+      </div>
+      <div>
+        <links  tips="添加好友"  :mobilejump="false" href="https://u.wechat.com/MIuqPCR_YOvP88wrhJBtuXI" content="福瑞 : furrykuankuan" />
+        <links  tips="添加好友"  :mobilejump="false" href="https://u.wechat.com/ML4NzEKd45FRDTKi1Uj4ZaA" content="其他 : gouhaoming2007" />
+      </div>
     </div>
 
-
-    <h2>bilibili</h2>
-    <div><a href="https://space.bilibili.com/662698080">
-        <p>宽宽2007</p>
-      </a></div>
-
-
-    <h2>抖音</h2>
-    <div><a href="https://www.douyin.com/user/MS4wLjABAAAA5m3gNGWqC6LuoDid1MIqfReLSm9QhBgZDIcuGvf1v8M">
-        <p>kuankuan2007</p>
-      </a></div>
-
-
-    <h2>邮箱</h2>
-    <div class="connection-item"><a href="mailto:3169748076@qq.com">
-        <p>福瑞/收稿 : 3169748076@qq.com</p>
-      </a>
-      <a href="mailto:2163826131@qq.com">
-        <p>其他 : 2163826131@qq.com</p>
-      </a>
+    <div>
+      <div class="title">
+        <h2>bilibili</h2>
+      </div>
+      <div>
+        <links :pcjump="true" href="https://space.bilibili.com/662698080" content="宽宽2007" />
+      </div>
     </div>
-
+    <div>
+      <div class="title">
+        <h2>抖音</h2>
+      </div>
+      <div>
+        <links :qrcode="douyinURL" tips="抖音扫一扫" href="https://www.douyin.com/user/MS4wLjABAAAA5m3gNGWqC6LuoDid1MIqfReLSm9QhBgZDIcuGvf1v8M"
+          content="kuankuan2007" />
+      </div>
+    </div>
+    <div>
+      <div class="title">
+        <h2>邮箱</h2>
+      </div>
+      <div>
+        <links :pcjump="true" href="mailto:3169748076@qq.com" content="福瑞/收稿 : 3169748076@qq.com" />
+        <links :pcjump="true" href="mailto:2163826131@qq.com" content="其他 : 2163826131@qq.com" />
+      </div>
+    </div>
   </ul>
 </template>
 <script setup>
 import { onMounted } from "vue";
 import myheader from "../../src/common/components/header.vue"
 import showBG from "./back"
-
+import links from "./components/links.vue";
+import douyinURL from "./assets/douyin.png"
 
 onMounted(() => {
   showBG()
@@ -60,32 +70,51 @@ onMounted(() => {
 </script>
 <style scoped lang="scss">
 .main {
-  list-style: none;
-  margin: 0;
-  padding: 0;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 20px;
-  font-size: 20px;
   display: grid;
-  grid-template-columns: max-content max-content;
-  gap: 20px;
-  max-width: 800px;
+  row-gap: 10px;
 
-  & h2 {
-    text-align: left;
-    margin: 0;
-  }
+  &>div {
+    &::after {
+      content: "";
+      width: 100%;
+      height: 1px;
+      background-color: black;
+      position: absolute;
+      bottom: -5px;
+      transform: translate(0, 50%);
+    }
 
-  & p {
-    margin: 0;
-  }
+    position: relative;
+    display: flex;
+    align-items: center;
 
-  & a {
-    text-decoration: none;
-    color: var(--theme-strong1);
+    &>div.title {
+      &>h2 {
+        margin: 0;
+      }
+    }
+
+    & a {
+      color: var(--theme-strong1);
+      text-decoration: none;
+    }
+
+    &>div {
+      margin-left: 20px;
+
+      &>* {
+        white-space: nowrap;
+        word-break: keep-all;
+      }
+
+      &>p {
+        margin: 0;
+      }
+    }
   }
 }
 

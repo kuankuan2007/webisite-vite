@@ -1,5 +1,7 @@
 import { sprintf } from "sprintf"
 import { customRef, reactive, ref } from "vue"
+import QRCode from 'qrcode'
+
 /**
  * Creates a debounced version of a function that delays its execution until after a specified delay.
  * @param {function} fn - The function to be debounced.
@@ -117,27 +119,27 @@ export function dateFormater(date, base) {
  */
 export function debounceRef(value, duration = 1000) {
     let timer;
-    let tra,tri;
-    let lastVal=value;
-    let refresh=()=>{
+    let tra, tri;
+    let lastVal = value;
+    let refresh = () => {
         tri()
-        value=lastVal
+        value = lastVal
     }
     let nowRef = customRef((track, trigger) => {
-        tri=trigger
-        tra=track
+        tri = trigger
+        tra = track
         return {
             get() {
                 track()
                 return value
             }, set(val) {
                 clearTimeout(timer);
-                lastVal=val
+                lastVal = val
                 timer = setTimeout(refresh, duration)
             }
         }
     })
-    nowRef.refresh=refresh
+    nowRef.refresh = refresh
     return nowRef
 }
 /**
@@ -147,10 +149,10 @@ export function debounceRef(value, duration = 1000) {
 export function jump(url) {
     window.location.href = url
 }
-function getStorageName(value)  {
-    if (value ===localStorage){
+function getStorageName(value) {
+    if (value === localStorage) {
         return "local"
-    }if (value === sessionStorage){
+    } if (value === sessionStorage) {
         return "session"
     }
     return void 0
@@ -167,7 +169,7 @@ function getStorageName(value)  {
  * @param {boolean} stringify - Indicates whether the value should be parsed from a string.
  * @returns {Ref} - A reference to the value.
  */
-export function getRefWithStorage(key , by = ref , storage = localStorage, elsevalue = null, stringify = false) {
+export function getRefWithStorage(key, by = ref, storage = localStorage, elsevalue = null, stringify = false) {
     let getvalue = (value) => {
         if (!stringify) {
             return value
@@ -178,7 +180,7 @@ export function getRefWithStorage(key , by = ref , storage = localStorage, elsev
             return value
         }
     }
-    
+
     let val = by(getvalue(storage.getItem(key)) || elsevalue);
     window.addEventListener(`${getStorageName(storage)}StorageSetItemEvent`, (event) => {
         if (event.key === key) {
@@ -186,7 +188,7 @@ export function getRefWithStorage(key , by = ref , storage = localStorage, elsev
         }
     })
     window.addEventListener("storage", (event) => {
-        if (event.key === key && event.storageArea===storage) {
+        if (event.key === key && event.storageArea === storage) {
             val.value = getvalue(event.newValue);
         }
     })
@@ -198,7 +200,7 @@ export function getRefWithStorage(key , by = ref , storage = localStorage, elsev
  * @param {String} name - The name of the file.
  * @param {String} [memi='text/plain'] - The MIME type of the file.
  */
-export function downloadData(data,name,memi='text/plain') {
+export function downloadData(data, name, memi = 'text/plain') {
     const blob = new Blob([data], {
         type: memi
     })
@@ -214,7 +216,7 @@ export let windowSize = reactive({
     width: window.innerWidth,
     height: window.innerHeight
 })
-window.addEventListener("resize",()=>{
+window.addEventListener("resize", () => {
     windowSize.height = window.innerHeight
     windowSize.width = window.innerWidth
 })
@@ -224,9 +226,9 @@ window.addEventListener("resize",()=>{
  * @param {string} str - The hyphen-separated string to be converted.
  * @return {string} The converted hump case string.
  */
-export function hyphenNaming2HumpNaming(str){
-    var re=/-(\w)/g;
-    return str.replace(re,function ($0,$1){
+export function hyphenNaming2HumpNaming(str) {
+    var re = /-(\w)/g;
+    return str.replace(re, function ($0, $1) {
         return $1.toUpperCase();
     });
 }
@@ -236,21 +238,38 @@ export function hyphenNaming2HumpNaming(str){
  * @param {string} baseURL - The base URL to redirect to.
  * @return {void} This function does not return a value.
  */
-export function jumpToWithFromNow(baseURL){
-    window.location.href = `${baseURL}${baseURL.includes("?")?"":"?"}&from=${encodeURIComponent(location.href)}`
+export function jumpToWithFromNow(baseURL) {
+    window.location.href = `${baseURL}${baseURL.includes("?") ? "" : "?"}&from=${encodeURIComponent(location.href)}`
 }
 /**
  * Jumps back to the previous page while passing the "from" parameter in the URL.
  * @return {type} description of return value
  */
-export function jumpBackToFrom(){
-    window.location.href = decodeURIComponent(getQueryVariable("from","/"))
+export function jumpBackToFrom() {
+    window.location.href = decodeURIComponent(getQueryVariable("from", "/"))
 }
 /**
  * Redirects the user to a new URL by appending a `from` query parameter.
  *
  * @return {void} No return value.
  */
-export function jumpToWithFrom(baseURL){
-    window.location.href = `${baseURL}${baseURL.includes("?")?"":"?"}&from=${getQueryVariable("from","/")}`
+export function jumpToWithFrom(baseURL) {
+    window.location.href = `${baseURL}${baseURL.includes("?") ? "" : "?"}&from=${getQueryVariable("from", "/")}`
+}
+/**
+ * make QR Code and return the data url
+ * @param {string} content 
+ * @returns {string}
+ */
+export async function getQRCode(content) {
+    const canvas = await QRCode.toCanvas(content)
+    let dataURL = canvas.toDataURL('image/png')
+    return dataURL
+}
+/**
+ * whether the user is using a mobile device
+ * @returns {Boolean}
+ */
+export function isMobie(){
+    return /mobile/.test(navigator.userAgent.toLowerCase())
 }
