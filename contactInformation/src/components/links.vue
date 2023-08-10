@@ -54,7 +54,7 @@ if (!canJump) {
 <style scoped lang="scss">
 a {
     text-decoration: none;
-    color: var(--theme-strong1);
+    color: var(--font-color);
 }
 
 div.qrcode {
@@ -77,7 +77,7 @@ div.qrcode {
 
     &>img {
         border-radius: calc(10px * var(--theme-border-radius));
-    }
+    } 
 
     &>p {
         margin: 0;

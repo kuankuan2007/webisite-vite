@@ -82,7 +82,12 @@ onMounted(() => {
       content: "";
       width: 100%;
       height: 1px;
-      background-color: black;
+      background:linear-gradient(
+        90deg,
+        transparent,
+        var(--font-color),
+        transparent
+      );
       position: absolute;
       bottom: -5px;
       transform: translate(0, 50%);
@@ -99,7 +104,7 @@ onMounted(() => {
     }
 
     & a {
-      color: var(--theme-strong1);
+      color: var(--font-color);
       text-decoration: none;
     }
 
@@ -113,6 +118,7 @@ onMounted(() => {
 
       &>p {
         margin: 0;
+        color: black;
       }
     }
   }
