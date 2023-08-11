@@ -1,61 +1,66 @@
 <template>
   <myheader title="联系我们" />
   <div id="particles-js" class="background"></div>
-  <ul class="main">
-    <div>
-      <div class="title">
-        <h2>QQ</h2>
+  <div class="full">
+    <ul class="main">
+      <div>
+        <div class="title">
+          <h2>QQ</h2>
+        </div>
+        <div>
+          <links tips="添加好友" href="https://qm.qq.com/q/uyUcVvYqWs" content="福瑞 : 3169748076" />
+          <links tips="添加好友" href="https://qm.qq.com/q/kGOteCwCFq" content="其他 : 2163826131" />
+        </div>
       </div>
       <div>
-        <links tips="添加好友" href="https://qm.qq.com/q/uyUcVvYqWs" content="福瑞 : 3169748076" />
-        <links tips="添加好友"  href="https://qm.qq.com/q/kGOteCwCFq" content="其他 : 2163826131" />
-      </div>
-    </div>
-    <div>
-      <div class="title">
-        <h2>QQ频道</h2>
-      </div>
-      <div>
-        <links href="https://pd.qq.com/s/7iqf08bgx" content="宽宽的小天地" />
-      </div>
-    </div>
-    <div>
-      <div class="title">
-        <h2>微信</h2>
+        <div class="title">
+          <h2>QQ频道</h2>
+        </div>
+        <div>
+          <links href="https://pd.qq.com/s/7iqf08bgx" content="宽宽的小天地" />
+        </div>
       </div>
       <div>
-        <links  tips="添加好友"  :mobilejump="false" href="https://u.wechat.com/MIuqPCR_YOvP88wrhJBtuXI" content="福瑞 : furrykuankuan" />
-        <links  tips="添加好友"  :mobilejump="false" href="https://u.wechat.com/ML4NzEKd45FRDTKi1Uj4ZaA" content="其他 : gouhaoming2007" />
+        <div class="title">
+          <h2>微信</h2>
+        </div>
+        <div>
+          <links tips="添加好友" :mobilejump="false" href="https://u.wechat.com/MIuqPCR_YOvP88wrhJBtuXI"
+            content="福瑞 : furrykuankuan" />
+          <links tips="添加好友" :mobilejump="false" href="https://u.wechat.com/ML4NzEKd45FRDTKi1Uj4ZaA"
+            content="其他 : gouhaoming2007" />
+        </div>
       </div>
-    </div>
 
-    <div>
-      <div class="title">
-        <h2>bilibili</h2>
+      <div>
+        <div class="title">
+          <h2>bilibili</h2>
+        </div>
+        <div>
+          <links :pcjump="true" href="https://space.bilibili.com/662698080" content="宽宽2007" />
+        </div>
       </div>
       <div>
-        <links :pcjump="true" href="https://space.bilibili.com/662698080" content="宽宽2007" />
-      </div>
-    </div>
-    <div>
-      <div class="title">
-        <h2>抖音</h2>
-      </div>
-      <div>
-        <links :qrcode="douyinURL" tips="抖音扫一扫" href="https://www.douyin.com/user/MS4wLjABAAAA5m3gNGWqC6LuoDid1MIqfReLSm9QhBgZDIcuGvf1v8M"
-          content="kuankuan2007" />
-      </div>
-    </div>
-    <div>
-      <div class="title">
-        <h2>邮箱</h2>
+        <div class="title">
+          <h2>抖音</h2>
+        </div>
+        <div>
+          <links :qrcode="douyinURL" tips="抖音扫一扫"
+            href="https://www.douyin.com/user/MS4wLjABAAAA5m3gNGWqC6LuoDid1MIqfReLSm9QhBgZDIcuGvf1v8M"
+            content="kuankuan2007" />
+        </div>
       </div>
       <div>
-        <links :pcjump="true" href="mailto:3169748076@qq.com" content="福瑞/收稿 : 3169748076@qq.com" />
-        <links :pcjump="true" href="mailto:2163826131@qq.com" content="其他 : 2163826131@qq.com" />
+        <div class="title">
+          <h2>邮箱</h2>
+        </div>
+        <div>
+          <links :pcjump="true" href="mailto:3169748076@qq.com" content="福瑞/收稿 : 3169748076@qq.com" />
+          <links :pcjump="true" href="mailto:2163826131@qq.com" content="其他 : 2163826131@qq.com" />
+        </div>
       </div>
-    </div>
-  </ul>
+    </ul>
+  </div>
 </template>
 <script setup>
 import { onMounted } from "vue";
@@ -69,11 +74,13 @@ onMounted(() => {
 })
 </script>
 <style scoped lang="scss">
+.full{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+}
 .main {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   display: grid;
   row-gap: 10px;
 
@@ -82,12 +89,10 @@ onMounted(() => {
       content: "";
       width: 100%;
       height: 1px;
-      background:linear-gradient(
-        90deg,
-        transparent,
-        var(--font-color),
-        transparent
-      );
+      background: linear-gradient(90deg,
+          transparent,
+          var(--font-color),
+          transparent);
       position: absolute;
       bottom: -5px;
       transform: translate(0, 50%);

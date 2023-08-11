@@ -270,6 +270,67 @@ export async function getQRCode(content) {
  * whether the user is using a mobile device
  * @returns {Boolean}
  */
-export function isMobie(){
+export function isMobie() {
     return /mobile/.test(navigator.userAgent.toLowerCase())
+}
+/**
+ * get the random number in [from,to)
+ * @param {number} from 
+ * @param {number} to 
+ * @returns {number}
+ */
+export function getRandomFloat(from, to) {
+    return Math.random() * (to-from) + from
+}
+/**
+ * get the random int in [from,to)
+ * @param {number} from 
+ * @param {number} to 
+ * @returns 
+ */
+export function getRandomInt(from, to) {
+    return Math.floor(getRandomFloat(from, to))
+}
+/**
+ * 
+ * @template _T
+ * @param {_T} item 
+ * @returns {_T}
+ */
+export function copyItem(item) {
+    return JSON.parse(JSON.stringify(item))
+}
+export class ArrayLike {
+    /**
+     * 
+     * @param {Any[]} data 
+     */
+    constructor(data) {
+        for (let i = 0; i < data.length; i++) {
+            this[i] = data[i]
+        }
+        this.length = data.length
+    }
+    /**
+     * 
+     * @returns {Any[]}
+     */
+    toArray() {
+        let array = new Array(this.length)
+        for (let i = 0; i < this.length; i++) {
+            array[i] = this[i]
+        }
+        return array
+    }
+}
+/**
+* 
+* @returns {Any[]}
+*/
+export function toArray(data) {
+    let array = new Array(data.length)
+    for (let i = 0; i < data.length; i++) {
+        array[i] = data[i]
+    }
+    return array
 }

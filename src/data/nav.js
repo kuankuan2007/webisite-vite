@@ -40,6 +40,11 @@ export default {
             "icon": "\ue803"
         },
         {
+            "href": "/calc24/",
+            "word": "24点",
+            "icon": "\ue81d"
+        },
+        {
             "href": "/contactInformation/",
             "word": "联系我们",
             "icon": "\uf2b9"

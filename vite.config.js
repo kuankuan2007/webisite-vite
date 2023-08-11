@@ -35,6 +35,7 @@ export default defineConfig({
         chat: resolve(__dirname, 'chat/index.html'),
         chatgpt: resolve(__dirname, 'chatgpt/index.html'),
         contactInformation: resolve(__dirname, 'contactInformation/index.html'),
+        calc24: resolve(__dirname, 'calc24/index.html'),
         404: resolve(__dirname, '404.html'),
       },
     },

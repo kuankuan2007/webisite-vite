@@ -1,10 +1,12 @@
 <template>
     <div>
-        <a :href="props.href">
+        <a :class="{
+            'can-jump':canJump
+        }" :href=" canJump ? props.href : null ">
             <p>{{ props.content }}
-                <div v-if="!canJump" class="qrcode">
+                <div v-if=" !canJump " class="qrcode">
                     <p>{{ props.tips }}</p>
-                    <img :src="qr">
+                    <img :src=" qr ">
                 </div>
             </p>
         </a>
@@ -52,9 +54,15 @@ if (!canJump) {
 }
 </script>
 <style scoped lang="scss">
+
 a {
-    text-decoration: none;
     color: var(--font-color);
+    cursor: default;
+    &.can-jump {
+        text-decoration: none;
+        cursor: pointer;
+        color: var(--theme-strong1);
+    }
 }
 
 div.qrcode {
@@ -77,13 +85,14 @@ div.qrcode {
 
     &>img {
         border-radius: calc(10px * var(--theme-border-radius));
-    } 
+    }
 
     &>p {
         margin: 0;
         margin-top: 5px;
         margin-bottom: -5px;
         text-align: center;
+        color: black;
     }
 }
 
