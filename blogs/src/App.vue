@@ -1,7 +1,7 @@
 <template>
   <myheader title="博客"></myheader>
   <div class="blogs">
-    <blogshower v-for="blog, index in blogs.blogsList" :key="index" :data="blog" />
+    <blogshower v-slide-in v-for="blog, index in blogs.blogsList" :key="index" :data="blog" />
   </div>
   <div id="particles-js" class="background"></div>
 </template>
@@ -11,11 +11,11 @@ import myheader from "../../src/common/components/header.vue"
 import blogs from "../../src/data/blogs"
 import blogshower from "./components/blog.vue"
 import showBG from "./back"
+import vSlideIn from "../../src/common/command/slideIn"
 
 
 
 blogs.blogsList.reverse()
-
 let backgroundCanvas = ref()
 
 onMounted(() => {

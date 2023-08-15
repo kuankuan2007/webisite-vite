@@ -334,3 +334,18 @@ export function toArray(data) {
     }
     return array
 }
+/**
+ * 
+ * @param {Object} value 
+ * @param {Object} defaultsValue 
+ */
+export function setDefaultsValue(value,defaultsValue){
+    for (let i in defaultsValue){
+        if (!(i in value)){
+            value[i] = defaultsValue[i]
+        }
+        if (typeof defaultsValue[i] === 'object' && typeof value[i] === 'object'){
+            setDefaultsValue(value[i],defaultsValue[i])
+        } 
+    }
+}
