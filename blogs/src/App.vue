@@ -28,6 +28,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   padding-top: 100px;
+  flex-shrink: 0;
   position: absolute;
   scroll-snap-type: y proximity;
   top: 0;

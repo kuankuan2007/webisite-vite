@@ -13,18 +13,39 @@ const ob = new IntersectionObserver(li => {
         const position = getPosition(li[i].target)
         data.position = position
         if (li[i].isIntersecting) {
-            // upAnimation.play()
+            if (lastPosition === "above") {
+                upAnimation.currentTime = upAnimation.effect.getTiming().duration;
+                downAnimation.currentTime = 0
+                downAnimation.play()
+            } else {
+                downAnimation.currentTime = downAnimation.effect.getTiming().duration;
+                upAnimation.currentTime = 0
+                upAnimation.play()
+            }
+        } else {
+            if (position === "above") {
+                upAnimation.pause()
+                upAnimation.currentTime = upAnimation.effect.getTiming().duration;
+                downAnimation.pause()
+                downAnimation.currentTime = 0;
+            } else {
+                downAnimation.pause()
+                downAnimation.currentTime = downAnimation.effect.getTiming().duration;
+                upAnimation.pause()
+                upAnimation.currentTime = 0;
+            }
+
         }
-        if (li[i].target.id === "contactInformationPage") {
-            console.log(li[i].target, li[i].isIntersecting, lastPosition, position)
-        }
+
+        console.log(li[i].target, li[i].isIntersecting, lastPosition, position)
+
     }
 })
 const defaultValue = {
     up: {
         keyFrames: [{
             transform: "translate(0,150px)",
-            opacity: 0
+            opacity: 0.5
         }, {
             transform: "translate(0,0)",
             opacity: 1
@@ -50,13 +71,13 @@ const defaultValue = {
  */
 function getPosition(el) {
     const rect = el.getBoundingClientRect()
-    const parentRect=el.parentElement.getBoundingClientRect()
-    if (el.id === "contactInformationPage") {
-        console.log(el,rect, parentRect)
-    }
+    const parentRect = el.parentElement.getBoundingClientRect()
+
+    console.log(el, rect, parentRect)
+
     if (rect.top > parentRect.bottom) {
         return "below"
-    } else if (rect.bottom<=parentRect.top) {
+    } else if (rect.bottom <= parentRect.top) {
         return "above"
     } else {
         return "in"
@@ -84,9 +105,18 @@ export default {
         })
         const animationsUp = el.animate(value.up.keyFrames, {
             duration: value.up.duration,
+            // fill:"forwards",
             easing: "ease"
         })
         animationsUp.pause()
+        const animationsDown = el.animate(value.down.keyFrames, {
+            duration: value.down.duration,
+            easing: "ease",
+            // fill:"forwards"
+        })
+        animationsDown.pause()
+        console.log(animationsDown, animationsUp)
+        downAnimationMap.set(el, animationsDown)
         upAnimationMap.set(el, animationsUp)
         ob.observe(el)
     },

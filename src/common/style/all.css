@@ -51,3 +51,6 @@
     scrollbar-track-color: transparent;
     -ms-scrollbar-track-color: transparent;
 }
+html,dialog{
+    filter: none !important;
+}

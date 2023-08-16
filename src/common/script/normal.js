@@ -267,8 +267,9 @@ export async function getQRCode(content) {
     return dataURL
 }
 /**
- * whether the user is using a mobile device
- * @returns {Boolean}
+ * Determines if the current device is a mobile device.
+ *
+ * @return {boolean} True if the device is a mobile device, false otherwise.
  */
 export function isMobie() {
     return /mobile/.test(navigator.userAgent.toLowerCase())
@@ -335,9 +336,10 @@ export function toArray(data) {
     return array
 }
 /**
- * 
- * @param {Object} value 
- * @param {Object} defaultsValue 
+ * Sets default values in an object.
+ *
+ * @param {object} value - The object to set default values in.
+ * @param {object} defaultsValue - The object containing the default values.
  */
 export function setDefaultsValue(value,defaultsValue){
     for (let i in defaultsValue){

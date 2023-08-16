@@ -42,8 +42,6 @@ fetch(getUrl(props.data.name)).then((respone)=>{
 }
 :deep(img){
     max-width: 100%;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
     border-radius: calc(10px * var(--theme-border-radius));
 }
 .date{
