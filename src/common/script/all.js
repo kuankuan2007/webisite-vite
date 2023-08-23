@@ -1,3 +1,4 @@
+import "./stringPoint"
 let localStorageSetItem=localStorage.setItem.bind(localStorage);
 let localStorageGetItem=localStorage.getItem.bind(localStorage);
 localStorage.setItem=function (key, value) {

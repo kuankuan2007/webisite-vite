@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "cbor-js": "^0.1.0",
     "highlight.js": "^11.8.0",
     "mathjax": "^3.2.2",
     "mathjax-full": "^3.2.2",

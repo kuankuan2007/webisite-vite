@@ -1,10 +1,13 @@
 import { createApp } from "vue";
 import infomations from "../components/dialogs/infomtions.vue";
 import errors from "../components/dialogs/errors.vue";
+
 /**
- * 展示消息
- * @param {String} message
- * @param {Function} onclose
+ * Displays a message in a dialog box and returns a promise that resolves when the dialog is closed.
+ *
+ * @param {string} message - The message to be displayed in the dialog box.
+ * @param {function} [onclose=()=>{}] - An optional callback function to be called when the dialog is closed.
+ * @return {Promise} A promise that resolves when the dialog is closed.
  */
 export function showMessage(message,onclose=()=>{}){
     return new Promise((resolve,reject)=>{

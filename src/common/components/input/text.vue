@@ -110,9 +110,8 @@ defineExpose({
   padding-left: 20px;
   padding-right: 20px;
   transition: 0.3s;
-  background-color: transparent;
+  background-color: transparent !important;
   color: var(--font-color);
-
   &:focus,
   &:active,
   &.no-empty {

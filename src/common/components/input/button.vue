@@ -11,10 +11,6 @@ let props = defineProps({
 })
 </script>
 <style scoped lang="scss">
-.disabled {
-  pointer-events: none;
-  filter: contrast(0.5);
-}
 .button {
     border: none;
     outline: none;
@@ -29,6 +25,11 @@ let props = defineProps({
     transition: 0.3s;
     &:hover{
         opacity: 0.7;
+    }
+    &.disabled{
+      pointer-events: none;
+      color: var(--theme-disabled-font);
+      background-color: var(--theme-disabled-block);
     }
 }
 </style>

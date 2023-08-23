@@ -2,12 +2,12 @@
     <div class="watterfall" ref="watterfall">
         <slot v-for="data, index in props.valueList" :data="data" :key="index"/>
     </div>
-    <sizeTester @resize="debounceRefresh" />
+    <div v-on-resize="debounceRefresh"></div>
 </template>
 <script setup>
 import { onMounted, ref, watchEffect } from "vue"
 import { debounce } from "../script/normal"
-import sizeTester from "./sizeTester.vue";
+import vOnResize from "../command/onResize"
 let props = defineProps({
     valueList: {
         type: Array,

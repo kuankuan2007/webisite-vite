@@ -2,13 +2,15 @@
   <myheader title="用户设置" :toLogin="true" />
   <div class="main" v-if="finished">
     <div class="input-group">
-      <importdate style="z-index: 1;" class="input-ele" :value="info.birthdate" :disabled="!canEdit" @update:date="info.birthdate = $event"/>
+      <importdate :reminder="['出生日期应在当前日期之前']"
+      :tester="date => date > new Date() ? 1 : 0" style="z-index: 1;" class="input-ele" :value="info.birthdate" ref="dateInput" :disabled="!canEdit" @update:date="info.birthdate = $event"/>
       <importsex class="input-ele" :value="info.sex" :disabled="!canEdit" @update:value="info.sex = $event"/>
       <importbutton :value="canEdit?'保存':'修改'" @click="changeCanEdit"/>
     </div>
     <div class="input-group">
       <importbutton value="修改密码" @click="jump('/user/changepassword/')"/>
       <importbutton value="修改邮箱" @click="jump('/user/changeemail/')"/>
+      <importbutton :disabled="!supportPasskeys" value="创建PassKeys" @click="createKeys"/>
     </div>
     <div class="input-group">
       <importbutton class="logout" value="退出登录" @click="logout"/>
@@ -23,9 +25,19 @@ import importsex from "../../src/common/components/input/sex.vue"
 import importbutton from "../../src/common/components/input/button.vue"
 import { ref, reactive } from "vue";
 import { getInfo,changeInfo,logout } from "../../src/common/script/connection";
+import { checkSupport,createKeys } from "../../src/common/script/webauthn";
+import { showMessage } from "../../src/common/script/infomations";
+
+let supportPasskeys=ref(false)
+checkSupport().then(
+  ()=>{
+    supportPasskeys.value=true
+  }
+)
 let finished = ref(false)
 let info = reactive({})
 let canEdit = ref(false)
+let dateInput=ref()
 const useDate=["sex","birthdate"]
 let lastValue={}
 getInfo().then((result) => {
@@ -35,8 +47,12 @@ getInfo().then((result) => {
   finished.value = true
 })
 function changeCanEdit(){
-  canEdit.value=!canEdit.value
-  if (!canEdit.value) {
+  if (canEdit.value) {
+    if (dateInput.value.wrong!=0){
+      showMessage(dateInput.value.reminder[dateInput.value.wrong-1])
+      return
+    }
+    canEdit.value=!canEdit.value
     for (let i of useDate) {
       if (lastValue[i]!=info[i]){
         console.log(i);
@@ -48,6 +64,7 @@ function changeCanEdit(){
     for (let i of useDate) {
       lastValue[i]=info[i]
     }
+    canEdit.value=!canEdit.value
   }
 }
 </script>

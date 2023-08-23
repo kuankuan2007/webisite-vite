@@ -301,6 +301,30 @@ export function getRandomInt(from, to) {
 export function copyItem(item) {
     return JSON.parse(JSON.stringify(item))
 }
+/**
+ * Creates a deep copy of an object or array.
+ *
+ * @param {any} item - The object or array to be copied.
+ * @return {any} - The deep copy of the input object or array.
+ */
+export function deepCopy(item){
+    let maps=new WeakMap()
+    function _deepCopy(item){
+        if(typeof item !== "object" || item===null){
+            return item
+        }
+        let result=Array.isArray(item)?[]:{}
+        if (maps.has(item)) {
+            return maps.get(item)
+        }
+        maps.set(item,result)
+        for(let i in item){
+            result[i]=_deepCopy(item[i])
+        }
+        return result
+    }
+    return _deepCopy(item)
+}
 export class ArrayLike {
     /**
      * 

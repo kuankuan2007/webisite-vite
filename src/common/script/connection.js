@@ -1,5 +1,6 @@
-import { showMessage } from './infomations'
-import { getQueryVariable , jumpBackToFrom, dateFormater, jumpToWithFrom } from './normal'
+import { showMessage, showError } from './infomations'
+import { getQueryVariable, jumpBackToFrom, dateFormater, jumpToWithFrom, jumpToWithFromNow, deepCopy } from './normal'
+import cbor from "cbor-js"
 export async function checkUser() {
     var userButton = document.querySelector("#user a")
     var userName = await getUserName()
@@ -553,4 +554,101 @@ export async function confirmResetPassword(flags, password) {
 export function logout() {
     localStorage.check = void 0
     location.href = '/'
+}
+
+export async function getRegistrationOptions() {
+    if (localStorage.getItem("check") == null) {
+        throw void 0
+    }
+    let result = await fetch("https://kuankuan.site/user/safety/webauthn/registration/options", {
+        headers: {
+            check: localStorage.getItem("check"),
+            "Content-Type": 'application/json',
+        }, body: JSON.stringify({
+            hostname: (new URL(location.href)).hostname,
+            origin: (new URL(location.href)).origin
+        }),
+        method: "POST"
+    })
+    if (result.status === 403) {
+        jumpToWithFromNow("/login/")
+    } if (result.status === 200) {
+        result = await result.json()
+        result.challenge = Uint8Array.from(result.challenge, c => c.charCodeAt(0))
+        result.user.id = Uint8Array.from(btoa(result.user.id), c => c.charCodeAt(0))
+        console.log(result)
+        return result
+    }
+}
+export async function verificationRegistration(data) {
+    let decodeData = deepCopy(data)
+    window.data = data
+    decodeData.response.clientDataJSON = btoa(String.fromCharCode(...new Uint8Array(data.response.clientDataJSON)))
+    decodeData.rawId = btoa(String.fromCharCode(...(new Uint8Array(data.rawId))))
+    decodeData.response.attestationObject = btoa(String.fromCharCode(...new Uint8Array(data.response.attestationObject)))
+    console.log(JSON.stringify(decodeData))
+    if (localStorage.getItem("check") == null) {
+        throw void 0
+    }
+    let result = await fetch("https://kuankuan.site/user/safety/webauthn/registration/verify", {
+        headers: {
+            check: localStorage.getItem("check"),
+            "Content-Type": 'application/json',
+        }, body: JSON.stringify({
+            response: JSON.stringify(decodeData)
+        }), method: "POST"
+    })
+    if (result.status === 403) {
+        jumpToWithFromNow("/login/")
+    } if (result.statue === 401) {
+        showError("passkeys创建失败")
+    } if (result.status === 200) {
+        showMessage("创建成功，你可以在下次登录时选择“使用Passkeys登录”来使用它")
+    }
+}
+export async function getAuthenticationOptions() {
+    let result = await fetch("https://kuankuan.site/user/safety/webauthn/authentication/options", {
+        headers: {
+            "Content-Type": 'application/json',
+        }, body: JSON.stringify({
+            hostname: (new URL(location.href)).hostname,
+            origin: (new URL(location.href)).origin,
+        }),
+        method: "POST"
+    })
+    if (result.status === 200) {
+        result = await result.json()
+        result.options.challenge = Uint8Array.from(result.options.challenge, c => c.charCodeAt(0))
+        // result.user.id= Uint8Array.from(btoa(result.user.id), c => c.charCodeAt(0))
+        console.log(result)
+        return result
+    } else if (result.status === 403) {
+        throw void 0
+    }
+}
+
+export async function verificationAuthentication(data, id) {
+    let decodeData = deepCopy(data)
+    window.data = data
+    decodeData.response.clientDataJSON = btoa(String.fromCharCode(...new Uint8Array(data.response.clientDataJSON)))
+    decodeData.rawId = btoa(String.fromCharCode(...(new Uint8Array(data.rawId))))
+    decodeData.response.authenticatorData = btoa(String.fromCharCode(...new Uint8Array(data.response.authenticatorData)))
+    decodeData.response.signature = btoa(String.fromCharCode(...new Uint8Array(data.response.signature)))
+    decodeData.response.userHandle = btoa(String.fromCharCode(...new Uint8Array(data.response.userHandle)))
+    console.log(JSON.stringify(decodeData))
+    let result = await fetch("https://kuankuan.site/user/safety/webauthn/authentication/verify", {
+        headers: {
+            check: localStorage.getItem("check"),
+            "Content-Type": 'application/json',
+        }, body: JSON.stringify({
+            respone: decodeData,
+            id
+        }), method: "POST"
+    })
+    if (result.status === 200) {
+        localStorage.setItem("check", await result.text())
+        jumpBackToFrom()
+    }else{
+        showError("验证失败")
+    }
 }

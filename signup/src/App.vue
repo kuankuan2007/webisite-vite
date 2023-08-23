@@ -3,8 +3,14 @@
   <div class="main">
     <h1 class="title">注册</h1>
     <importtext ref="usernameInput" class="input-box" :class="{ disabled: state != 0 }" type="text" title="用户名"
-      :value="username" @update:value="username = $event.target.value" :reminder="['用户名必须是2-32个非空白字符']"
-      :tester="s => /^\S{2,32}$/.test(s) ? 0 : 1" :disabled="state > 0" v-if="state == 0 || state == 1"/>
+      :value="username" @update:value="username = $event.target.value" :reminder="['长度不小于2','长度不大于32','不能包含空白字符','不能包含@字符']"
+      :tester="s => {
+        if(s.length<2)return 1
+        else if(s.length>32)return 2
+        else if(/\s/.test(s))return 3
+        else if(/@/.test(s))return 4
+        return 0
+      }" :disabled="state > 0" v-if="state == 0 || state == 1"/>
     <importtext v-if="state == 0 || state == 2" ref="emailInput" class="input-box" :class="{ disabled: state != 0 }" type="email"
       title="邮箱" :value="email" @update:value="email = $event.target.value" :reminder="['邮箱格式不正确']"
       :tester="s => /^[\w.%+-]+@(?:[^/\\\.&\?\#]+\.)+[^/\\\.&\?\#]+$/.test(s) ? 0 : 1" :disabled="state > 0" />
