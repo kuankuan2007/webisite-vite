@@ -3,7 +3,7 @@
   <div class="main" v-if="finished">
     <h1 class="title">{{ data.title }}
     </h1>
-    <ul v-if="!userRight.includes('admin')" class="anmin-botton">
+    <ul v-if="userRight.includes('admin')" class="anmin-botton">
       <li class="demo-icon" @click="adminDelete">&#xE811;</li>
       <li class="demo-icon" @click="adminSave">&#xE810;</li>
     </ul>
