@@ -387,7 +387,7 @@ export async function getRights() {
         }
     })
     if (retsult.status === 200) {
-        return parseInt(await retsult.text())
+        return await retsult.json()
     }
     throw void 0
 }

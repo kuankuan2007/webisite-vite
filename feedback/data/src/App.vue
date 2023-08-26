@@ -3,11 +3,11 @@
   <div class="main" v-if="finished">
     <h1 class="title">{{ data.title }}
     </h1>
-    <ul v-if="userRight === '1'" class="anmin-botton">
+    <ul v-if="userRight.includes('admin')" class="anmin-botton">
       <li class="demo-icon" @click="adminDelete">&#xE811;</li>
       <li class="demo-icon" @click="adminSave">&#xE810;</li>
     </ul>
-    <span v-if="userRight !== '1'" :class="['statue', data.statue]">{{ data.statue }}</span>
+    <span v-if="userRight.includes('admin')" :class="['statue', data.statue]">{{ data.statue }}</span>
     <myselecter v-else :values="[
       'Waiting', 'A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'Finish'
     ]" :choice="data.statue" @update:choice="data.statue = $event" :class="['statue', data.statue]" />
@@ -18,7 +18,7 @@
     <markdownShower v-if="data.recirculationStep != ''" :content="data.recirculationStep" :headerLevelStart="3" />
     <p v-else class="disabled">作者没有提供复现步骤</p>
     <h2>管理员回复</h2>
-    <div v-if="userRight !== '1'">
+    <div v-if="userRight.includes('admin')">
       <markdownShower v-if="data.reply != ''" :content="data.reply" :headerLevelStart="3" />
       <p v-else class="disabled">管理员还未进行回复</p>
     </div>
@@ -35,7 +35,7 @@ import { getFeadbackData, saveFeedback ,delFeedback } from "../../../src/common/
 import { showMessage } from "../../../src/common/script/infomations";
 import { getQueryVariable, getRefWithStorage  } from "../../../src/common/script/normal"
 
-let userRight = getRefWithStorage("userrights", ref, sessionStorage, "", false)
+let userRight = getRefWithStorage("userrights", ref, sessionStorage, "", true)
 let data = ref(null)
 let finished = ref(false)
 let id = ref(parseInt(getQueryVariable("id", "-1"), 10))

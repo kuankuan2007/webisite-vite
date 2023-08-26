@@ -39,7 +39,7 @@ function uploadChoice(event) {
     }
 }
 let username = getRefWithStorage("username", ref, sessionStorage, "", false)
-let userrights = getRefWithStorage("userrights", ref, sessionStorage, "", false)
+let userrights = getRefWithStorage("userrights", ref, sessionStorage, "", true)
 let contextMenuData = computed(() => {
     let nowData = {
         title: '消息',
@@ -77,7 +77,7 @@ let contextMenuData = computed(() => {
             ]
         )
     }
-    if (userrights.value === "1") {
+    if (userrights.value.includes('admin')) {
         nowData.menu = nowData.menu.concat([{
             title: '管理员',
             sub: {
