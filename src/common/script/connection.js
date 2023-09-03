@@ -574,19 +574,17 @@ export async function getRegistrationOptions() {
         jumpToWithFromNow("/login/")
     } if (result.status === 200) {
         result = await result.json()
-        result.challenge = Uint8Array.from(result.challenge, c => c.charCodeAt(0))
-        result.user.id = Uint8Array.from(btoa(result.user.id), c => c.charCodeAt(0))
+        result.challenge = Uint8Array.fromString(result.challenge)
+        result.user.id = Uint8Array.fromString(btoa(result.user.id))
         console.log(result)
         return result
     }
 }
 export async function verificationRegistration(data) {
     let decodeData = deepCopy(data)
-    window.data = data
-    decodeData.response.clientDataJSON = btoa(String.fromCharCode(...new Uint8Array(data.response.clientDataJSON)))
-    decodeData.rawId = btoa(String.fromCharCode(...(new Uint8Array(data.rawId))))
-    decodeData.response.attestationObject = btoa(String.fromCharCode(...new Uint8Array(data.response.attestationObject)))
-    console.log(JSON.stringify(decodeData))
+    decodeData.response.clientDataJSON = data.response.clientDataJSON.toBase64()
+    decodeData.rawId = data.rawId.toBase64()
+    decodeData.response.attestationObject = data.response.attestationObject.toBase64()
     if (localStorage.getItem("check") == null) {
         throw void 0
     }
@@ -618,7 +616,7 @@ export async function getAuthenticationOptions() {
     })
     if (result.status === 200) {
         result = await result.json()
-        result.options.challenge = Uint8Array.from(result.options.challenge, c => c.charCodeAt(0))
+        result.options.challenge = Uint8Array.fromString(result.options.challenge)
         // result.user.id= Uint8Array.from(btoa(result.user.id), c => c.charCodeAt(0))
         console.log(result)
         return result
@@ -630,11 +628,11 @@ export async function getAuthenticationOptions() {
 export async function verificationAuthentication(data, id) {
     let decodeData = deepCopy(data)
     window.data = data
-    decodeData.response.clientDataJSON = btoa(String.fromCharCode(...new Uint8Array(data.response.clientDataJSON)))
-    decodeData.rawId = btoa(String.fromCharCode(...(new Uint8Array(data.rawId))))
-    decodeData.response.authenticatorData = btoa(String.fromCharCode(...new Uint8Array(data.response.authenticatorData)))
-    decodeData.response.signature = btoa(String.fromCharCode(...new Uint8Array(data.response.signature)))
-    decodeData.response.userHandle = btoa(String.fromCharCode(...new Uint8Array(data.response.userHandle)))
+    decodeData.response.clientDataJSON = data.response.clientDataJSON.toBase64()
+    decodeData.rawId = data.rawId.toBase64()
+    decodeData.response.authenticatorData = data.response.authenticatorData.toBase64()
+    decodeData.response.signature = data.response.signature.toBase64()
+    decodeData.response.userHandle = data.response.userHandle.toBase64()
     console.log(JSON.stringify(decodeData))
     let result = await fetch("https://kuankuan.site/user/safety/webauthn/authentication/verify", {
         headers: {
