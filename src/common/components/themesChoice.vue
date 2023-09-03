@@ -1,6 +1,6 @@
 <template>
     <div class="userbox">
-        <p class="button demo-icon" @click="openThemesChoicer">&#xe80f;</p>
+        <importbutton class="button demo-icon" @click="openThemesChoicer">&#xe80f;</importbutton>
     </div>
     <mydialog class="dialog" ref="themesChoicer" a="1" b="2">
         <h3>主题选择</h3>
@@ -23,6 +23,8 @@
 </template>
 <script setup>
 import ALL from "../../../src/common/script/all.js"
+import importbutton from "./input/linkLikeButton.vue"
+
 import mydialog from "./dialog.vue";
 function getUrl(name) {
     return new URL(`../image/themeShower/${name}.svg`, import.meta.url).pathname
@@ -70,7 +72,7 @@ h3 {
     margin: 0;
 }
 
-p.button {
+button.button {
     margin: 0;
     padding: 0;
     font-size: 24px;

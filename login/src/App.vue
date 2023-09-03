@@ -10,8 +10,8 @@
     <p class="or-text">或</p>
     <importbutton :disabled="!supportPasskeys" value="使用PassKeys登录" @click="usePasskeys" />
     <div class="bottom-button">
-      <p @click="jumpToWithFrom('/login/reset/')">忘记密码</p>
-      <p @click="jumpToWithFrom('/signup/')">注册</p>
+      <linkLikeButton @click="jumpToWithFrom('/login/reset/')">忘记密码</linkLikeButton>
+      <linkLikeButton @click="jumpToWithFrom('/signup/')">注册</linkLikeButton>
     </div>
   </div>
 </template>
@@ -20,6 +20,7 @@ import { ref } from "vue";
 import myheader from "../../src/common/components/header.vue"
 import importtext from "../../src/common/components/input/text.vue"
 import importbutton from "../../src/common/components/input/button.vue"
+import linkLikeButton from "../../src/common/components/input/linkLikeButton.vue"
 import { login } from "../../src/common/script/connection"
 import { showMessage } from "../../src/common/script/infomations";
 import { jumpBackToFrom, jumpToWithFrom } from "../../src/common/script/normal";
@@ -98,7 +99,7 @@ function submit() {
   padding: 20px;
   padding-top: 5px;
 
-  &>p {
+  &>* {
     margin: 0;
     cursor: pointer;
     transition: 0.3s;
@@ -114,11 +115,11 @@ function submit() {
     }
   }
 
-  &>p:first-child {
+  &>*:first-child {
     float: left;
   }
 
-  &>p:last-child {
+  &>*:last-child {
     float: right;
   }
 }</style>

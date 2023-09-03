@@ -1,13 +1,14 @@
 <template>
     <div v-show="finished" id="user">
-        <p class="login" v-if="username === ''" @click="login">登录</p>
-        <p class="user" v-else @click="userPage">{{ username }}</p>
+        <linkLikeButton class="login" v-if="username === ''" @click="login">登录</linkLikeButton>
+        <linkLikeButton class="user" v-else @click="userPage">{{ username }}</linkLikeButton>
     </div>
 </template>
 <script setup>
 import { getInfo, getUserName ,getRights } from "../script/connection.js";
 import { ref } from "vue"
 import ALL from "../script/all.js"
+import linkLikeButton from "./input/linkLikeButton.vue"
 import {jumpToWithFromNow} from  "../../../src/common/script/normal"
 let props = defineProps({
     jump: {
@@ -104,15 +105,16 @@ function userPage() {
 
 
 
-p.user {
+button.user {
     border-color: var(--theme-2-10);
 }
 
-p.login {
+button.login {
     border-color: var(--theme-strong1);
 
 }
-p.login,p.user {
+button.login,button.user {
+    display: block;
     font-size: 16px;
     margin: 0;
     padding: 6px;
@@ -128,10 +130,15 @@ p.login,p.user {
     cursor: pointer;
     border-width: 2px;
     border-style: solid;
+    &:focus{
+        border-color: var(--font-color);
+        background-color: var(--theme-2-10);
+    }
     &:hover{
         border-color: var(--theme-strong1);
         background-color: var(--theme-strong1);
         color: var(--font-color-b);
     }
+    
 }
 </style>

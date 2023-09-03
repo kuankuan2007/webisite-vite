@@ -1,6 +1,6 @@
 <template>
     <div class="userbox" v-show="isFinished">
-        <p class="button demo-icon" @click="openAnnouncementShower">{{ iconMaps.announcement }}</p>
+        <importbutton class="button demo-icon" @click="openAnnouncementShower">{{ iconMaps.announcement }}</importbutton>
     </div>
     <mydialog v-if="isFinished" class="dialog" ref="themesChoicer" a="1" b="2">
         <h3><span class="demo-icon">{{ iconMaps.announcement }}</span>公告</h3>
@@ -36,6 +36,7 @@
 import ALL from "../../../src/common/script/all.js"
 import iconMaps from "../../data/demo-icon"
 import markdownShower from "./markdownShower.vue"
+import importbutton from "./input/linkLikeButton.vue"
 import mydialog from "./dialog.vue";
 import { ref } from "vue"
 let isFinished = ref(false)
@@ -74,7 +75,7 @@ h3 {
     margin: 0;
 }
 
-p.button {
+button.button {
     margin: 0;
     padding: 0;
     font-size: 24px;

@@ -37,13 +37,14 @@
     <emailCode v-if="state == 2" class="input-box" ref="emailCodeInput"/>
     <importbutton :value="state!=2?'下一步':'完成'" @click="submit" />
     <div class="bottom-button">
-      <p @click="jumpToWithFrom('/login/reset/')">忘记密码</p>
-      <p @click="jumpToWithFrom('/login/')">登录</p>
+      <linkLikeButton @click="jumpToWithFrom('/login/reset/')">忘记密码</linkLikeButton>
+      <linkLikeButton @click="jumpToWithFrom('/login/')">登录</linkLikeButton>
     </div>
   </div>
 </template>
 <script setup>
 import { ref, shallowRef, reactive } from "vue";
+import linkLikeButton from "../../src/common/components/input/linkLikeButton.vue"
 import myheader from "../../src/common/components/header.vue"
 import importtext from "../../src/common/components/input/text.vue"
 import importsex from "../../src/common/components/input/sex.vue"
@@ -135,7 +136,7 @@ function submit() {
   padding: 20px;
   padding-top: 5px;
 
-  &>p {
+  &>* {
     margin: 0;
     cursor: pointer;
     transition: 0.3s;
@@ -151,11 +152,11 @@ function submit() {
     }
   }
 
-  &>p:first-child {
+  &>*:first-child {
     float: left;
   }
 
-  &>p:last-child {
+  &>*:last-child {
     float: right;
   }
 }</style>

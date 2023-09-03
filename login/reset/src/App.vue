@@ -26,8 +26,8 @@
       :tester="(s, pa = password) => s === pa ? 0 : 1" />
     <importbutton :value="state!=3?'下一步':'确认'" @click="submit" />
     <div class="bottom-button">
-      <p @click="jumpToWithFrom('/login/')">登录</p>
-      <p @click="jumpToWithFrom('/signup/')">注册</p>
+      <linkLikeButton @click="jumpToWithFrom('/login/')">登录</linkLikeButton>
+      <linkLikeButton @click="jumpToWithFrom('/signup/')">注册</linkLikeButton>
     </div>
   </div>
 </template>
@@ -37,6 +37,7 @@ import myheader from "../../../src/common/components/header.vue"
 import importtext from "../../../src/common/components/input/text.vue"
 import imageCode from "../../../src/common/components/input/imageCode.vue"
 import emailCode from "../../../src/common/components/input/emailCode.vue"
+import linkLikeButton from "../../../src/common/components/input/linkLikeButton.vue"
 import importbutton from "../../../src/common/components/input/button.vue"
 import { checkResetPassword,confirmResetPassword } from "../../../src/common/script/connection"
 import { showMessage } from "../../../src/common/script/infomations";
@@ -113,7 +114,7 @@ function submit() {
   padding: 20px;
   padding-top: 5px;
 
-  &>p {
+  &>* {
     margin: 0;
     cursor: pointer;
     transition: 0.3s;
@@ -128,11 +129,11 @@ function submit() {
     }
   }
 
-  &>p:first-child {
+  &>*:first-child {
     float: left;
   }
 
-  &>p:last-child {
+  &>*:last-child {
     float: right;
   }
 }</style>

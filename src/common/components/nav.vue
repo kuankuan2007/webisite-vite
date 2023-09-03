@@ -1,8 +1,12 @@
 <template>
     <div :class="{ nav: true, fold: nowList.length === 0, unfold: nowList.length > 0 }" ref="nav" v-show="finished">
         <div class="button-box">
-            <p class="fold-button demo-icon" @click="back">&#xf137;</p>
-            <p class="unfold-button demo-icon" @click="unfoldNav">&#xf0c9;</p>
+            <transition duration="300" name="fold-button">
+                <importbutton v-if="!(nowList.length === 0)" class="fold-button demo-icon" @click="back">&#xf137;
+                </importbutton>
+                <importbutton v-else class="unfold-button demo-icon" @click="unfoldNav">&#xf0c9;</importbutton>
+            </transition>
+
         </div>
         <transition-group duration="1000" @enter="onNavEnter" @leave="onNavLeave">
             <div class="nav-list" :class="{
@@ -28,6 +32,7 @@
 <script setup>
 import { sprintf } from "sprintf"
 import { reactive, ref } from "vue"
+import importbutton from "./input/linkLikeButton.vue"
 let isFold = ref(true)
 let finished = ref(false)
 let data = reactive({})
@@ -121,7 +126,7 @@ buildNavTree(rootNav).then(
         color: var(--theme-strong1);
     }
 
-    &>* {
+    &>button.button {
         top: 0;
         position: absolute;
         margin: 0;
@@ -129,18 +134,28 @@ buildNavTree(rootNav).then(
         transition: 0.3s;
         cursor: pointer;
         user-select: none;
+        border-color: transparent;
 
-        .nav.fold &.fold-button {
+        &:focus {
+            color: var(--theme-strong1);
+        }
+
+        &.fold-button-enter-from{
             pointer-events: none;
             opacity: 0;
             transform: rotate(-90deg);
         }
-
-        .nav.unfold &.unfold-button {
-            opacity: 0;
+        &.fold-button-leave-to{
             pointer-events: none;
-            transform: rotate(-90deg);
+            opacity: 0;
+            transform: rotate(90deg);
+        }
 
+        &.fold-button-enter-to,
+        &.fold-button-leave-from{
+            pointer-events: unset;
+            opacity: 1;
+            transform: rotate(0deg);
         }
     }
 }
@@ -247,4 +262,5 @@ buildNavTree(rootNav).then(
             color: var(--theme-1-b);
         }
     }
-}</style>
+}
+</style>

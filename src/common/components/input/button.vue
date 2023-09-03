@@ -12,7 +12,9 @@ let props = defineProps({
 </script>
 <style scoped lang="scss">
 .button {
-    border: none;
+    border-width: 3px;
+    border-color: transparent;
+    border-style: solid;
     outline: none;
     background-color: var(--theme-strong1);
     cursor: pointer;
@@ -23,6 +25,9 @@ let props = defineProps({
     color: var(--font-color-b);
     border-radius: calc(30px * var(--theme-border-radius));
     transition: 0.3s;
+    &:focus{
+      border-color: var(--font-color);
+    }
     &:hover{
         opacity: 0.7;
     }
