@@ -37,6 +37,8 @@ export function getMore(){
  * @param {String} message 
  */
 export function send(message){
+    console.log(message);
+    
     if (/^\s*$/.test(message)){
         showMessage("消息为空哦")
         return false

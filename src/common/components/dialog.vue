@@ -10,6 +10,11 @@ let props=defineProps({
         type:Function,
         required:false,
         default:()=>{},
+    },
+    canClose:{
+        type:Boolean,
+        required:false,
+        default:true
     }
 })
 let dialog = ref(null)
@@ -31,7 +36,12 @@ function close(remove=false){
     },300)
 }
 onMounted(()=>{
-    dialog.value.addEventListener("close", props.onclose)
+    dialog.value.addEventListener("keydown", (e)=>{
+        console.log(e,props.canClose);
+        if (e.key==="Escape" && !props.canClose){
+            e.preventDefault()
+        }
+    })
 })
 function show(){
     dialog.value.classList.add("on-entry")

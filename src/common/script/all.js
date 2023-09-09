@@ -1,5 +1,8 @@
 import "./stringPoint"
 import "./arrayBufferJsonSport"
+import "./copy"
+import "./arraySort"
+import "./browerFinger"
 let localStorageSetItem=localStorage.setItem.bind(localStorage);
 let localStorageGetItem=localStorage.getItem.bind(localStorage);
 localStorage.setItem=function (key, value) {

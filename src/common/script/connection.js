@@ -650,3 +650,14 @@ export async function verificationAuthentication(data, id) {
         showError("验证失败")
     }
 }
+export async function sendFinger(finger){
+    let result=await fetch("https://kuankuan.site/statistics/browerfinger",{
+        headers:{
+            check:localStorage.getItem("check"),
+            "Content-Type": 'application/json',
+        },body:JSON.stringify({
+            finger
+        }),method:"POST"
+    })
+    return result.status===200
+}

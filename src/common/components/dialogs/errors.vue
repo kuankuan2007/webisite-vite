@@ -1,25 +1,25 @@
 <template>
-    <myDialog ref="dialog" class="dialog" :onclose="props.onclose">
+    <myDialog :canClose="props.canClose" ref="dialog" class="dialog" :onclose="props.onclose">
         <div class="header">
             <p class="title"><span class="demo-icon">{{ iconMap.attentionCircled }}</span>{{ props.title }}</p>
             <div class="line"></div>
         </div>
         <p class="text">{{ props.message }}</p>
-        <ul class="buttons" :style="{
+        <div class="buttons" :style="{
             gridTemplateColumns: `repeat(${Object.keys(props.buttons).length},max-content)`
         }">
-            <li v-for="(value, title) in props.buttons" @click="onClickButton(value)" :class="[
+            <linkLikeButton v-for="(value, title) in props.buttons" @click="onClickButton(value)" :class="[
                 'button', value
-            ]">{{ title }}</li>
-        </ul>
-        <p v-if="props.canClose" class="close demo-icon" @click="close">&#xe80c;</p>
+            ]">{{ title }}</linkLikeButton>
+        </div>
+        <linkLikeButton v-if="props.canClose" class="close demo-icon" @click="close">&#xe80c;</linkLikeButton>
     </myDialog>
 </template>
 <script setup>
 import myDialog from "../dialog.vue"
 import { onMounted, ref } from "vue";
 import iconMap from "../../../data/demo-icon";
-
+import linkLikeButton from "../input/linkLikeButton.vue";
 let dialog = ref(null)
 let props = defineProps({
     title: {
@@ -82,6 +82,7 @@ function onClickButton(value) {
 }
 
 .button {
+    margin-left: 5px;
     float: right;
     border-width: 2px;
     border-style: groove;
@@ -92,7 +93,11 @@ function onClickButton(value) {
     border-radius: calc(15px * var(--theme-border-radius));
     transition: 0.3s;
     cursor: pointer;
-
+    &:focus{
+        background-color: rgba(255, 0, 0,0.5);
+        border-color: #ff0000;
+        color: var(--font-color-b);
+    }
     &:hover {
         background-color: red;
         color: var(--font-color-b);
@@ -126,7 +131,8 @@ function onClickButton(value) {
     margin-left: 5px;
 }
 
-.close {
+button.close {
+    display: block;
     position: absolute;
     top: 5px;
     right: 5px;
@@ -135,9 +141,17 @@ function onClickButton(value) {
     color: #ff0000;
     transition: 0.3s;
     cursor: pointer;
-
+    padding-left: 5px;
+    padding-right: 5px;
+    border-color: transparent;
+    &:focus{
+        border-color: #ff0000;
+    }
     &:hover {
         transform: scale(1.2);
+        background-color: transparent;
+        color: #ff0000;
+        border-color: transparent;
     }
 }
 </style>

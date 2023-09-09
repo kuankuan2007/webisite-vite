@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^4.0.1",
     "cbor-js": "^0.1.0",
+    "fingerprintjs": "^0.5.3",
     "highlight.js": "^11.8.0",
     "mathjax": "^3.2.2",
     "mathjax-full": "^3.2.2",
@@ -23,6 +25,7 @@
     "xss": "^1.0.14"
   },
   "devDependencies": {
+    "@types/fingerprintjs": "^0.5.28",
     "@types/mathjax": "^0.0.37",
     "@types/sprintf": "^0.1.0",
     "@vitejs/plugin-vue": "^4.2.3",

@@ -59,7 +59,7 @@ function toButton() {
 }
 
 let username = getRefWithStorage("username", ref, sessionStorage, "", false)
-let content = ref()
+let content = ref("")
 let getMoreWords = computed(() => {
   if (hasMore.value === 0) {
     return "加载更多"

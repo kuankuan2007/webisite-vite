@@ -3,10 +3,10 @@
     <textarea @keydown="keydown" :placeholder="props.placeHolder" ref="editer" v-show="set['display'] !== 'hidden' || hiddenModeShowing==='editer'" class="editor" :value="props.content" @input="contentChange"></textarea>
     <markdownShower ref="shower" v-show="set['display'] !== 'hidden' || hiddenModeShowing==='shower'" class="shower" :content="showcontent" :header-level-start="props.headerLevelStart"></markdownShower>
     <div class="buttons">
-      <p v-if="set['display'] === 'hidden'" v-show="hiddenModeShowing==='editer'" @click="hiddenModeShowing='shower'" class="showShowerButton">预览<span class="demo-icon">&#xe815;</span></p>
-      <p v-if="set['display'] === 'hidden'" v-show="hiddenModeShowing==='shower'" @click="hiddenModeShowing='editer'" class="showEditerButton">编辑<span class="demo-icon">&#xf14b;</span></p>
-      <p class="demo-icon setting" @click="showSettings">&#xE80D;</p>
-      <p v-for="data of props.otherButtons" @click="customButtomClick(data.event)" v-html="data.inner"></p>
+      <linkLikeButton v-if="set['display'] === 'hidden'" v-show="hiddenModeShowing==='editer'" @click="hiddenModeShowing='shower'" class="showShowerButton">预览<span class="demo-icon">&#xe815;</span></linkLikeButton>
+      <linkLikeButton v-if="set['display'] === 'hidden'" v-show="hiddenModeShowing==='shower'" @click="hiddenModeShowing='editer'" class="showEditerButton">编辑<span class="demo-icon">&#xf14b;</span></linkLikeButton>
+      <linkLikeButton class="demo-icon setting" @click="showSettings">&#xE80D;</linkLikeButton>
+      <linkLikeButton v-for="data of props.otherButtons" @click="customButtomClick(data.event)" v-html="data.inner"></linkLikeButton>
     </div>
   </div>
   <mydialog class="setting-dialog" ref="settingDialog">
@@ -25,7 +25,7 @@
         </li>
       </ul>
     </div>
-    <p class="close demo-icon" @click="closeThemesChoicer">&#xe80c;</p>
+    <linkLikeButton class="close demo-icon" @click="closeThemesChoicer">&#xe80c;</linkLikeButton>
   </mydialog>
 </template>
 <script setup>
@@ -34,6 +34,7 @@ import markdownShower from "./markdownShower.vue";
 import mydialog from "./dialog.vue";
 import {debounceRef} from "../script/normal"
 import { watchEffect, ref, onMounted } from "vue"
+import linkLikeButton from "./input/linkLikeButton.vue";
 
 function keydown(event){
   if (event.key==="Enter"){
@@ -145,15 +146,28 @@ defineExpose({
 })
 </script>
 <style lang="scss" scoped>
-.close {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  margin: 0;
-  font-size: 20px;
-  color: #ff0000;
-  transition: 0.3s;
-  cursor: pointer;
+button.close {
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    margin: 0;
+    font-size: 20px;
+    color: #ff0000;
+    transition: 0.3s;
+    cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-color: transparent;
+    &:focus{
+        border-color: #ff0000;
+    }
+    &:hover {
+        transform: scale(1.2);
+        background-color: transparent;
+        color: #ff0000;
+        border-color: transparent;
+    }
 }
 
 .close:hover {
@@ -166,8 +180,12 @@ defineExpose({
   font-size: 24px;
   border: none;
   outline: none;
-  background-color: var(--theme-3-1);
+  background-color: var(--theme-3-5);
   color: var(--font-color);
+  &:focus{
+    background-color: var(--theme-3-1);
+  }
+  transition: 0.3s;
 }
 
 .shower {
@@ -312,7 +330,7 @@ defineExpose({
   border-top-right-radius: calc(20px * var(--theme-border-radius));
   transition: 0.3s;
 
-  &>p {
+  &>button.button {
     margin: 0;
     font-size: 16px;
     line-height: 20px;
@@ -330,7 +348,10 @@ defineExpose({
       border-width: 0;
       margin: 0;
     }
-
+    &:focus{
+      opacity: 1;
+      border-color: var(--font-color);
+    }
     &:hover {
       opacity: 1;
       color: var(--theme-strong1);
