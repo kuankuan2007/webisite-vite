@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fingerprintjs/fingerprintjs": "^4.0.1",
     "cbor-js": "^0.1.0",
     "fingerprintjs": "^0.5.3",
     "highlight.js": "^11.8.0",
@@ -25,6 +24,7 @@
     "xss": "^1.0.14"
   },
   "devDependencies": {
+    "@fingerprintjs/fingerprintjs": "^4.0.1",
     "@types/fingerprintjs": "^0.5.28",
     "@types/mathjax": "^0.0.37",
     "@types/sprintf": "^0.1.0",
@@ -33,6 +33,6 @@
     "sass": "^1.63.4",
     "terser": "^5.18.1",
     "vite": "^4.3.9",
-    "vite-plugin-inspect": "^0.7.29"
+    "vite-plugin-inspect": "^0.7.38"
   }
 }

@@ -556,6 +556,11 @@ export function logout() {
     location.href = '/'
 }
 
+/**
+ * Retrieves the registration options from the server.
+ *
+ * @return {Promise<Object>} The registration options object.
+ */
 export async function getRegistrationOptions() {
     if (localStorage.getItem("check") == null) {
         throw void 0
@@ -580,6 +585,12 @@ export async function getRegistrationOptions() {
         return result
     }
 }
+/**
+ * Verify the registration data for a user.
+ *
+ * @param {Object} data - The registration data to be verified.
+ * @return {Promise} - A promise that resolves with the verification result.
+ */
 export async function verificationRegistration(data) {
     let decodeData = deepCopy(data)
     decodeData.response.clientDataJSON = data.response.clientDataJSON.toBase64()
@@ -604,6 +615,11 @@ export async function verificationRegistration(data) {
         showMessage("创建成功，你可以在下次登录时选择“使用Passkeys登录”来使用它")
     }
 }
+/**
+ * Retrieves the authentication options from the server.
+ *
+ * @return {Promise<Object>} The authentication options.
+ */
 export async function getAuthenticationOptions() {
     let result = await fetch("https://kuankuan.site/user/safety/webauthn/authentication/options", {
         headers: {
@@ -625,6 +641,13 @@ export async function getAuthenticationOptions() {
     }
 }
 
+/**
+ * Verifies authentication.
+ *
+ * @param {Object} data - the data to be verified
+ * @param {string} id - the id of the data
+ * @return {Promise<void>} - a promise that resolves with no value
+ */
 export async function verificationAuthentication(data, id) {
     let decodeData = deepCopy(data)
     window.data = data
@@ -650,6 +673,12 @@ export async function verificationAuthentication(data, id) {
         showError("验证失败")
     }
 }
+/**
+ * Sends the finger data to the server for statistical analysis.
+ *
+ * @param {Object} finger - The finger data to be sent.
+ * @return {boolean} Returns true if the request was successful, false otherwise.
+ */
 export async function sendFinger(finger){
     let result=await fetch("https://kuankuan.site/statistics/browerfinger",{
         headers:{

@@ -1,32 +1,105 @@
 <template>
-    <span class="selecter">
+    <span class="selecter" ref="selecter">
         <span class="shower">
             {{ props.choice }}
         </span>
-        <span class="demo-icon show-menu">&#xe805;</span>
-        <span class="menu">
-            <div class="padding-value-list">
-                <ul ref="valueList" class="value-list">
-                    <li :class="{
-                        'choices': true,
-                        value: true,
-                        'choice': value === props.choice
-                    }" v-for="value in props.values" @click="chaneChoice(value)" :name="value">{{ value }}</li>
-                </ul>
-            </div>
+        <linkLikeButton class="demo-icon show-menu">{{ iconMap.downMicro }}</linkLikeButton>
+        <span class="menu" :class="{
+            unfold: !onFold
+        }">
+            <transition :duration="600">
+                <div v-show="!onFold" class="padding-value-list">
+                    <ul ref="valueList" class="value-list">
+                        <li :class="{
+                            'choices': true,
+                            value: true,
+                            'choice': value === props.choice
+                        }" :data-name="value" v-for="value in props.values" @click="chaneChoice(value)" :name="value">
+                            {{ value }}
+                        </li>
+                    </ul>
+                </div>
+            </transition>
         </span>
     </span>
 </template>
 <script setup>
-import { onMounted,ref } from 'vue';
-let valueList=ref(null)
-onMounted(()=>{
-    for (let i=0; i<valueList.value.children.length; i++){
-        if (valueList.value.children[i].getAttribute("name") === props.choice){
-            valueList.value.scrollTop=Math.max(0,valueList.value.children[i].offsetTop)
+import { onMounted, ref } from 'vue';
+import iconMap from "../../../data/demo-icon"
+import linkLikeButton from "./linkLikeButton.vue"
+let onFold = ref(true)
+let valueList = ref(null)
+let selecter=ref(null)
+let looking=ref(props.choice)
+function scrollIn(){
+    for (let i = 0; i < valueList.value.children.length; i++) {
+        if (valueList.value.children[i].dataset.name === props.choice) {
+            valueList.value.scrollTop = Math.max(0, valueList.value.children[i].offsetTop)
             break
         }
     }
+}
+onMounted(() => {
+    
+    selecter.value.addEventListener("mouseenter", (e) => {
+        onFold.value=false
+        setTimeout(scrollIn)
+    })
+    selecter.value.addEventListener("mouseleave", (e) => {
+        onFold.value=true
+    })
+    selecter.value.addEventListener("focusin",(e) => {
+        onFold.value=false
+        setTimeout(scrollIn)
+    })
+    selecter.value.addEventListener("focusout",(e) => {
+        onFold.value=true
+    })
+    selecter.value.addEventListener("keydown", (e) => {
+        console.log(e)
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            e.preventDefault()
+            let thisFocus = null
+            if (valueList.value.contains(document.activeElement)) {
+
+                /**
+                 * 
+                 * @param {HTMLElement} node 
+                 */
+                function searchFather(node) {
+                    if (node.parentElement === valueList.value) {
+                        return node
+                    }
+                    else {
+                        return searchFather(node.parentElement)
+                    }
+                }
+                thisFocus = searchFather(document.activeElement)
+            } else {
+                for (let i of valueList.value.children) {
+                    if (i.dataset.name === props.choice) {
+                        thisFocus = i
+                        break
+                    }
+                }
+            }
+            if (thisFocus){
+                let index=props.values.indexOf(thisFocus.dataset.name)
+                if (e.key === "ArrowDown") {
+                    index+=1
+                }else{
+                    index-=1
+                }
+                if (index>=props.values.length){
+                    index=0
+                }if(index<0){
+                    index=props.values.length-1
+                }
+                chaneChoice(props.values[index])
+                scrollIn()
+            }
+        }
+    })
 })
 let props = defineProps({
     values: {
@@ -79,8 +152,7 @@ function chaneChoice(value) {
     }
 }
 
-.show-menu:hover+.menu,
-.menu:hover {
+.menu.unfold {
     grid-template-rows: 1fr;
     transition-delay: 0s;
 }
@@ -97,6 +169,7 @@ function chaneChoice(value) {
 
 .value-list {
     list-style: none;
+    scroll-behavior: smooth;
     padding: 10px;
     margin: 0;
     z-index: 100;

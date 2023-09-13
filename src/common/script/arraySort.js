@@ -54,10 +54,6 @@ Object.defineProperty(Array.prototype, "KKSelectionSort", {
     configurable: false
 })
 Object.defineProperty(Array.prototype, "KKInsertionSort", {
-    /**
-     * 
-     * @param {function(any,any):boolean} compare 
-     */
     value: function(compare = compareTo) {
         for (let i = 1; i < this.length; i++) {
             if (compare(this[i] , this[i - 1])) {

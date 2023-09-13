@@ -1,10 +1,18 @@
+/** 
+ * This file is used to collect browser fingerprints. Before collecting, it will prompt the user for permission.
+ *
+ * @author [kuankuan]
+ */
 import {askAgreeReject} from "./infomations"
 import fp from "@fingerprintjs/fingerprintjs"
 import {sendFinger} from "./connection"
 
+
 /**
- * 
- * @param {String} finger 
+ * Refreshes the browser fingerprint.
+ *
+ * @param {string} finger - The browser fingerprint to refresh.
+ * @return {Promise<void>} A promise that resolves when the browser fingerprint has been refreshed.
  */
 async function refreshFinger(finger){
     if (!localStorage.getItem("sendFinger")){

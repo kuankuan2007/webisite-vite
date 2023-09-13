@@ -30,10 +30,13 @@ export function showMessage(message,onclose=()=>{}){
         })
     })
 }
+
 /**
- * 展示错误
- * @param {String} message
- * @param {Function} onclose
+ * Shows an error message in a dialog box and returns a promise that resolves when the dialog is closed.
+ *
+ * @param {string} message - The error message to display.
+ * @param {function} onclose - Optional callback function to be called when the dialog is closed.
+ * @return {Promise} - A promise that resolves when the dialog is closed.
  */
 export function showError(message,onclose=()=>{}){
     return new Promise((resolve,reject)=>{
@@ -55,12 +58,15 @@ export function showError(message,onclose=()=>{}){
         })
     })
 }
+
 /**
- * @param {string} title - The title of the dialog box.
- * @param {boolean} [canclose=false] 
- * @param {string} message - The message to be displayed in the dialog box.
- * @param {function} [onclose=()=>{}] - An optional callback function to be called when the dialog is closed.
- * @return {Promise} A promise that resolves when the dialog is closed.
+ * Prompts the user with a custom dialog box to agree or reject a message.
+ *
+ * @param {string} message - The message to display in the dialog box.
+ * @param {string} [title="询问"] - The title of the dialog box. Default is "询问".
+ * @param {boolean} [canclose=false] - Determines whether the dialog box can be closed. Default is false.
+ * @param {function} [onclose=()=>{}] - The function to execute when the dialog box is closed. Default is an empty function.
+ * @return {Promise<boolean>} A promise that resolves with true if the user agrees, or false if the user rejects.
  */
 export function askAgreeReject(message,title="询问",canclose=false,onclose=()=>{}){
     return new Promise((resolve,reject)=>{
