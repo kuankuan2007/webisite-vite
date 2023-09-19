@@ -53,6 +53,7 @@ onMounted(() => {
     dialog.value.showModal()
 })
 function close() {
+    props.onclose()
     let event = new Event('close', {
         bubbles: true
     });
