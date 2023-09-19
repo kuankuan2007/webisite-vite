@@ -1,3 +1,4 @@
+
 # 图片验证码字体
 
 该项目是一个专用于图片验证码的字体，旨在改进混淆字母和数字导致识别困难的问题。特别地，针对 z/Z、0/o/O、s/S 等在其他常规字体中容易被混淆的字符进行了优化，以提供更好的辨识度。
@@ -38,6 +39,7 @@
 如果您需要进一步了解该项目或有其他问题，请随时通过以下方式联系我们：
 
 - Email: 2163826131@qq.com
-- 主页：[图片验证码字体](https://kuankuan2007.gitee.io/docs/docsPage/?name=image-verification-code-font)
+- 主页：[图片验证码字体](https://kuankuan2007.gitee.io/docs/docsPage/?name=image-captcha-font)
+- 本项目在[图片验证码字体（gitee.com）](https://gitee.com/kuankuan2007/image-captcha-font)上开源
 
 感谢您对这个项目的兴趣和支持！
