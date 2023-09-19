@@ -63,19 +63,12 @@ defineExpose({
 })
 </script>
 <style scoped lang="scss">
-@font-face {
-font-family: 'ghmimagecode';
-src: url('../../font/imageCode.woff') format('woff');
-src: url('../../font/imageCode.woff') format('woff'),
-        url('../../font/imageCode.otf') format('truetype');
-font-weight: normal;
-font-style: normal;
-}
+@import url("../../font/image-captcha-font/imageCaptchaFont.css");
 .input-group {
     position: relative;
 }
 :deep( * .input){
-    font-family: ghmimagecode;
+    font-family: imageCaptchaFont;
 }
 .code-click {
     position: relative;

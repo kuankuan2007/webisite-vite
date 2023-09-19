@@ -53,6 +53,9 @@ export default {
         {
             "name":"do-folder",
             "title":"文件夹管理"
+        },{
+            "name":"image-captcha-font",
+            "title":"图片验证码字体",
         }
     ]
 }
