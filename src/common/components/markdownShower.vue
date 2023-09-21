@@ -14,178 +14,13 @@ let props = defineProps({
     }
 })
 import showdown from "showdown"
-import { FilterXSS, whiteList } from "xss"
 import { computed, ref, onMounted } from "vue";
 import hljs from 'highlight.js';
-import MathJax from '../script/mathjax.min';
-import { debounce , copyText } from "../script/normal"
-import {showMessage} from "../script/infomations"
-import { mathjax } from "mathjax-full/js/mathjax";
-console.log(MathJax,MathJax.typeset)
-let myxss = new FilterXSS({
-    whiteList: {
-        "a": [
-            "target",
-            "href",
-            "title"
-        ],
-        "abbr": [
-            "title"
-        ],
-        "address": [],
-        "area": [
-            "shape",
-            "coords",
-            "href",
-            "alt"
-        ],
-        "article": [],
-        "aside": [],
-        "audio": [
-            "autoplay",
-            "controls",
-            "crossorigin",
-            "loop",
-            "muted",
-            "preload",
-            "src"
-        ],
-        "b": [],
-        "bdi": [
-            "dir"
-        ],
-        "bdo": [
-            "dir"
-        ],
-        "big": [],
-        "blockquote": [
-            "cite"
-        ],
-        "br": [],
-        "caption": [],
-        "center": [],
-        "cite": [],
-        "code": ["class"],
-        "col": [
-            "align",
-            "valign",
-            "span",
-            "width"
-        ],
-        "colgroup": [
-            "align",
-            "valign",
-            "span",
-            "width"
-        ],
-        "dd": [],
-        "del": [
-            "datetime"
-        ],
-        "details": [
-            "open"
-        ],
-        "div": [],
-        "dl": [],
-        "dt": [],
-        "em": [],
-        "figcaption": [],
-        "figure": [],
-        "font": [
-            "color",
-            "size",
-            "face"
-        ],
-        "footer": [],
-        "h1": [],
-        "h2": [],
-        "h3": [],
-        "h4": [],
-        "h5": [],
-        "h6": [],
-        "header": [],
-        "hr": [],
-        "i": [],
-        "img": [
-            "src",
-            "alt",
-            "title",
-            "width",
-            "height"
-        ],
-        "ins": [
-            "datetime"
-        ],
-        "li": [],
-        "mark": [],
-        "nav": [],
-        "ol": [],
-        "p": [],
-        "pre": [],
-        "s": [],
-        "section": [],
-        "small": [],
-        "span": [],
-        "sub": [],
-        "summary": [],
-        "sup": [],
-        "strong": [],
-        "strike": [],
-        "table": [
-            "width",
-            "border",
-            "align",
-            "valign"
-        ],
-        "tbody": [
-            "align",
-            "valign"
-        ],
-        "td": [
-            "width",
-            "rowspan",
-            "colspan",
-            "align",
-            "valign"
-        ],
-        "tfoot": [
-            "align",
-            "valign"
-        ],
-        "th": [
-            "width",
-            "rowspan",
-            "colspan",
-            "align",
-            "valign"
-        ],
-        "thead": [
-            "align",
-            "valign"
-        ],
-        "tr": [
-            "rowspan",
-            "align",
-            "valign"
-        ],
-        "tt": [],
-        "u": [],
-        "ul": [],
-        "video": [
-            "autoplay",
-            "controls",
-            "crossorigin",
-            "loop",
-            "muted",
-            "playsinline",
-            "poster",
-            "preload",
-            "src",
-            "height",
-            "width"
-        ]
-    }
-});
+import { copyText } from "../script/normal"
+import { showMessage } from "../script/infomations"
+import myxss from "../script/deXss"
+import showdownKatex from "showdown-katex";
+
 onMounted(() => {
     shower.value.addEventListener("click", copyCode)
 })
@@ -199,6 +34,18 @@ let converter = new showdown.Converter({
     tasklists: true,
     simpleLineBreaks: true,
     openLinksInNewWindow: true,
+    extensions: [
+        showdownKatex({
+            displayMode: true,
+            throwOnError: false, // allows katex to fail silently
+            errorColor: '#ff0000',
+            output:"html",
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false }
+            ],
+        })
+    ]
 })
 let shower = ref(null)
 /**
@@ -211,20 +58,20 @@ function copyCode(event) {
         showMessage("复制成功")
     }
 }
-function makeHtml(markdown){
+function makeHtml(markdown) {
     let html = converter.makeHtml(props.content)
     html = myxss.process(html)
     return html
 }
 let show = computed(() => {
-    let html=makeHtml(props.content)
+    let html = makeHtml(props.content)
     let tempEle = document.createElement("div")
     tempEle.innerHTML = html
-    let codeBlocks = tempEle.querySelectorAll("code")
+    let codeBlocks = new Array(...tempEle.querySelectorAll("code"))
     for (let i = 0; i < codeBlocks.length; i++) {
         hljs.highlightElement(codeBlocks[i])
     }
-    let codeBlocksPre = tempEle.querySelectorAll("pre:has(code.hljs)")
+    let codeBlocksPre = new Array(...tempEle.querySelectorAll("pre:has(code.hljs)"))
     for (let i = 0; i < codeBlocksPre.length; i++) {
         let ele = codeBlocksPre[i]
         let code = ele.querySelector("code.hljs")
@@ -241,9 +88,6 @@ let show = computed(() => {
         ele.appendChild(copy)
     }
     html = tempEle.innerHTML
-    setTimeout(() => {
-        MathJax.typeset && MathJax.typeset()
-    })
     return html
 })
 
@@ -252,7 +96,8 @@ defineExpose({
     makeHtml
 })
 </script>
-<style lang="css">
+<style lang="scss">
+@import url("../../../node_modules/katex/dist/katex.min.css");
 code {
     border-radius: calc(var(--theme-border-radius) * 10px);
     transition: 0.3s;
@@ -315,4 +160,5 @@ pre {
     color: var(--theme-strong1);
     border-color: var(--theme-strong1);
     background: var(--theme-1-2);
-}</style>
+}
+</style>
