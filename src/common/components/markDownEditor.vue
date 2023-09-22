@@ -1,7 +1,7 @@
 <template>
   <div class="markdownEditor" ref="markdownEditor">
     <textarea @keydown="keydown" :placeholder="props.placeHolder" ref="editer" v-show="set['display'] !== 'hidden' || hiddenModeShowing==='editer'" class="editor" :value="props.content" @input="contentChange"></textarea>
-    <markdownShower ref="shower" v-show="set['display'] !== 'hidden' || hiddenModeShowing==='shower'" class="shower" :content="showcontent" :header-level-start="props.headerLevelStart"></markdownShower>
+    <markdownShower ref="shower" @content-changed="refrshHeight" v-show="set['display'] !== 'hidden' || hiddenModeShowing==='shower'" class="shower" :content="showcontent" :header-level-start="props.headerLevelStart"></markdownShower>
     <div class="buttons">
       <linkLikeButton v-if="set['display'] === 'hidden'" v-show="hiddenModeShowing==='editer'" @click="hiddenModeShowing='shower'" class="showShowerButton">预览<span class="demo-icon">&#xe815;</span></linkLikeButton>
       <linkLikeButton v-if="set['display'] === 'hidden'" v-show="hiddenModeShowing==='shower'" @click="hiddenModeShowing='editer'" class="showEditerButton">编辑<span class="demo-icon">&#xf14b;</span></linkLikeButton>
@@ -127,7 +127,7 @@ onMounted(() => {
       refrsh()
     }
   })
-  refrshHeight()
+
   watchEffect(() => {
     markdownEditor.value.style.setProperty("--max-height",props.maxEditorHeight+"px")
   })

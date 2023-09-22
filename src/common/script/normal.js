@@ -375,3 +375,26 @@ export function setDefaultsValue(value,defaultsValue){
         } 
     }
 }
+/**
+ * Runs a microtask asynchronously.
+ *
+ * @param {function} task - The task to be executed.
+ * @param {...*} args - Arguments to be passed to the task function.
+ * @return {undefined} - The function does not return a value.
+ */
+export function runMicrotask(task,...args) {
+    function runTask(){
+        task(...args)
+    }
+    if (typeof Promise !== 'undefined') {
+        Promise.resolve().then(runTask)
+    }else if (typeof MutationObserver !== 'undefined') {
+        const tempNode=document.createTextNode('')
+        const tempObserver=new MutationObserver(runTask).observe(tempNode, {
+            characterData:true
+        })
+        tempNode.data=1
+    }else {
+        setTimeout(runTask, 0)
+    }
+}

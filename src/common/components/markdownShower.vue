@@ -16,10 +16,12 @@ let props = defineProps({
 import showdown from "showdown"
 import { computed, ref, onMounted } from "vue";
 import hljs from 'highlight.js';
-import { copyText } from "../script/normal"
+import { copyText,runMicrotask } from "../script/normal"
 import { showMessage } from "../script/infomations"
 import myxss from "../script/deXss"
 import showdownKatex from "showdown-katex";
+
+const emit=defineEmits(["contentChanged"])
 
 onMounted(() => {
     shower.value.addEventListener("click", copyCode)
@@ -39,7 +41,7 @@ let converter = new showdown.Converter({
             displayMode: true,
             throwOnError: false, // allows katex to fail silently
             errorColor: '#ff0000',
-            output:"html",
+            output: "html",
             delimiters: [
                 { left: "$$", right: "$$", display: true },
                 { left: "$", right: "$", display: false }
@@ -59,7 +61,7 @@ function copyCode(event) {
     }
 }
 function makeHtml(markdown) {
-    let html = converter.makeHtml(props.content)
+    let html = converter.makeHtml(markdown)
     html = myxss.process(html)
     return html
 }
@@ -88,6 +90,7 @@ let show = computed(() => {
         ele.appendChild(copy)
     }
     html = tempEle.innerHTML
+    runMicrotask(emit,"contentChanged",html)
     return html
 })
 
@@ -98,6 +101,51 @@ defineExpose({
 </script>
 <style lang="scss">
 @import url("../../../node_modules/katex/dist/katex.min.css");
+
+.katex {
+    background-color: var(--theme-2-1);
+    padding-left: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-right: 5px;
+    border-radius: calc(5px * var(--theme-border-radius));
+    transition: 0.3s;
+    .katex-display & {
+        background-color: transparent;
+        margin: 0;
+        padding: 0;
+        border-radius: 0;
+    }
+}
+
+.katex-display {
+    background-color: var(--theme-2-3);
+    margin: 0;
+    padding: 0.8em 0;
+    padding-top: 1.1em;
+    margin: 0.2em 0.2em;
+    transition: 0.3s;
+    position: relative;
+    border-radius: calc(10px * var(--theme-border-radius));
+    &::before {
+        content: "math";
+        position: absolute;
+        top: 3px;
+        left: 4px;
+        font-size: 0.3em;
+        pointer-events: none;
+        color: var(--theme-disabled-font);
+        font-weight: normal;
+        background-color: var(--theme-2-3);
+        transition: 0.3s;
+        padding-left: 5px;
+        padding-right: 5px;
+        height: 16px;
+        line-height: 16px;
+        border-radius: calc(8px * var(--theme-border-radius));
+    }
+}
+
 code {
     border-radius: calc(var(--theme-border-radius) * 10px);
     transition: 0.3s;

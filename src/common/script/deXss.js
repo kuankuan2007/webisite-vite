@@ -55,6 +55,8 @@ export const xssConfig={
             "span",
             "width"
         ],
+        "svg":[],//ALL
+        "path":[],//ALL
         "dd": [],
         "del": [
             "datetime"
@@ -102,7 +104,7 @@ export const xssConfig={
         "s": [],
         "section": [],
         "small": [],
-        "span": [],
+        "span": [],//all
         "sub": [],
         "summary": [],
         "sup": [],
@@ -163,7 +165,7 @@ export const xssConfig={
         ]
     },
     onTagAttr(tag, name, value, isWhiteAttr){
-        if (tag==='span'){
+        if (['span','svg','path'].includes(tag)){
             console.log(tag,name,value,isWhiteAttr)
             return `${name}="${value}"`
         }
