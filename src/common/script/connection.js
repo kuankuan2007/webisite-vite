@@ -1,5 +1,5 @@
 import { showMessage, showError } from './infomations'
-import { getQueryVariable, jumpBackToFrom, dateFormater, jumpToWithFrom, jumpToWithFromNow, deepCopy } from './normal'
+import { getQueryVariable, jumpBackToFrom, dateFormater, jumpToWithFrom, jumpToWithFromNow, deepCopy, jump } from './normal'
 import cbor from "cbor-js"
 export async function checkUser() {
     var userButton = document.querySelector("#user a")
@@ -669,7 +669,7 @@ export async function verificationAuthentication(data, id) {
     if (result.status === 200) {
         localStorage.setItem("check", await result.text())
         jumpBackToFrom()
-    }else{
+    } else {
         showError("验证失败")
     }
 }
@@ -679,14 +679,72 @@ export async function verificationAuthentication(data, id) {
  * @param {Object} finger - The finger data to be sent.
  * @return {boolean} Returns true if the request was successful, false otherwise.
  */
-export async function sendFinger(finger){
-    let result=await fetch("https://kuankuan.site/statistics/browerfinger",{
-        headers:{
-            check:localStorage.getItem("check"),
+export async function sendFinger(finger) {
+    let result = await fetch("https://kuankuan.site/statistics/browerfinger", {
+        headers: {
+            check: localStorage.getItem("check"),
             "Content-Type": 'application/json',
-        },body:JSON.stringify({
+        }, body: JSON.stringify({
             finger
-        }),method:"POST"
+        }), method: "POST"
     })
-    return result.status===200
+    return result.status === 200
+}
+/**
+ * Retrieves the contents of a novel from the server.
+ *
+ * @return {Promise} A promise that resolves with the novel contents.
+ */
+export async function getNovelContents() {
+    try {
+        let result = await fetch("https://kuankuan.site/novel/contents", { headers: { check: localStorage.check } })
+        if (result.status === 403) {
+            jumpToWithFromNow("/login/")
+            return
+        }
+        else if (result.status === 401) {
+            await showMessage("您的账户没有访问该资源的权限")
+            jump("/")
+            return
+        }
+        return await result.json()
+    }
+    catch{
+        await showMessage("加载错误")
+        location.reload()
+        return
+    }
+}
+/**
+ * Retrieves a novel file from the server.
+ *
+ * @param {Array<string>} path - The path of the novel file.
+ * @return {Promise<string>} A promise that resolves to the content of the novel file.
+ */
+export async function getNovelFile(path) {
+
+    try {
+        let result = await fetch("https://kuankuan.site/novel/file", { headers: { "Content-Type": 'application/json', check: localStorage.check }, method: "POST", body: JSON.stringify({ path: path }) })
+        if (result.status === 403) {
+            jumpToWithFromNow("/login/")
+            return
+        }
+        else if (result.status === 401) {
+            await showMessage("您的账户没有访问该资源的权限")
+            jump("/")
+            return
+        }
+        else if (result.status === 400) {
+            await showMessage("您访问的资源不存在")
+            jump("/novel/")
+            return
+        }
+        return await result.text()
+    }
+    catch {
+        await showMessage("加载错误")
+        location.reload()
+        return
+
+    }
 }

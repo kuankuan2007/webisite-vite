@@ -35,8 +35,8 @@ export default {
             }
         },
         {
-            "href": "/words/",
-            "word": "一言",
+            "href": "/novel/",
+            "word": "小说",
             "icon": "\ue803"
         },
         {
@@ -72,7 +72,7 @@ export default {
         {
             "href": "https://members.opensource.org/user/kuankuan/",
             "word": "OSI",
-            "icon": "\ue807"
+            "icon": "\uE81E"
         },
         {
             "href": "https://gitee.com/kuankuan2007",

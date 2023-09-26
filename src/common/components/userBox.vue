@@ -88,7 +88,7 @@ if (props.needRights) {
     getRights().then((retsult) => {
         console.log(retsult)
 
-        sessionStorage.setItem("userrights", retsult.toString())
+        sessionStorage.setItem("userrights", JSON.stringify(retsult))
     },(reason) => {
         console.log(reason)
         sessionStorage.setItem("userrights", "")

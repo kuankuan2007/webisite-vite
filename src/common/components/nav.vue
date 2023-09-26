@@ -18,13 +18,16 @@
                 <p class="title">
                     {{ nowData.title }}
                 </p>
-                <ul class="list">
-                    <li :style="{ '--index': index }" v-for="i, index in nowData.nav" @click="jump(i)" class="nums">
-                        <p class="demo-icon icon">{{ i.icon }}</p>
-                        <p class="word">{{ i.word }}</p>
-                        <p class="demo-icon full-button" v-if="'subNav' in i" @click="next(i.subNav, $event)">&#xf138;</p>
-                    </li>
-                </ul>
+                <transition duration="1000">
+                    <ul class="list" v-if="index === nowList.length - 1">
+                        <li :style="{ '--index': index }" v-for="i, index in nowData.nav" @click="jump(i)" class="nums">
+                            <link-like-button class="demo-icon icon">{{ i.icon }}</link-like-button>
+                            <p class="word">{{ i.word }}</p>
+                            <link-like-button class="demo-icon full-button" v-if="'subNav' in i"
+                                @click="next(i.subNav, $event)">&#xf138;</link-like-button>
+                        </li>
+                    </ul>
+                </transition>
             </div>
         </transition-group>
     </div>
@@ -93,6 +96,7 @@ function jump(data) {
     location.href = data.href
 }
 import rootNav from "../../data/nav";
+import LinkLikeButton from "./input/linkLikeButton.vue";
 buildNavTree(rootNav).then(
     () => {
         data = reactive(rootNav)
@@ -140,19 +144,20 @@ buildNavTree(rootNav).then(
             color: var(--theme-strong1);
         }
 
-        &.fold-button-enter-from{
+        &.fold-button-enter-from {
             pointer-events: none;
             opacity: 0;
             transform: rotate(-90deg);
         }
-        &.fold-button-leave-to{
+
+        &.fold-button-leave-to {
             pointer-events: none;
             opacity: 0;
             transform: rotate(90deg);
         }
 
         &.fold-button-enter-to,
-        &.fold-button-leave-from{
+        &.fold-button-leave-from {
             pointer-events: unset;
             opacity: 1;
             transform: rotate(0deg);

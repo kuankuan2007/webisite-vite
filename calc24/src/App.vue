@@ -31,7 +31,7 @@
         <ul class="ans-box">
           <li v-for="data, index of ans">
             <ul class="ans-line">
-              <li v-for="words, index of data">
+              <li v-for="words, index of data" :key="index">
                 {{ words }}
               </li>
             </ul>
@@ -46,7 +46,6 @@
 import { onMounted, reactive, ref, computed } from "vue";
 import myheader from "../../src/common/components/header.vue"
 import showBG from "./back"
-import board from "./components/board.vue";
 import { getRandomInt, ArrayLike, toArray } from "../../src/common/script/normal"
 import ansWorker from "./worker.js?worker"
 

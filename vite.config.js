@@ -37,7 +37,14 @@ export default defineConfig({
         contactInformation: resolve(__dirname, 'contactInformation/index.html'),
         calc24: resolve(__dirname, 'calc24/index.html'),
         404: resolve(__dirname, '404.html'),
+        novel: resolve(__dirname, 'novel/index.html'),
+        novelFiles: resolve(__dirname, 'novel/files/index.html'),
       },
+      output:{
+        manualChunks:{
+          markdown:["showdown","showdown-katex","xss","katex","highlight.js"],
+        }
+      }
     },
     terserOptions: {
       compress: {
