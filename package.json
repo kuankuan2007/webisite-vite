@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vitejs/plugin-legacy": "^4.1.1",
     "cbor-js": "^0.1.0",
     "fingerprintjs": "^0.5.3",
     "highlight.js": "^11.8.0",
@@ -32,6 +33,7 @@
     "sass": "^1.63.4",
     "terser": "^5.18.1",
     "vite": "^4.3.9",
-    "vite-plugin-inspect": "^0.7.38"
+    "vite-plugin-inspect": "^0.7.38",
+    "vite-plugin-sitemap": "^0.4.2"
   }
 }

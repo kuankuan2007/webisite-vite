@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue';
 import Inspect from 'vite-plugin-inspect';
 import { visualizer } from "rollup-plugin-visualizer";
+import sitemapPlugin from 'vite-plugin-sitemap';
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
   server:{
@@ -13,9 +14,14 @@ export default defineConfig({
     gzipSize: true,
     brotliSize: true,
     emitFile: false,
-    filename: "test.html", //分析图生成的文件名
+    filename: "./temp/test.html", //分析图生成的文件名
     open:true //如果存在本地服务端口，将在打包后自动展示
-  })],
+  }),sitemapPlugin(
+    {
+      hostname: 'http://kuankuan2007.gitee.io/',
+      changefreq: 'weekly',
+    }
+  )],
   build: {
     rollupOptions: {
       input: {
