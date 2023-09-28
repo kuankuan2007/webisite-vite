@@ -73,7 +73,9 @@ let show = computed(() => {
     for (let i = 0; i < codeBlocks.length; i++) {
         hljs.highlightElement(codeBlocks[i])
     }
-    let codeBlocksPre = new Array(...tempEle.querySelectorAll("pre:has(code.hljs)"))
+    let codeBlocksPre = (new Array(...tempEle.querySelectorAll("pre>code.hljs"))).map((ele) => {
+        return ele.parentElement
+    })
     for (let i = 0; i < codeBlocksPre.length; i++) {
         let ele = codeBlocksPre[i]
         let code = ele.querySelector("code.hljs")

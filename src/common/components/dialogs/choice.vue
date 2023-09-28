@@ -4,7 +4,7 @@
             <p class="title"><span class="demo-icon">{{ iconMap.helpCircled  }}</span>{{ props.title }}</p>
             <div class="line"></div>
         </div>
-        <p class="text">{{ props.message }}</p>
+        <markdownshower class="text" :header-level-start="2" :content="props.message"/>
         <ul class="buttons" :style="{
             gridTemplateColumns: `repeat(${Object.keys(props.buttons).length},max-content)`
         }">
@@ -20,6 +20,7 @@ import myDialog from "../dialog.vue"
 import { onMounted, ref } from "vue";
 import iconMap from "../../../data/demo-icon";
 import linkLikeButton from "../input/linkLikeButton.vue";
+import markdownshower from "../markdownshower.vue";
 
 let dialog = ref(null)
 let props = defineProps({

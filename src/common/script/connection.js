@@ -676,17 +676,15 @@ export async function verificationAuthentication(data, id) {
 /**
  * Sends the finger data to the server for statistical analysis.
  *
- * @param {Object} finger - The finger data to be sent.
+ * @param {Object} info - The finger data to be sent.
  * @return {boolean} Returns true if the request was successful, false otherwise.
  */
-export async function sendFinger(finger) {
-    let result = await fetch("https://kuankuan.site/statistics/browerfinger", {
+export async function sendBrowerInfo(info) {
+    let result = await fetch("https://kuankuan.site/statistics/browerInfo", {
         headers: {
             check: localStorage.getItem("check"),
             "Content-Type": 'application/json',
-        }, body: JSON.stringify({
-            finger
-        }), method: "POST"
+        }, body: JSON.stringify({info:JSON.stringify(info)}), method: "POST"
     })
     return result.status === 200
 }

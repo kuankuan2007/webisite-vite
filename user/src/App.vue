@@ -8,6 +8,9 @@
       <importbutton :value="canEdit?'保存':'修改'" @click="changeCanEdit"/>
     </div>
     <div class="input-group">
+      <checkBox @change="changeSendType($event)" :content="_sendBrowerInfo" :title="`发送浏览器数据`"/>
+    </div>
+    <div class="input-group">
       <importbutton value="修改密码" @click="jump('/user/changepassword/')"/>
       <importbutton value="修改邮箱" @click="jump('/user/changeemail/')"/>
       <importbutton :disabled="!supportPasskeys" value="创建PassKeys" @click="createKeys"/>
@@ -23,12 +26,31 @@ import myheader from "../../src/common/components/header.vue";
 import importdate from "../../src/common/components/input/date.vue"
 import importsex from "../../src/common/components/input/sex.vue"
 import importbutton from "../../src/common/components/input/button.vue"
-import { ref, reactive } from "vue";
+import { ref, reactive,computed } from "vue";
 import { getInfo,changeInfo,logout } from "../../src/common/script/connection";
 import { checkSupport,createKeys } from "../../src/common/script/webauthn";
 import { showMessage } from "../../src/common/script/infomations";
+import { getRefWithStorage } from "../../src/common/script/normal";
+import checkBox from "../../src/common/components/input/checkBox.vue"
 
 let supportPasskeys=ref(false)
+
+const _sendBrowerInfo=getRefWithStorage("sendBrowerInfo",ref,localStorage,"123",true)
+
+const sendBrowerInfo=computed({
+  get(){
+    return _sendBrowerInfo.value
+  },set(value){
+    
+  }
+})
+function changeSendType(value){
+  console.log(value)
+  if (typeof value!=="boolean"){
+      throw new Error("sendBrowerInfo must be boolean")
+    }
+    localStorage.setItem("sendBrowerInfo",value)
+}
 checkSupport().then(
   ()=>{
     supportPasskeys.value=true

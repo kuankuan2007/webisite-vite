@@ -177,11 +177,13 @@ export function getRefWithStorage(key, by = ref, storage = localStorage, elseval
         try {
             return JSON.parse(value)
         } catch {
+            console.warn("The value could not be parsed from a string.")
             return value
         }
     }
-
-    let val = by(getvalue(storage.getItem(key)) || elsevalue);
+    let v=getvalue(storage.getItem(key))
+    console.log(v)
+    let val = by(v!==null? v: elsevalue);
     window.addEventListener(`${getStorageName(storage)}StorageSetItemEvent`, (event) => {
         if (event.key === key) {
             val.value = getvalue(event.newValue);
