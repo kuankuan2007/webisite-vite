@@ -1,9 +1,11 @@
 <template>
-    <span class="selecter" ref="selecter">
+    <span class="selecter" :class="{
+        disabled:props.disabled
+    }" ref="selecter">
         <span class="shower">
             {{ props.choice }}
         </span>
-        <linkLikeButton class="demo-icon show-menu">{{ iconMap.downMicro }}</linkLikeButton>
+        <linkLikeButton :tabindex="props.disabled?-1:undefined" class="demo-icon show-menu">{{ iconMap.downMicro }}</linkLikeButton>
         <span class="menu" :class="{
             unfold: !onFold
         }">
@@ -111,7 +113,11 @@ let props = defineProps({
         type: String,
         default: "",
         required: true
-    },
+    },disabled:{
+        type:Boolean,
+        default:false,
+        required:false
+    }
 })
 let emit = defineEmits(["update:choice"])
 function chaneChoice(value) {
@@ -127,6 +133,10 @@ function chaneChoice(value) {
     transition: 0.3s;
     border-radius: calc(11px * var(--theme-border-radius));
     display: block;
+    &.distabled{
+        pointer-events: none;
+        color: var(--theme-disabled-font);
+    }
 }
 
 .menu {
@@ -138,8 +148,7 @@ function chaneChoice(value) {
     display: grid;
     padding-top: 10px;
     grid-template-rows: 0fr;
-    transition: 0.3s;
-    transition-delay: 0.3s;
+    transition: 0.3s 0s,grid-template-rows 0.3s 0.3s;
     width: max-content;
 }
 
@@ -154,7 +163,7 @@ function chaneChoice(value) {
 
 .menu.unfold {
     grid-template-rows: 1fr;
-    transition-delay: 0s;
+    transition: 0.3s 0s,grid-template-rows 0.3s 0s;
 }
 
 .padding-value-list {

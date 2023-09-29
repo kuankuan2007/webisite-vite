@@ -25,9 +25,9 @@
           <h2>微信</h2>
         </div>
         <div>
-          <links tips="添加好友" :mobilejump="false" href="https://u.wechat.com/MIuqPCR_YOvP88wrhJBtuXI"
+          <links tips="添加好友" href="https://u.wechat.com/MIuqPCR_YOvP88wrhJBtuXI"
             content="福瑞 : furrykuankuan" />
-          <links tips="添加好友" :mobilejump="false" href="https://u.wechat.com/ML4NzEKd45FRDTKi1Uj4ZaA"
+          <links tips="添加好友" href="https://u.wechat.com/ML4NzEKd45FRDTKi1Uj4ZaA"
             content="其他 : gouhaoming2007" />
         </div>
       </div>
@@ -37,7 +37,7 @@
           <h2>bilibili</h2>
         </div>
         <div>
-          <links :pcjump="true" href="https://space.bilibili.com/662698080" content="宽宽2007" />
+          <links href="https://space.bilibili.com/662698080" content="宽宽2007" />
         </div>
       </div>
       <div>
@@ -55,8 +55,8 @@
           <h2>邮箱</h2>
         </div>
         <div>
-          <links :pcjump="true" href="mailto:3169748076@qq.com" content="福瑞/收稿 : 3169748076@qq.com" />
-          <links :pcjump="true" href="mailto:2163826131@qq.com" content="其他 : 2163826131@qq.com" />
+          <links href="mailto:3169748076@qq.com" content="福瑞/收稿 : 3169748076@qq.com" />
+          <links href="mailto:2163826131@qq.com" content="其他 : 2163826131@qq.com" />
         </div>
       </div>
     </ul>

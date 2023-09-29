@@ -4,7 +4,7 @@
             <p class="title" ref="title">
                 {{ props.title }}
             </p>
-            <mySelecter @update:choice="changChoice($event)" class="selecter" :values="[
+            <mySelecter :disabled="props.disabled" @update:choice="changChoice($event)" class="selecter" :values="[
                 '保密', '男', '女', '其他'
             ]" :choice="props.value" />
         </div>

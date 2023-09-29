@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <a :class="{
-            'can-jump':canJump
-        }" :href=" canJump ? props.href : null ">
+    <div :class="{
+        mobie:mobile
+    }">
+        <a @click="onclick" :href="props.href">
             <p>{{ props.content }}
-                <div v-if=" !canJump " class="qrcode">
+                <div class="qrcode">
                     <p>{{ props.tips }}</p>
-                    <img :src=" qr ">
+                    <img :src="qr">
                 </div>
             </p>
         </a>
@@ -14,6 +14,8 @@
 </template>
 <script setup>
 import { ref } from "vue";
+import { jump } from "../../../src/common/script/normal";
+import { askChoice,showImages } from "../../../src/common/script/infomations"
 import { getQRCode, isMobie } from "../../../src/common/script/normal"
 let props = defineProps({
     href: {
@@ -22,14 +24,6 @@ let props = defineProps({
     }, content: {
         typr: String,
         required: true
-    }, pcjump: {
-        type: Boolean,
-        required: false,
-        default: false
-    }, mobilejump: {
-        type: Boolean,
-        required: false,
-        default: true,
     }, tips: {
         type: String,
         required: false,
@@ -39,30 +33,50 @@ let props = defineProps({
         required: false
     }
 })
+
+/**
+ * Handles the onclick event.
+ *
+ * @param {MouseEvent} e - The event object.
+ * @return {void} This function does not return a value.
+ */
+function onclick(e) {
+    if (mobile) {
+        e.preventDefault()
+        askChoice("请选择链接打开方式", "询问", true, {
+            "跳转": "jump",
+            "二维码展示": "qrcode"
+        }).then(result => {
+            if (result==="jump"){
+                jump(props.href,true)
+            }else{
+                showImages([qr.value])
+            }
+        }, reason => { })
+    }
+}
 let mobile = isMobie()
 let qr = ref(null)
-let canJump = mobile ? props.mobilejump : props.pcjump
-if (!canJump) {
-    if (props.qrcode) {
-        qr.value = props.qrcode
-    } else {
-        getQRCode(props.href).then((dataURL) => {
-            qr.value = dataURL
-        })
-    }
 
+if (props.qrcode) {
+    qr.value = props.qrcode
+} else {
+    getQRCode(props.href).then((dataURL) => {
+        qr.value = dataURL
+    })
 }
+
 </script>
 <style scoped lang="scss">
-
 a {
     color: var(--font-color);
     cursor: default;
-    &.can-jump {
-        text-decoration: none;
-        cursor: pointer;
-        color: var(--theme-strong1);
-    }
+
+
+    text-decoration: none;
+    cursor: pointer;
+    color: var(--theme-strong1);
+
 }
 
 div.qrcode {
@@ -77,6 +91,10 @@ div.qrcode {
     background-color: #fff;
     z-index: 1;
     border-radius: calc(10px * var(--theme-border-radius));
+    
+    .mobie &{
+        display: none;
+    }
 
     p:hover>& {
         transform: translate(-50%, 0%);

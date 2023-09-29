@@ -1,6 +1,7 @@
 <template>
   <myheader title="用户设置" :toLogin="true" />
   <div class="main" v-if="finished">
+  <div class="main-content">
     <div class="input-group">
       <importdate :reminder="['出生日期应在当前日期之前']"
       :tester="date => date > new Date() ? 1 : 0" style="z-index: 1;" class="input-ele" :value="info.birthdate" ref="dateInput" :disabled="!canEdit" @update:date="info.birthdate = $event"/>
@@ -18,6 +19,7 @@
     <div class="input-group">
       <importbutton class="logout" value="退出登录" @click="logout"/>
     </div>
+  </div>
   </div>
 </template>
 <script setup>
@@ -92,12 +94,11 @@ function changeCanEdit(){
 </script>
 <style scoped lang="scss">
 .main {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 50%;
-  min-width: 300px;
-  transform: translate(-50%, -50%);
+  display: flex;
+  margin-top: 80px;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 100px);
 }
 .input-group{
   margin-bottom: 50px;

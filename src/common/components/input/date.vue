@@ -4,13 +4,13 @@
             <p class="title" ref="title">
                 {{ props.title }}
             </p>
-            <mySelecter @update:choice="changChoice('year', $event)" class="selecter"
+            <mySelecter :disabled="props.disabled" @update:choice="changChoice('year', $event)" class="selecter"
                 :values="Array.from({ length: 200 }, (item, index) => (index + 1900).toString())" :choice="showYear" />
             <p>年</p>
-            <mySelecter @update:choice="changChoice('mounth', $event)" class="selecter"
+            <mySelecter :disabled="props.disabled" @update:choice="changChoice('mounth', $event)" class="selecter"
                 :values="Array.from({ length: 12, }, (item, index) => (index + 1).toString())" :choice="showMounth" />
             <p>月</p>
-            <mySelecter @update:choice="changChoice('date', $event)" class="selecter" :values="dayList" :choice="showday" />
+            <mySelecter :disabled="props.disabled" @update:choice="changChoice('date', $event)" class="selecter" :values="dayList" :choice="showday" />
             <p>日</p>
         </div>
         <Transition name="reminder">

@@ -142,12 +142,20 @@ export function debounceRef(value, duration = 1000) {
     nowRef.refresh = refresh
     return nowRef
 }
+
 /**
- * jump to a url
- * @param {String} url 
+ * Jumps to a specified URL.
+ *
+ * @param {string} url - The URL to jump to.
+ * @param {boolean} onOtherWindow - Specifies whether to open the URL in a new window.
+ * @return {void} This function does not return a value.
  */
-export function jump(url) {
-    window.location.href = url
+export function jump(url, onOtherWindow) {
+    if (onOtherWindow) {
+        window.open(url)
+    } else {
+        window.location.href = url
+    }
 }
 function getStorageName(value) {
     if (value === localStorage) {
@@ -181,9 +189,9 @@ export function getRefWithStorage(key, by = ref, storage = localStorage, elseval
             return value
         }
     }
-    let v=getvalue(storage.getItem(key))
+    let v = getvalue(storage.getItem(key))
     console.log(v)
-    let val = by(v!==null? v: elsevalue);
+    let val = by(v !== null ? v : elsevalue);
     window.addEventListener(`${getStorageName(storage)}StorageSetItemEvent`, (event) => {
         if (event.key === key) {
             val.value = getvalue(event.newValue);
@@ -283,7 +291,7 @@ export function isMobie() {
  * @returns {number}
  */
 export function getRandomFloat(from, to) {
-    return Math.random() * (to-from) + from
+    return Math.random() * (to - from) + from
 }
 /**
  * get the random int in [from,to)
@@ -309,19 +317,19 @@ export function copyItem(item) {
  * @param {any} item - The object or array to be copied.
  * @return {any} - The deep copy of the input object or array.
  */
-export function deepCopy(item){
-    let maps=new WeakMap()
-    function _deepCopy(item){
-        if(typeof item !== "object" || item===null){
+export function deepCopy(item) {
+    let maps = new WeakMap()
+    function _deepCopy(item) {
+        if (typeof item !== "object" || item === null) {
             return item
         }
-        let result=Array.isArray(item)?[]:{}
+        let result = Array.isArray(item) ? [] : {}
         if (maps.has(item)) {
             return maps.get(item)
         }
-        maps.set(item,result)
-        for(let i in item){
-            result[i]=_deepCopy(item[i])
+        maps.set(item, result)
+        for (let i in item) {
+            result[i] = _deepCopy(item[i])
         }
         return result
     }
@@ -367,14 +375,14 @@ export function toArray(data) {
  * @param {object} value - The object to set default values in.
  * @param {object} defaultsValue - The object containing the default values.
  */
-export function setDefaultsValue(value,defaultsValue){
-    for (let i in defaultsValue){
-        if (!(i in value)){
+export function setDefaultsValue(value, defaultsValue) {
+    for (let i in defaultsValue) {
+        if (!(i in value)) {
             value[i] = defaultsValue[i]
         }
-        if (typeof defaultsValue[i] === 'object' && typeof value[i] === 'object'){
-            setDefaultsValue(value[i],defaultsValue[i])
-        } 
+        if (typeof defaultsValue[i] === 'object' && typeof value[i] === 'object') {
+            setDefaultsValue(value[i], defaultsValue[i])
+        }
     }
 }
 /**
@@ -384,19 +392,19 @@ export function setDefaultsValue(value,defaultsValue){
  * @param {...*} args - Arguments to be passed to the task function.
  * @return {undefined} - The function does not return a value.
  */
-export function runMicrotask(task,...args) {
-    function runTask(){
+export function runMicrotask(task, ...args) {
+    function runTask() {
         task(...args)
     }
     if (typeof Promise !== 'undefined') {
         Promise.resolve().then(runTask)
-    }else if (typeof MutationObserver !== 'undefined') {
-        const tempNode=document.createTextNode('')
-        const tempObserver=new MutationObserver(runTask).observe(tempNode, {
-            characterData:true
+    } else if (typeof MutationObserver !== 'undefined') {
+        const tempNode = document.createTextNode('')
+        const tempObserver = new MutationObserver(runTask).observe(tempNode, {
+            characterData: true
         })
-        tempNode.data=1
-    }else {
+        tempNode.data = 1
+    } else {
         setTimeout(runTask, 0)
     }
 }

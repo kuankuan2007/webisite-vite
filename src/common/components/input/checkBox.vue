@@ -39,7 +39,9 @@ const emit = defineEmits(['change'])
     display: flex;
     justify-content: left;
     align-items: center;
-
+    &.disabled{
+        pointer-events: none;
+    }
     &>.title {
         cursor: pointer;
         margin: 0;
@@ -84,9 +86,15 @@ const emit = defineEmits(['change'])
         background-color: var(--theme-strong1);
         transition: 0.3s,background-color 0.3s 0s;
     }
-    // input:focus+&,.check-box:hover &{
-    //     border-color: var(--theme-strong2);
-    // }
+    input:focus+&{
+        outline-color: var(--theme-strong3);
+    }
+    .check-box:hover &{
+        transform: scale(1.05);
+    }
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color: transparent;
     & .st0 {
         fill: transparent;
         stroke: transparent;
@@ -101,6 +109,13 @@ const emit = defineEmits(['change'])
             stroke-dashoffset: 0;
             transition-delay: 0.2s;
             stroke: var(--theme-1-1);
+        }
+    }
+    .disabled &{
+        background-color: var(--theme-disabled-block);
+        border-color: var(--theme-disabled-block);
+        & .st0{
+            opacity: 0;
         }
     }
 }
