@@ -56,6 +56,9 @@ export default {
         },{
             "name":"image-captcha-font",
             "title":"图片验证码字体",
+        },{
+            "name":"chinese-easy-wordcloud",
+            "title":"中文简易词云"
         }
     ]
 }

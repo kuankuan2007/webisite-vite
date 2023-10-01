@@ -1,5 +1,17 @@
 export default [
     {
+        "title": "中文简易云词图",
+        "name": "chinese-easy-wordcloud"
+    }, {
+        "title": "图片验证码字体",
+        "name": "image-captcha-font"
+    }, {
+        "title": "旧版本的网站",
+        "name": "website-old"
+    }, {
+        "title": "特殊字符串",
+        "name": "special-str"
+    },{
         "title":"长轮询",
         "name":"long-polling"
     },{
