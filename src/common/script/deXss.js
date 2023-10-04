@@ -166,7 +166,6 @@ export const xssConfig={
     },
     onTagAttr(tag, name, value, isWhiteAttr){
         if (['span','svg','path'].includes(tag)){
-            console.log(tag,name,value,isWhiteAttr)
             return `${name}="${value}"`
         }
     }

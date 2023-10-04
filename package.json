@@ -20,6 +20,7 @@
     "showdown": "^2.1.0",
     "showdown-katex": "^0.8.0",
     "sprintf": "^0.1.5",
+    "vditor": "^3.9.6",
     "vue": "^3.2.47",
     "webpack-bundle-analyzer": "^4.9.0",
     "xss": "^1.0.14"

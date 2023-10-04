@@ -18,18 +18,27 @@
           <span> {{ bottomAdded }} <span class="demo-icon">&#xF13A;</span> </span>
         </button>
       </Transition>
-      <markdownEditor :place-holder="'按下Ctrl+Enter以发送'" @spicalEnter="spicalEnter" :other-buttons="[
-        {
-          event: 'send',
-          inner: sendButtonInner
-        }
-      ]" :headerLevelStart="2" :max-editor-height="maxEditorHeight" :content="content"
-        @update:content="content = $event.target.value" @customButtomClick="customButtomClick" />
+      <markdownEditor :place-holder="'按下Ctrl+Enter以发送'" @enter="spicalEnter" :other-buttons="buttons" :headerLevelStart="2" :max-editor-height="maxEditorHeight" :content="content"
+        @update:content="content = $event"/>
     </div>
   </div>
 </template>
 <script setup>
-const sendButtonInner = `发送<span class="demo-icon">\uE818<span>`
+const sendButtonInner = `<span class="demo-icon" style="
+    font-size: 15px;
+    padding: 0;
+    margin: 0;
+">\uE818<span>`
+const buttons= [
+  {
+    name: 'send',
+    icon: sendButtonInner,
+    tip: '发送',
+    click: () => {
+      checkSend()
+    }
+  },
+]
 import { computed, onMounted, ref, watchEffect } from "vue";
 import myheader from "../../src/common/components/header.vue"
 import historyShower from "./components/history.vue";
@@ -71,18 +80,13 @@ let getMoreWords = computed(() => {
 })
 function spicalEnter(event) {
   if (event.ctrlKey) {
-    checkSend()
+    setTimeout(500,checkSend)
   }
 }
 function checkSend() {
   content.refresh && content.refresh()
   if(send(content.value)){
     content.value = ""
-  }
-}
-function customButtomClick(event) {
-  if (event === "send") {
-    checkSend()
   }
 }
 </script>

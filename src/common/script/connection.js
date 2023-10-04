@@ -553,7 +553,7 @@ export async function confirmResetPassword(flags, password) {
 }
 export function logout() {
     localStorage.check = void 0
-    location.href = '/'
+    jump("/")
 }
 
 /**

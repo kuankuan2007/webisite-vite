@@ -148,7 +148,7 @@ defineExpose({
     }
 }
 
-code {
+.shower code {
     border-radius: calc(var(--theme-border-radius) * 10px);
     transition: 0.3s;
     font-family: system-ui;
@@ -157,16 +157,16 @@ code {
     cursor: text;
 }
 
-code * {
+.shower code * {
     transition: 0.3s;
 }
 
-pre>code.hljs {
+.shower pre>code.hljs {
     position: relative;
     padding-top: 20px !important;
 }
 
-pre>code::before {
+.shower pre>code::before {
     content: var(--language);
     position: absolute;
     top: 3px;
@@ -184,11 +184,11 @@ pre>code::before {
     border-radius: calc(8px * var(--theme-border-radius));
 }
 
-pre {
+.shower pre {
     position: relative;
 }
 
-.copy-button {
+.shower .copy-button {
     position: absolute;
     top: 3px;
     right: 3px;
