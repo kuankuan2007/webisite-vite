@@ -190,7 +190,6 @@ export function getRefWithStorage(key, by = ref, storage = localStorage, elseval
         }
     }
     let v = getvalue(storage.getItem(key))
-    console.log(v)
     let val = by(v !== null ? v : elsevalue);
     window.addEventListener(`${getStorageName(storage)}StorageSetItemEvent`, (event) => {
         if (event.key === key) {
@@ -301,6 +300,9 @@ export function getRandomFloat(from, to) {
  */
 export function getRandomInt(from, to) {
     return Math.floor(getRandomFloat(from, to))
+}
+export function getRandomString(length,from="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"){
+    return Array.from({length},()=>from[getRandomInt(0,from.length)]).join("")
 }
 /**
  * 
