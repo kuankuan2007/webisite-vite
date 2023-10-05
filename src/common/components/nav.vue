@@ -20,7 +20,7 @@
                 </p>
                 <transition duration="1000">
                     <ul class="list" v-if="index === nowList.length - 1">
-                        <li :style="{ '--index': index }" v-for="i, index in nowData.nav" @click="jump(i)" class="nums">
+                        <li :style="{ '--index': index }" v-for="i, index in nowData.nav" @click="jumpT(i)" class="nums">
                             <link-like-button class="demo-icon icon">{{ i.icon }}</link-like-button>
                             <p class="word">{{ i.word }}</p>
                             <link-like-button class="demo-icon full-button" v-if="'subNav' in i"
@@ -35,11 +35,16 @@
 <script setup>
 import { sprintf } from "sprintf"
 import { reactive, ref } from "vue"
+import { jump } from "../script/normal";
 import importbutton from "./input/linkLikeButton.vue"
 let isFold = ref(true)
 let finished = ref(false)
 let data = reactive({})
 let nowList = ref([])
+function jumpT(url){
+    console.log(url)
+    jump(url.href)
+}
 function onNavEnter(el) {
     setTimeout(() => { el.classList.add('in') })
 }
@@ -91,9 +96,6 @@ function back() {
 function next(subNav, e) {
     nowList.value.push(subNav)
     e && e.stopPropagation()
-}
-function jump(data) {
-    location.href = data.href
 }
 import rootNav from "../../data/nav";
 import LinkLikeButton from "./input/linkLikeButton.vue";

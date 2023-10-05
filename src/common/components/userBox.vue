@@ -1,7 +1,7 @@
 <template>
     <div v-show="finished" id="user">
         <linkLikeButton class="login" v-if="username === ''" @click="login">登录</linkLikeButton>
-        <linkLikeButton class="user" v-else @click="userPage">{{ username }}</linkLikeButton>
+        <linkLikeButton class="user" v-else @click="jump('/user/')">{{ username }}</linkLikeButton>
     </div>
 </template>
 <script setup>
@@ -9,7 +9,7 @@ import { getInfo, getUserName ,getRights } from "../script/connection.js";
 import { ref } from "vue"
 import ALL from "../script/all.js"
 import linkLikeButton from "./input/linkLikeButton.vue"
-import {jumpToWithFromNow} from  "../../../src/common/script/normal"
+import {jumpToWithFromNow,jump} from  "../../../src/common/script/normal"
 let props = defineProps({
     jump: {
         type: String,

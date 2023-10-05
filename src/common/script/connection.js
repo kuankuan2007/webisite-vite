@@ -1,6 +1,18 @@
 import { showMessage, showError } from './infomations'
 import { getQueryVariable, jumpBackToFrom, dateFormater, jumpToWithFrom, jumpToWithFromNow, deepCopy, jump } from './normal'
 import cbor from "cbor-js"
+/**
+ * Checks the user by performing the following steps:
+ * - Gets the user button element by querying for the element with the id "user a".
+ * - Retrieves the user name asynchronously by calling the getUserName function.
+ * - If the user name is an empty string, returns null.
+ * - Removes the "login" class and adds the "user" class to the user button element.
+ * - Sets the "href" attribute of the user button element to "./user/".
+ * - Sets the inner text of the user button element to the retrieved user name.
+ * - Returns the retrieved user name.
+ *  @deprecated
+ * @return {string} The user name.
+ */
 export async function checkUser() {
     var userButton = document.querySelector("#user a")
     var userName = await getUserName()
@@ -12,7 +24,7 @@ export async function checkUser() {
         userButton.classList.add("user")
     }
     catch { }
-    userButton.setAttribute("href", "/user/")
+    userButton.setAttribute("href", "./user/")
     userButton.innerText = userName
     return userName
 }
@@ -100,7 +112,7 @@ export async function getImageCode() {
         throw void 0
     }
     else if (retsult.status == 403) {
-        location.href = "/login?from=" + encodeURI(location.href)
+        jumpToWithFromNow("/login")
         throw void 0
     }
 }
@@ -124,7 +136,7 @@ export async function checkImageCode(code) {
         localStorage.setItem("action", await retsult.text())
         return true
     } else if (retsult.status == 403) {
-        location.href = "/login?from=" + encodeURI(location.href)
+        jumpToWithFromNow("/login")
     } else if (retsult.status == 401) {
         showMessage("验证码错误")
     } return false
@@ -155,10 +167,10 @@ export async function getEmailCode() {
         showMessage("操作过于频繁请稍后再试")
     }
     else if (retsult.status == 403) {
-        location.href = "/login?from=" + encodeURI(location.href)
+        jumpToWithFromNow("/login")
     }
     else if (retsult.status == 401) {
-        location.href = "/check/image?from=" + encodeURI(location.href)
+        jumpToWithFromNow("/check/image")
     }
     throw void 0;
 }
@@ -182,7 +194,7 @@ export async function checkEmailCode(code) {
         localStorage.setItem("action", await retsult.text())
         return true
     } else if (retsult.status == 403) {
-        location.href = "/login?from=" + encodeURI(location.href)
+        jumpToWithFromNow("/login") 
     } else if (retsult.status == 401) {
         showMessage("验证码错误")
     } return false
@@ -213,7 +225,7 @@ export async function confirmSignUp(name, email, birthDate, sex, password) {
     })
     if (retsult.status == 200) {
         localStorage.setItem("check", await retsult.text())
-        location.href = jumpBackToFrom()
+        jumpBackToFrom()
         return true
     }
     else {
@@ -287,10 +299,10 @@ export async function changePassword(password) {
         })
     })
     if (retsult.status === 401) {
-        location.href = "/check/email?from=" + location.href
+        jumpToWithFromNow("/check/email")
     }
     else if (retsult.status === 403) {
-        location.href = "/login?from=" + location.href
+        jumpToWithFromNow("/login?from=")
     }
     else if (retsult.status === 200) {
         return true
@@ -319,7 +331,7 @@ export async function getChangeEmailCode(email) {
         showMessage("操作过于频繁请稍后再试")
     }
     else if (retsult.status == 403) {
-        location.href = "/login?from=" + encodeURI(location.href)
+        jumpToWithFromNow("/login")
     } else if (retsult.status == 402) {
         showMessage("邮箱已经被使用过了")
     }
@@ -346,7 +358,7 @@ export async function checkChangeEmailCode(code) {
     if (retsult.status == 200) {
         return true
     } else if (retsult.status == 403) {
-        location.href = "/login?from=" + encodeURI(location.href)
+        jumpToWithFromNow("/login")
     } else if (retsult.status == 503) {
         showMessage("请先发送验证码")
     } else if (retsult.status == 401) {
@@ -461,11 +473,11 @@ export async function newFeedback(title, content, recirculationStep) {
         })
     })
     if (retsult.status == 403) {
-        location.href = "/login?from=/feedback/new"
+        jump("/login?from=/feedback/new")
     }
     let id = await retsult.text()
     showMessage("提交成功", () => {
-        location.href = "/feedback/data/?id=" + id
+        jump("/feedback/data/?id=" + id)
     })
 }
 /**

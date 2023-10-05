@@ -9,7 +9,7 @@ export default defineConfig({
   server:{
     port:81,
     host:"0.0.0.0"
-  },
+  },base:"/vditor/",
   plugins: [vue(),Inspect(),visualizer({
     gzipSize: true,
     brotliSize: true,
@@ -49,7 +49,7 @@ export default defineConfig({
       output:{
         manualChunks:{
           markdown:["showdown","showdown-katex","xss","katex","highlight.js"],
-        }
+        },dir:"dist/vditor"
       }
     },
     terserOptions: {

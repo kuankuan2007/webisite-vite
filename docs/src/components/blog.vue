@@ -1,10 +1,11 @@
 <template>
-    <a class="docsLink" :href="`/docs/docsPage/?name=${data.name}`"><div class="docs-show-box">
+    <a class="docsLink" @click="jump(`/docs/docsPage/?name=${data.name}`)"><div class="docs-show-box">
         <p class="title">{{props.data.title}}</p>
     </div>
     </a>
 </template>
 <script setup>
+import { jump } from '../../../src/common/script/normal';
 let props=defineProps({
     data:{
         type:Object,

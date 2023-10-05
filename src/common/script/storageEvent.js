@@ -11,12 +11,15 @@ const myLocalStorage = new Proxy(_localStorage, {
                 setItemEvent.key = key;
                 target.setItem(...arguments);
                 window.dispatchEvent(setItemEvent);
-            }, getItem(key) {
+            }, getItem(key, defaultsValue=null) {
                 let getItemEvent = new Event('localStorageGetItemEvent');
-                let value = target.getItem(...arguments);
+                let value = target.getItem(key);
                 getItemEvent.value = value;
                 getItemEvent.key = key;
                 window.dispatchEvent(getItemEvent);
+                if(value===null){
+                    return defaultsValue
+                }
                 return value;
             }, removeItem(key) {
                 let removeItemEvent = new Event('localStorageRemoveItemEvent');
@@ -62,12 +65,15 @@ const mySessionStorage = new Proxy(_sessionStorage, {
                 setItemEvent.key = key;
                 target.setItem(...arguments);
                 window.dispatchEvent(setItemEvent);
-            }, getItem(key) {
+            }, getItem(key,defaultsValue=null) {
                 const getItemEvent = new Event('sessionStorageGetItemEvent');
-                const value = target.getItem(...arguments);
+                const value = target.getItem(key);
                 getItemEvent.value = value;
                 getItemEvent.key = key;
                 window.dispatchEvent(getItemEvent);
+                if (value===null){
+                    return defaultsValue
+                }
                 return value;
             }, removeItem(key) {
                 const removeItemEvent = new Event('sessionStorageRemoveItemEvent');
