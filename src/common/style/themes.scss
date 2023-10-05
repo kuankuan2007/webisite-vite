@@ -76,7 +76,7 @@ html[data-theme-light="light"]{
     --theme-disabled-font: #555555;
     --theme-disabled-block: #9e9e9e;
     @import "../../../node_modules/highlight.js/scss/vs.scss";
-    @import "./vd-light.scss";
+    @import "./vditor/vd-light.scss";
 }
 html[data-theme-light="dark"]{
     --font-color-b:#000000;
@@ -85,7 +85,7 @@ html[data-theme-light="dark"]{
     --theme-disabled-font: #888888;
     --theme-disabled-block: #474747;
     @import "../../../node_modules/highlight.js/scss/monokai-sublime.scss";
-    @import "./vd-dark.scss";
+    @import "./vditor/vd-dark.scss";
 }
 html[data-theme-color="full"]{
     --theme-strong1:#0000ff;

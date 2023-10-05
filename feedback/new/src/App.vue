@@ -1,11 +1,11 @@
 <template>
   <myheader title="宽宽2007·提交反馈" :toLogin="true"></myheader>
   <div class="main">
-    <myInputText ref="titleInput" :value="title" title="标题" @update:value="title = $event.target.value" />
+    <myInputText ref="titleInput" :value="title" title="标题" @update:value="title = $event" />
     <h2>内容</h2>
-    <markDownEditor ref="contentInput" @update:content="content = $event.target.value" :content="content" :headerLevelStart="3" />
+    <markDownEditor ref="contentInput" @update:content="content = $event" :content="content" :headerLevelStart="3" />
     <h2>复现步骤</h2>
-    <markDownEditor @update:content="recirculationStep = $event.target.value" :content="recirculationStep"
+    <markDownEditor @update:content="recirculationStep = $event" :content="recirculationStep"
       :headerLevelStart="3" />
     <myInputButton value="提交" @click="submit" />
   </div>

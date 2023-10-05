@@ -1,4 +1,5 @@
 @import url("./font-icos.css");
+
 ::-webkit-scrollbar {
 
     width: 12px;
@@ -34,7 +35,7 @@
     background-color: #BDBDBD;
 
     transition: 0.3s;
-    
+
     -webkit-border-radius: 6px;
 
 }
@@ -45,12 +46,14 @@
     background-color: #808080;
 
 }
-*{
-    
+
+* {
+
     scrollbar-color: transparent transparent;
     scrollbar-track-color: transparent;
     -ms-scrollbar-track-color: transparent;
 }
-html,dialog{
+
+html, dialog {
     filter: none !important;
 }

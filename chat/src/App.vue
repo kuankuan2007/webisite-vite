@@ -18,8 +18,8 @@
           <span> {{ bottomAdded }} <span class="demo-icon">&#xF13A;</span> </span>
         </button>
       </Transition>
-      <markdownEditor :place-holder="'按下Ctrl+Enter以发送'" @enter="spicalEnter" :other-buttons="buttons" :headerLevelStart="2" :max-editor-height="maxEditorHeight" :content="content"
-        @update:content="content = $event"/>
+      <markdownEditor :place-holder="'按下Ctrl+Enter以发送'" @enter="spicalEnter" :other-buttons="buttons" :headerLevelStart="2" :content="content"
+        @update:content="content = $event" :max-editor-height="`40vh`"/>
     </div>
   </div>
 </template>
@@ -80,7 +80,7 @@ let getMoreWords = computed(() => {
 })
 function spicalEnter(event) {
   if (event.ctrlKey) {
-    setTimeout(500,checkSend)
+    setTimeout(checkSend,500)
   }
 }
 function checkSend() {
@@ -176,7 +176,7 @@ function checkSend() {
 }
 
 .main {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   position: fixed;
   top: 0;

@@ -22,12 +22,12 @@
       <markdownShower v-if="data.reply != ''" :content="data.reply" :headerLevelStart="3" />
       <p v-else class="disabled">管理员还未进行回复</p>
     </div>
-    <markdownEditor @update:content="data.reply = $event.target.value" v-else :content="data.reply" :headerLevelStart="3" />
+    <markdownEditor @update:content="data.reply = $event" v-else :content="data.reply" :headerLevelStart="3" />
   </div>
 </template>
 <script setup>
 import myheader from "../../../src/common/components/header.vue"
-import markdownShower from "../../../src/common/components/markdownShower.vue";
+import markdownShower from "../../../src/common/components/markdownshower.vue";
 import markdownEditor from "../../../src/common/components/markDownEditor.vue";
 import { ref } from "vue"
 import myselecter from "../../../src/common/components/input/selecter.vue"

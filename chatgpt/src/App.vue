@@ -8,18 +8,27 @@
       </div>
     </div>
     <div class="input-box">
-      <markdownEditor :place-holder="'按下Ctrl+Enter以发送'" @spicalEnter="spicalEnter" :other-buttons="[
-        {
-          event: 'send',
-          inner: sendButtonInner
-        }
-      ]" :headerLevelStart="2" :max-editor-height="maxEditorHeight" :content="content"
-        @update:content="content = $event.target.value" @customButtomClick="customButtomClick" />
+      <markdownEditor :place-holder="'按下Ctrl+Enter以发送'" @enter="spicalEnter" :other-buttons="buttons" :content="content"
+        :headerLevelStart="2" :max-editor-height="`40vh`" @update:content="content = $event" />
     </div>
   </div>
 </template>
 <script setup>
-const sendButtonInner = `发送<span class="demo-icon">\uE818<span>`
+const sendButtonInner = `<span class="demo-icon" style="
+    font-size: 15px;
+    padding: 0;
+    margin: 0;
+">\uE818<span>`
+const buttons = [
+  {
+    name: 'send',
+    icon: sendButtonInner,
+    tip: '发送',
+    click: () => {
+      checkSend()
+    }
+  },
+]
 import { computed, onMounted, ref, watchEffect } from "vue";
 import myheader from "../../src/common/components/header.vue"
 import historyShower from "./components/history.vue";
@@ -29,9 +38,6 @@ import { debounceRef, getRefWithStorage, windowSize } from "../../src/common/scr
 onMounted(() => {
   init()
 })
-let maxEditorHeight = computed(() => {
-  return windowSize.height / 4
-})
 let historyBox = ref()
 
 let username = getRefWithStorage("username", ref, sessionStorage, "", false)
@@ -39,12 +45,12 @@ let content = ref()
 
 function spicalEnter(event) {
   if (event.ctrlKey) {
-    checkSend()
+    setTimeout(checkSend,500)
   }
 }
 function checkSend() {
   content.refresh && content.refresh()
-  if(send(content.value)){
+  if (send(content.value)) {
     content.value = ""
   }
 }
@@ -140,11 +146,12 @@ function customButtomClick(event) {
 }
 
 .main {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   position: fixed;
   top: 0;
   left: 0;
   display: flex;
   flex-direction: column;
-}</style>
+}
+</style>

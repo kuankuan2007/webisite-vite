@@ -19,7 +19,7 @@ let props = defineProps({
     default: [],
     required: false
   }, maxEditorHeight: {
-    type: Number,
+    type: String,
     default: Infinity,
     required: false
   }, placeHolder: {
@@ -28,6 +28,17 @@ let props = defineProps({
     required: false
   }
 })
+onMounted(() => {
+  watchEffect(() => {
+    if (typeof props.maxEditorHeight === "number") {
+      editer.value.style.setProperty("--max-height", `${props.maxEditorHeight}px`)
+    }
+    else {
+      editer.value.style.setProperty("--max-height", props.maxEditorHeight)
+    }
+  })
+})
+
 const baseToolBar = [
   "emoji",
   "headings",
@@ -55,11 +66,11 @@ const baseToolBar = [
   "redo",
   "|",
   "edit-mode",
+  "fullscreen",
   {
     name: "more",
     toolbar: [
       "outline",
-      "preview",
       "info",
       "help",
     ],
@@ -69,6 +80,7 @@ onMounted(() => {
   vditor.value = new Vditor(editer.value, {
     after: () => {
       watchEffect(() => {
+        console.log(props.content)
         if (props.content !== vditor.value.getValue()) {
           vditor.value.setValue(props.content);
         }
@@ -78,40 +90,60 @@ onMounted(() => {
       enable: false
     },
     preview: {
-      theme:"dark",
-      hljs:"github-dark"
+      theme: "dark",
+      hljs: "github-dark"
+    },
+    counter: {
+      enable: true,
+      after(length) {
+        console.log(length);
+
+      }
     },
     lang: "zh_CN"
-    , toolbar: baseToolBar, 
+    , toolbar: baseToolBar,
     placeholder: props.placeHolder,
-    input(e,v){
-      emit("update:content",e)
-    },minHeight:150
+    input(e, v) {
+      console.log(e, v)
+      emit("update:content", e)
+    }, minHeight: 200
   });
-  window.vditor=vditor
+  window.vditor = vditor
 });
 function enterkeydown(event) {
   emit("enter", event)
 }
-const afterLoaded=[]
+const afterLoaded = []
 /**
  * 
  * @param {'light'|'dark'} light 
  */
-function refreshThemes(light){
+function refreshThemes(light) {
   if (light === 'light') {
     vditor.value.setTheme("classic")
   } else {
     vditor.value.setTheme("dark")
   }
 }
-window.addEventListener("themeRefresh",(e)=>{
+window.addEventListener("themeRefresh", (e) => {
   refreshThemes(e.value.light)
 })
-const a=new Vditor(document.createElement("div"),{cache:{enable:false}})
-a.setTheme
-// a.vditor.options.placeholder="你好"
+
 </script>
 <style scoped lang="scss">
+.editer.vditor {
+  border-radius: calc(20px * var(--theme-border-radius));
+  overflow: hidden;
+  max-height: var(--max-height);
+  overflow: visible;
 
+  &.vditor--fullscreen {
+    max-height: unset;
+    height: calc(100vh - 60px) !important;
+    top: 60px;
+  }
+}
+:deep(.vditor-content){
+  min-height: 100px;
+}
 </style>
