@@ -36,11 +36,13 @@ let props = defineProps({
     }
 })
 let debounceRefresh = debounce(refresh, props.debounceDelay)
-watchEffect(() => {
-    props.valueList
-    debounceRefresh()
+const ob=new MutationObserver(debounceRefresh)
+onMounted(()=>{
+    ob.observe(watterfall.value, {
+        subtree:true,
+        childList:true
+    })
 })
-
 let watterfall = ref(null)
 
 function refresh() {

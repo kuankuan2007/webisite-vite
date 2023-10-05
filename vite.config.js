@@ -45,6 +45,7 @@ export default defineConfig({
         404: resolve(__dirname, '404.html'),
         novel: resolve(__dirname, 'novel/index.html'),
         novelFiles: resolve(__dirname, 'novel/files/index.html'),
+        about: resolve(__dirname, 'about/index.html'),
       },
       output:{
         manualChunks:{

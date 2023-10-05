@@ -38,7 +38,6 @@ import linkLikeButton from "./input/linkLikeButton.vue";
 
 function keydown(event){
   if (event.key==="Enter"){
-    
     emit("spicalEnter", event)
   }
 }

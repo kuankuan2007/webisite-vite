@@ -179,7 +179,7 @@ buildNavTree(rootNav).then(
 
     .nav-list.inactive & {
         opacity: 0;
-        transform: translate(100%, 0);
+        transform: translate(-100%, 0);
     }
 }
 
@@ -209,7 +209,7 @@ buildNavTree(rootNav).then(
     position: absolute;
     height: 100%;
     overflow-y: scroll;
-    width: calc((var(--width) + 70px)*2);
+    width: calc((var(--width) + 70px));
 }
 
 .list li {
@@ -218,8 +218,9 @@ buildNavTree(rootNav).then(
     padding-bottom: 20px;
     padding-left: 40px;
     padding-right: 30px;
-    transition: 0.3s;
-    transition-delay: calc(0.04s * var(--index));
+    transition: all 0.3s 0s,
+        transform 0.3s calc(0.04s * var(--index)),
+        opacity 0.3s calc(0.04s * var(--index));
     width: var(--width);
 }
 
@@ -258,8 +259,6 @@ buildNavTree(rootNav).then(
 
 .nums {
     background: var(--theme-1-3);
-    backdrop-filter: blur(calc(5px * var(--theme-backdrop-blur)));
-
     &:hover {
 
         &>.word,
