@@ -4,11 +4,13 @@ import vue from '@vitejs/plugin-vue';
 import Inspect from 'vite-plugin-inspect';
 import { visualizer } from "rollup-plugin-visualizer";
 import sitemapPlugin from 'vite-plugin-sitemap';
+import ViteCustom404PagePlugin from './plugins/ViteCustom404PagePlugin';
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
   server:{
     port:81,
-    host:"0.0.0.0"
+    host:"0.0.0.0",
+    
   },
   plugins: [vue(),Inspect(),visualizer({
     gzipSize: true,
@@ -21,7 +23,7 @@ export default defineConfig({
       hostname: 'http://kuankuan2007.gitee.io/',
       changefreq: 'weekly',
     }
-  )],
+    ), ViteCustom404PagePlugin()],
   build: {
     rollupOptions: {
       input: {
