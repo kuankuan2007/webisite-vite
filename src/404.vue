@@ -47,8 +47,8 @@
         </div>
         <div v-else class="more-info">
             <p>我们推测造成这个错误的原因是：</p>
-            <p class="tips">{{ data.tip }}</p>
-            <p>请尝试访问这个页面新的地址
+            <p class="tips">{{ tip }}</p>
+            <p>请尝试访问这个地址
                 <a :href="nextURL">
                     <span class="demo-icon jump-next">
                         {{ iconMap.goNext }}
@@ -76,7 +76,8 @@ onMounted(() => {
 })
 let nextURL = ref(location.href)
 let unexceped = ref(true)
-let data = ref(null)
+let tip = ref("")
+const now=new URL(location.href)
 let specialURLMap = {
     "docsdata1": {
         from: /\/docs\/docsPage.html\?name=(.*)/,
@@ -88,15 +89,24 @@ let specialURLMap = {
         to: `\/docs\/docsPage\/\?name=%(retsult[1])s`
     }
 }
-
+const endSupportListOfUnstableVersion=[]
 for (let name in specialURLMap) {
     let retsult = location.href.match(specialURLMap[name].from)
     console.log(retsult);
     if (retsult) {
         nextURL.value = sprintf(specialURLMap[name].to, { retsult: retsult })
         unexceped.value = false
-        data.value = specialURLMap[name]
+        tip.value = specialURLMap[name].tip
         break
+    }
+}
+for (let i of endSupportListOfUnstableVersion) {
+    if (now.pathname.startsWith(i)) {
+        unexceped.value = false
+        const temp=new URL(location.href)
+        temp.pathname=now.pathname.slice(i.length-1)
+        nextURL.value = temp.href
+        tip.value = "该非稳定版本的页面已停止访问"
     }
 }
 

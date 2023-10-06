@@ -19,13 +19,19 @@ watchEffect(async()=>{
             return
         }
         const fp=await(await fingerprintjs.load()).get()
+        console.log(fp)
         const info={
             bowerID:fp.visitorId,
             platform:fp.components.platform.value,
             language:fp.components.languages.value,
             colorGamut:fp.components.colorGamut.value,
+            colorDepth:fp.components.colorDepth.value,
+            confidence:fp.confidence.score,
+            screenResolution:fp.components.screenResolution.value,
+            timezone:fp.components.timezone.value,
         }
         if (localStorage.getItem("browerInfo")!==JSON.stringify(info)){
+            info.from=location.href
             if (await sendBrowerInfo(info)){
                 localStorage.setItem("browerInfo",JSON.stringify(info))
             }
