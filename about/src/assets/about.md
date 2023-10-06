@@ -53,6 +53,7 @@
 + terser\([License](https://github.com/leizongmin/js-xss/blob/master/LICENSE)\)
 + vite-plugin-inspect\([MIT License](https://github.com/antfu/vite-plugin-inspect/blob/main/LICENSE)\)
 + vite-plugin-sitemap-generator\([MIT License](https://github.com/aryankarim/vite-plugin-sitemap-generator/blob/main/LICENSE)\)
++ vditor([MIT License](https://github.com/Vanessa219/vditor/blob/master/LICENSE))
 
 ### 后端
 
