@@ -17,9 +17,12 @@ let props=defineProps({
         default:true
     }
 })
+/**@type {import("vue").Ref<HTMLDialogElement>} */
 let dialog = ref(null)
+let onleave=ref(false)
 function showModal(){
     dialog.value.showModal()
+    onleave.value=false
     dialog.value.classList.add("on-entry")
     setTimeout(()=>{
         dialog.value.classList.remove("on-entry")
@@ -27,6 +30,7 @@ function showModal(){
 }
 function close(remove=false){
     dialog.value.classList.add("on-leave")
+    onleave.value=true
     setTimeout(()=>{
         dialog.value.close()
         dialog.value.classList.remove("on-leave")
@@ -36,10 +40,10 @@ function close(remove=false){
     },300)
 }
 onMounted(()=>{
-    dialog.value.addEventListener("keydown", (e)=>{
-        console.log(e,props.canClose);
-        if (e.key==="Escape" && !props.canClose){
-            e.preventDefault()
+    dialog.value.addEventListener("cancel", (e)=>{
+        e.preventDefault()
+        if(props.canClose){
+            close()
         }
     })
 })
@@ -49,6 +53,7 @@ function show(){
         dialog.value.classList.remove("on-entry")
     },30)
     dialog.value.show()
+    onleave.value=false
 }
 defineExpose({
     showModal,

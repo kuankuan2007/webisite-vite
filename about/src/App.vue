@@ -1,5 +1,5 @@
 <template>
-  <myheader title="致谢"></myheader>
+  <myheader title="关于"></myheader>
   <div class="full">
     <div class="main">
       <markdownshower :content="aboutContent" :header-level-start="2"/>

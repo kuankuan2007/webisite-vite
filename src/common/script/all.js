@@ -4,6 +4,10 @@ import "./copy"
 import "./arraySort"
 import "./browerInfo"
 import "./storageEvent"
+import {Buffer} from "buffer"
+
+window.Buffer=Buffer
+window.process = require('process')
 window.passContextmenuEvent=null
 window.addEventListener("contextmenu",(e)=>{
     if (window.passContextmenuEvent && e.target==window.passContextmenuEvent){

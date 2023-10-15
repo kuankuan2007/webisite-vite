@@ -6,70 +6,32 @@ import QRCode from 'qrcode'
  * Creates a debounced version of a function that delays its execution until after a specified delay.
  * @param {function} fn - The function to be debounced.
  * @param {number} delay - The delay in milliseconds.
+ * @param {object} flag - The flag to be used in the debounced function.
+ * @param {object} flag.obj - The flag to be used in the debounced function.
+ * @param {string} flag.key - The name of the flag to be used in the
  * @returns {function} - The debounced function.
  */
-export function debounce(fn, delay = 300) {
+export function debounce(fn, delay = 300,flag=null) {
     let timer;
-
     return function (...args) {
         clearTimeout(timer);
+        if (flag) {
+            flag.obj[flag.key] = true
+        }
         timer = setTimeout(() => {
+            if (flag) {
+                flag.obj[flag.key] = false
+            }
             fn.call(this, ...args);
         }, delay);
     };
-}
-/**
- * Create a textarea element and set its properties.
- * The element is styled to be hidden offscreen and is appended to the body.
- * 
- * @param {String} text - The text to set as the value of the textarea.
- * @returns {HTMLTextAreaElement} - The created textarea element.
- */
-function createElement(text) {
-    // Check if the document direction is right-to-left (RTL)
-    var isRTL = document.documentElement.getAttribute('dir') === 'rtl';
-
-    // Create the textarea element
-    var element = document.createElement('textarea');
-
-    // Set the font size to prevent zooming effect in iOS
-    element.style.fontSize = '12pt';
-
-    // Reset the box model
-    element.style.border = '0';
-    element.style.padding = '0';
-    element.style.margin = '0';
-
-    // Move the element offscreen
-    element.style.position = 'absolute';
-    element.style[isRTL ? 'right' : 'left'] = '-9999px';
-
-    // Move the element to the bottom of the page
-    let yPosition = window.pageYOffset || document.documentElement.scrollTop;
-    element.style.top = `${yPosition}px`;
-
-    // Set the element as read-only
-    element.setAttribute('readonly', '');
-
-    // Set the value of the textarea to the provided text
-    element.value = text;
-
-    // Append the element to the body
-    document.body.appendChild(element);
-
-    // Return the created textarea element
-    return element;
 }
 /**
  * 
  * @param {String} text 
  */
 export function copyText(text) {
-    var element = createElement(text);
-    element.select();
-    element.setSelectionRange(0, element.value.length);
-    document.execCommand('copy');
-    element.remove();
+    return navigator.clipboard.writeText(text)
 }
 /**
  * Retrieves the value of a query variable from the URL.
@@ -301,6 +263,15 @@ export function getRandomFloat(from, to) {
 export function getRandomInt(from, to) {
     return Math.floor(getRandomFloat(from, to))
 }
+/**
+ * Returns a randomly chosen element from the given list.
+ *
+ * @param {Array} list - The list from which to choose an element.
+ * @return {*} - The randomly chosen element from the list.
+ */
+export function randomChoose(list){
+    return list[getRandomInt(0,list.length)]
+}
 export function getRandomString(length,from="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"){
     return Array.from({length},()=>from[getRandomInt(0,from.length)]).join("")
 }
@@ -409,4 +380,41 @@ export function runMicrotask(task, ...args) {
     } else {
         setTimeout(runTask, 0)
     }
+}
+/**
+ * Generates a string with leading spaces.
+ *
+ * @param {any} str - The input.
+ * @param {number} num - The number of leading spaces.
+ * @param {string} leading - The character to repeat as leading spaces. (default: " ")
+ * @return {string} - The input string with leading spaces.
+ */
+export function leadingWords(str,num,leading=" ") {
+    // console.log(leading.repeat(Math.max(str.toString().length - num, 0)) + str);
+    return leading.repeat(Math.max(num - str.toString().length,0))+str;
+}
+/**
+ * Formats the given time in seconds into a string representation of hours, minutes, and seconds.
+ *
+ * @param {number} time - The time in seconds to be formatted.
+ * @return {string} The formatted time string.
+ */
+export function formattingTime(time){
+    if (time<3600){
+        return `${leadingWords(Math.floor(time / 60),2,"0")}:${leadingWords(Math.round(time%60),2,"0")}`
+    }
+    return `${Math.floor(time / 3600)}:${leadingWords(Math.floor(time%3600 / 60),2,"0")}:${leadingWords(Math.round(time%60),2,"0")}`
+}
+/**
+ * Creates a promise that resolves after the specified amount of time.
+ *
+ * @param {number} time - The time in milliseconds to wait before resolving the promise.
+ * @return {Promise} A promise that resolves after the specified time.
+ */
+export function awaitTime(time){
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve()
+        }, time)
+    })
 }
