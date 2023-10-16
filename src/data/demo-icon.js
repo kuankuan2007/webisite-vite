@@ -1,4 +1,4 @@
-let data = {
+export const fontelloData = {
   "name": "",
   "css_prefix_text": "icon-",
   "css_use_suffix": false,
@@ -624,7 +624,7 @@ let data = {
 }
 import { hyphenNaming2HumpNaming } from "../common/script/normal"
 let iconMap = {}
-for (let i of data.glyphs) {
+for (let i of fontelloData.glyphs) {
   iconMap[hyphenNaming2HumpNaming(i.css)] = String.fromCharCode(i.code)
 }
 export default iconMap

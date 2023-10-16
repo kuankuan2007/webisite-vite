@@ -1,0 +1,3 @@
+[submodule "src/common/font/image-captcha-font"]
+	path = src/common/font/image-captcha-font
+	url = https://gitee.com/kuankuan2007/image-captcha-font.git

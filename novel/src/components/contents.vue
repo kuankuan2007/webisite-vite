@@ -9,7 +9,7 @@
             'on-fold':onFold
         }">
             <li class="contents-item" v-for="item,name in props.contents">
-                <linkLikeButton @click="jumpFile(name)" class="novel-title" v-if="item==='File'"><span class="demo-icon">{{ iconMap.docInv }}</span>{{ name }}</linkLikeButton>
+                <linkLikeButton @click="jumpFile(name)" class="novel-title" v-if="typeof item==='string'"><span class="demo-icon">{{ iconMap.docInv }}</span>{{ item }}</linkLikeButton>
                 <contentsShower :parents="nowParent" v-else :deepth="props.deepth+1" :title="name" :contents="item"/>
             </li>
         </ul>

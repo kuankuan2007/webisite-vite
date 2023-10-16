@@ -1,5 +1,6 @@
 import docs from './docs'
 import repositories from './repositories'
+import iconMap from "./demo-icon"
 export default {
     "width":200,
     "title":"菜单",
@@ -63,6 +64,11 @@ export default {
             "href": "/chatgpt/",
             "word": "ChatGPT",
             "icon": "\uf18d"
+        },
+        {
+            "href": "/about/",
+            "word": "关于",
+            "icon": iconMap.infoCircled
         },
         {
             "href": "https://pypi.org/user/kuankuan/",

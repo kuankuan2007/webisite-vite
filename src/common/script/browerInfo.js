@@ -19,15 +19,27 @@ watchEffect(async()=>{
             return
         }
         const fp=await(await fingerprintjs.load()).get()
+        console.log(fp)
         const info={
             bowerID:fp.visitorId,
             platform:fp.components.platform.value,
             language:fp.components.languages.value,
             colorGamut:fp.components.colorGamut.value,
+            colorDepth:fp.components.colorDepth.value,
+            confidence:fp.confidence.score,
+            screenResolution:fp.components.screenResolution.value,
+            timezone:fp.components.timezone.value,
+            userAgent:navigator.userAgent,
+            browserInfoVersion:0
         }
-        if (localStorage.getItem("browerInfo")!==JSON.stringify(info)){
-            if (await sendBrowerInfo(info)){
-                localStorage.setItem("browerInfo",JSON.stringify(info))
+        const stringInfo=JSON.stringify(info)
+        if (localStorage.getItem("browerInfo") !== stringInfo){
+            if (await sendBrowerInfo({...info,...{
+                from:location.href,
+                versionType:import.meta.VITE_VERSION_TYPE,
+                versionName:import.meta.VITE_VERSION_NAME,
+            }})){
+                localStorage.setItem("browerInfo", stringInfo)
             }
         }
     }
