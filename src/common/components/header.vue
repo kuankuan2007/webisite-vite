@@ -1,10 +1,13 @@
 <template>
   <header class="header">
     <div id="titleGroup">
-      <h1 id="title">{{ props.title }}</h1>
+      <h1 id="title">
+        {{ props.title }}
+        <versionStatus />
+      </h1>
     </div>
     <div class="right-bottons">
-      <announcement/>
+      <announcement />
       <themesChoice />
       <userBox :need-rights="needRights" :jump="props.jump" :to-login="props.toLogin" :need-info="props.needInfo" />
     </div>
@@ -16,6 +19,7 @@ import userBox from "./userBox.vue"
 import themesChoice from "./themesChoice.vue";
 import mynav from "./nav.vue"
 import announcement from "./announcement.vue";
+import versionStatus from "./versionStatus.vue";
 var _hmt = _hmt || [];
 (function () {
   var hm = document.createElement("script");
@@ -26,7 +30,7 @@ var _hmt = _hmt || [];
 setTimeout(() => {
   let manifestBox = document.createElement("link");
   manifestBox.setAttribute("rel", "manifest")
-  manifestBox.setAttribute("href","/manifest.json")
+  manifestBox.setAttribute("href", "/manifest.json")
   document.body.appendChild(manifestBox);
 }, 0);
 

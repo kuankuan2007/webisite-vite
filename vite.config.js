@@ -6,6 +6,7 @@ import { visualizer } from "rollup-plugin-visualizer";
 import sitemapPlugin from 'vite-plugin-sitemap';
 import ViteCustom404PagePlugin from './plugins/ViteCustom404PagePlugin';
 import findHtmls from "./assist/findHtml"
+
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
   server:{

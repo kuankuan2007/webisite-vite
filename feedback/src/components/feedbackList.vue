@@ -1,7 +1,7 @@
 <template>
     <div class="list">
         <a class="add" href="/feedback/new/"><span class="demo-icon">&#xe80e</span>新建</a>
-        <waterfallFlow :eleWidth="300" :value-list="data" v-slot="{ data }" class="watterfall">
+        <waterfallFlow :eleWidth="300" :value-list="data" v-slot="{ data }">
             <a :href="`/feedback/data/?id=${data.id}`" class="item">
                 <div class="item-padding">
                     <h2>{{ data.title }}</h2>

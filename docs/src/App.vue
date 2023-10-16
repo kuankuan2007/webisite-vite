@@ -1,7 +1,7 @@
 <template>
   <myheader title="文档"></myheader>
   <div class="list">
-    <waterfallFlow class="blogs" :column-gap="20" :value-list="docs.pageList" v-slot="{ data }" :eleWidth="300">
+    <waterfallFlow :column-gap="20" :value-list="docs.pageList" v-slot="{ data }" :eleWidth="300">
       <blogshower :data="data" />
     </waterfallFlow>
   </div>

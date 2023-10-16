@@ -1,7 +1,7 @@
 import { sprintf } from "sprintf"
 import { customRef, reactive, ref } from "vue"
 import QRCode from 'qrcode'
-
+console.log(import.meta.env)
 /**
  * Creates a debounced version of a function that delays its execution until after a specified delay.
  * @param {function} fn - The function to be debounced.
@@ -65,11 +65,7 @@ function createElement(text) {
  * @param {String} text 
  */
 export function copyText(text) {
-    var element = createElement(text);
-    element.select();
-    element.setSelectionRange(0, element.value.length);
-    document.execCommand('copy');
-    element.remove();
+    return navigator.clipboard.writeText(text);
 }
 /**
  * Retrieves the value of a query variable from the URL.
@@ -151,6 +147,11 @@ export function debounceRef(value, duration = 1000) {
  * @return {void} This function does not return a value.
  */
 export function jump(url, onOtherWindow) {
+    console.log(url)
+    if (url.startsWith("/") && !url.startsWith(import.meta.env.BASE_URL)) {
+        console.warn("Base URL is not included in the URL.")
+        url = import.meta.env.BASE_URL + url.slice(1)
+    }
     if (onOtherWindow) {
         window.open(url)
     } else {
@@ -248,14 +249,14 @@ export function hyphenNaming2HumpNaming(str) {
  * @return {void} This function does not return a value.
  */
 export function jumpToWithFromNow(baseURL) {
-    window.location.href = `${baseURL}${baseURL.includes("?") ? "" : "?"}&from=${encodeURIComponent(location.href)}`
+    jump(`${baseURL}${baseURL.includes("?") ? "" : "?"}&from=${encodeURIComponent(location.href)}`)
 }
 /**
  * Jumps back to the previous page while passing the "from" parameter in the URL.
  * @return {type} description of return value
  */
 export function jumpBackToFrom() {
-    window.location.href = decodeURIComponent(getQueryVariable("from", "/"))
+    jump(decodeURIComponent(getQueryVariable("from", "/")))
 }
 /**
  * Redirects the user to a new URL by appending a `from` query parameter.
@@ -263,7 +264,7 @@ export function jumpBackToFrom() {
  * @return {void} No return value.
  */
 export function jumpToWithFrom(baseURL) {
-    window.location.href = `${baseURL}${baseURL.includes("?") ? "" : "?"}&from=${getQueryVariable("from", "/")}`
+    jump(`${baseURL}${baseURL.includes("?") ? "" : "?"}&from=${getQueryVariable("from", "/")}`)
 }
 /**
  * make QR Code and return the data url
@@ -301,8 +302,8 @@ export function getRandomFloat(from, to) {
 export function getRandomInt(from, to) {
     return Math.floor(getRandomFloat(from, to))
 }
-export function getRandomString(length,from="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"){
-    return Array.from({length},()=>from[getRandomInt(0,from.length)]).join("")
+export function getRandomString(length, from = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") {
+    return Array.from({ length }, () => from[getRandomInt(0, from.length)]).join("")
 }
 /**
  * 
