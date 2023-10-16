@@ -8,6 +8,7 @@ import sitemapPlugin from 'vite-plugin-sitemap';
 import requireTransform from 'vite-plugin-require-transform';
 import ViteCustom404PagePlugin from './plugins/ViteCustom404PagePlugin';
 import findHtmls from "./assist/findHtml"
+
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
   server:{

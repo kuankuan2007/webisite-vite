@@ -30,6 +30,7 @@
   "devDependencies": {
     "@fingerprintjs/fingerprintjs": "^4.1.0",
     "@types/fingerprintjs": "^0.5.28",
+    "@types/node": "^20.8.6",
     "@types/sprintf": "^0.1.0",
     "@vitejs/plugin-vue": "^4.4.0",
     "rollup-plugin-visualizer": "^5.9.2",
