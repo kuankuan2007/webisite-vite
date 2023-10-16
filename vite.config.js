@@ -7,6 +7,7 @@ import sitemapPlugin from 'vite-plugin-sitemap';
 
 import requireTransform from 'vite-plugin-require-transform';
 import ViteCustom404PagePlugin from './plugins/ViteCustom404PagePlugin';
+import findHtmls from "./assist/findHtml"
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
   server:{
@@ -30,29 +31,7 @@ export default defineConfig({
     })],
   build: {
     rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html'),
-        feedback: resolve(__dirname, 'feedback/index.html'),
-        newFeedback: resolve(__dirname, 'feedback/new/index.html'),
-        dataFeedback: resolve(__dirname, 'feedback/data/index.html'),
-        login: resolve(__dirname, 'login/index.html'),
-        signup: resolve(__dirname, 'signup/index.html'),
-        resetPassworld: resolve(__dirname, 'login/reset/index.html'),
-        user: resolve(__dirname, 'user/index.html'),
-        changepassowrd: resolve(__dirname, 'user/changepassword/index.html'),
-        changeemail: resolve(__dirname, 'user/changeemail/index.html'),
-        blogs: resolve(__dirname, 'blogs/index.html'),
-        docs: resolve(__dirname, 'docs/index.html'),
-        docsPage: resolve(__dirname, 'docs/docsPage/index.html'),
-        chat: resolve(__dirname, 'chat/index.html'),
-        chatgpt: resolve(__dirname, 'chatgpt/index.html'),
-        contactInformation: resolve(__dirname, 'contactInformation/index.html'),
-        calc24: resolve(__dirname, 'calc24/index.html'),
-        404: resolve(__dirname, '404.html'),
-        novel: resolve(__dirname, 'novel/index.html'),
-        novelFiles: resolve(__dirname, 'novel/files/index.html'),
-        about: resolve(__dirname, 'about/index.html'),
-      },
+      input: findHtmls(),
       output:{
         manualChunks:{
           markdown:["showdown","showdown-katex","xss","katex","highlight.js"],
