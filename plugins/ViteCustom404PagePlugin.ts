@@ -5,33 +5,17 @@ export default function (): Plugin{
         name: "ViteCustom404PagePlugin",
         configureServer(server){
             const BASEURL=server.config.base
-            server.httpServer?.on("request", (req,res)=>{
-                if (!("originalUrl" in req)){
-                    return
-                }if (typeof req.originalUrl !== "string"){
-                    return
-                }
-                let path=req.originalUrl.split("?")[0]
-                if (path.startsWith(BASEURL)){
-                    path=path.slice(BASEURL.length)
-                }
-                if (path.startsWith("/")) {
-                    path = "." + path
-                }
-                if (!path.startsWith("./")){
-                    path="./"+path
-                }
-                if (!path.startsWith("./@") && req.url !== req.originalUrl && !(fs.existsSync(path) || fs.existsSync(path.replace('./','./public/')))){
-                    console.info(`%c资源“${path}”(${req.originalUrl})不存在，将返回/404.html`,"color:yellow")
-                    const data=fs.readFileSync("./404.html","utf-8")
-                    res.statusCode = 404
-                    try{
-                        res.write(data)
-                    }catch{
-                        console.log("写入失败")
+            server.httpServer?.prependListener("request", (req, res) => {
+                res._KKend=res.end
+                res.end=(...args) =>{
+                    if (res.statusCode === 404 && !/\.[^/]+/.test(res.req.url)){
+                        res.setHeader("Content-Type", "text/html; charset=utf-8")
+                        res.write(fs.readFileSync("./404.html", "utf-8"))
                     }
+                    res._KKend(...args)
                 }
             })
+            return
         }
     }
 }
