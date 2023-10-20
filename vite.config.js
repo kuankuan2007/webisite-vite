@@ -5,6 +5,8 @@ import vue from '@vitejs/plugin-vue';
 import Inspect from 'vite-plugin-inspect';
 import { visualizer } from "rollup-plugin-visualizer";
 import sitemapPlugin from 'vite-plugin-sitemap';
+
+import requireTransform from 'vite-plugin-require-transform';
 import ViteCustom404PagePlugin from './plugins/ViteCustom404PagePlugin';
 import findHtmls from "./assist/findHtml"
 
@@ -27,7 +29,9 @@ export default defineConfig({
       hostname: 'http://kuankuan2007.gitee.io/',
       changefreq: 'weekly',
     }
-  ), ViteCustom404PagePlugin()],
+    ), ViteCustom404PagePlugin(), requireTransform({
+      fileRegex: /.js$|.vue$/
+    })],
   build: {
     rollupOptions: {
       input: findHtmls(),

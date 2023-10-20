@@ -1,9 +1,43 @@
-ArrayBuffer.prototype.toBase64=function () {
-    return btoa(String.fromCharCode(...new Uint8Array(this)))
-}
-ArrayBuffer.prototype.toJSON=function (){
-    return this.toBase64()
-}
+Object.defineProperty(ArrayBuffer.prototype, 'toBase64', {
+    /**
+     * Converts an array of bytes to a base64 encoded string.
+     *
+     * @return {string} The base64 encoded string.
+     */
+    value: function () {
+        return btoa(String.fromCharCode(...new Uint8Array(this)))
+    },
+    enumerable: false,
+    writable: false,
+    configurable: false
+})
+Object.defineProperty(ArrayBuffer.prototype, 'toJSON', {
+    /**
+     * A description of the entire function.
+     *
+     * @param {type} paramName - description of parameter
+     * @return {type} description of return value
+     */
+    value: function () {
+        return this.toBase64()
+    },
+    enumerable: false,
+    writable: false,
+    configurable: false
+})
+Object.defineProperty(Uint8Array.prototype, 'toBase64', {
+    /**
+     * Converts an array of bytes to a base64 encoded string.
+     *
+     * @return {string} The base64 encoded string.
+     */
+    value: function () {
+        return btoa(String.fromCharCode(...this))
+    },
+    enumerable: false,
+    writable: false,
+    configurable: false
+})
 /**
  * Converts a string to a Uint8Array.
  *

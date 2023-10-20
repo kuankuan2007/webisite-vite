@@ -34,9 +34,17 @@
 
 ## 致谢
 
-本网站在开发过程中用到了以下开源项目\(排名不分先后\)
+本网站在开发过程中用到了以下支持(排名不分先后)
 
-### 前端
+### 网络API
+
++ [Hitokoto - 一言](https://hitokoto.cn/)
++ [ChatGPT (openai.com)](https://openai.com/chatgpt)
++ [百度统计](https://tongji.baidu.com/)
+
+### 开源项目
+
+#### 前端
 
 + fingerprintsjs\([Business Source License 1.1](https://github.com/fingerprintjs/fingerprintjs/blob/master/LICENSE)\)
 + highlight.js\([BSD 3-Clause &#34;New&#34; or &#34;Revised&#34; License](https://github.com/highlightjs/highlight.js/blob/main/LICENSE)\)
@@ -54,8 +62,12 @@
 + vite-plugin-inspect\([MIT License](https://github.com/antfu/vite-plugin-inspect/blob/main/LICENSE)\)
 + vite-plugin-sitemap-generator\([MIT License](https://github.com/aryankarim/vite-plugin-sitemap-generator/blob/main/LICENSE)\)
 + vditor([MIT License](https://github.com/Vanessa219/vditor/blob/master/LICENSE))
++ music-metadata-browser([MIT License](https://github.com/Borewit/music-metadata-browser/blob/master/LICENSE.txt))
++ buffer([MIT License](https://github.com/feross/buffer/blob/master/LICENSE))
++ process([MIT License](https://github.com/defunctzombie/node-process/blob/master/LICENSE))
 
-### 后端
+
+#### 后端
 
 + flask\([BSD 3-Clause &#34;New&#34; or &#34;Revised&#34; License](https://github.com/pallets/flask/blob/main/LICENSE.rst)\)
 + pymysql\([MIT License](https://github.com/PyMySQL/PyMySQL/blob/main/LICENSE)\)
