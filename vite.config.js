@@ -43,7 +43,6 @@ export default defineConfig({
         },
         assetFileNames: function (chunkInfo) {
           if (chunkInfo.source === '/* vite internal call, ignore */'){
-            console.log(chunkInfo)
             return chunkInfo.name
           }
           const extToDir={

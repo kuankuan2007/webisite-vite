@@ -1,6 +1,6 @@
 import fs from "node:fs"
 import { resolve } from 'node:path'
-const ignore=["node_modules",".git","dist","temp","public"]
+const ignore = ["node_modules", ".git", "dist", "temp", "public","dev-only"]
 export default function(){
     return dfsSearch(resolve('./'))
 }

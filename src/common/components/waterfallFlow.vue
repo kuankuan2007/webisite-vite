@@ -1,6 +1,6 @@
 <template>
     <div class="watterfall" ref="watterfall">
-        <slot v-for="data, index in props.valueList" :data="data" :key="index"/>
+        <slot v-for="data,name in props.valueList" :data="data" :title="name" :key="name"/>
     </div>
     <div v-on-resize="debounceRefresh"></div>
 </template>
@@ -10,7 +10,7 @@ import { debounce } from "../script/normal"
 import vOnResize from "../command/onResize"
 let props = defineProps({
     valueList: {
-        type: Array,
+        type: Object,
         default: [],
         required: true
     },
