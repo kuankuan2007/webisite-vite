@@ -6,13 +6,18 @@ import Inspect from 'vite-plugin-inspect';
 import { visualizer } from "rollup-plugin-visualizer";
 import sitemapPlugin from 'vite-plugin-sitemap';
 
-import requireTransform from 'vite-plugin-require-transform';
 import ViteCustom404PagePlugin from './plugins/ViteCustom404PagePlugin';
 import findHtmls from "./assist/findHtml"
 
 
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
+  resolve:{
+    alias:{
+      "particles.js":"modifiedPackage/particles.js/particles.js",
+      "process":"modifiedPackage/node-process/browser.js",
+    }
+  },
   server: {
     port: 81,
     host: "0.0.0.0"
@@ -29,9 +34,7 @@ export default defineConfig({
       hostname: 'http://kuankuan2007.gitee.io/',
       changefreq: 'weekly',
     }
-    ), ViteCustom404PagePlugin(), requireTransform({
-      fileRegex: /.js$|.vue$/
-    })],
+    ), ViteCustom404PagePlugin()],
   build: {
     rollupOptions: {
       input: findHtmls(),
