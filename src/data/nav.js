@@ -49,6 +49,10 @@ export default {
             "href": "/contactInformation/",
             "word": "联系我们",
             "icon": "\uf2b9"
+        },{
+            "href": "/player/",
+            "word":"播放器",
+            "icon": iconMap.noteBeamed
         },
         {
             "href": "/feedback/",

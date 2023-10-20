@@ -10,11 +10,17 @@
 
 ### 仓库
 
+#### 源代码仓库
+
 + 源代码开源仓库:[vite版本网站: 当前在维护的网站般本 (gitee.com)](https://gitee.com/kuankuan2007/website-vite)
 + 打包结果（Page仓库）:[pages: 宽宽的博客，欢迎编辑和参考 (gitee.com)](https://gitee.com/kuankuan2007/kuankuan2007)
 + 老版本 [Github](https://github.com/kuankuan2007/website-old)|[Gitee](https://gitee.com/kuankuan2007/website-old)|[Gitlab](https://gitlab.com/kuankuan2007/website-old)
 
 以上仓库以下简称"本网站直接相关仓库"
+
+#### 支持性仓库
+
+由于一些对模块的定制化需求，我对一些库进行了魔改，放在 `./modifiedPackage`下，各事项详见 `./.gitmodules`
 
 ### 开源协议
 
@@ -29,6 +35,14 @@
 **注意:** 请勿在[pages(gitee.com)](https://gitee.com/kuankuan2007/kuankuan2007)中做出修改。
 
 **注意:** 本网站后端项目没有开源
+
+本网站后端对以下Host提供CORS服务：
+
++ http://localhost:81
++ http://localhost:82
++ http://192.168.2.230:81
++ http://192.168.2.230:82
++ https://kuankuan2007.gitee.io
 
 本网站后端放在kuankuan.site，由于带宽限制\(参见[info](https://kuankuan.site/info.html)\)，通过CORS，为本网站提供后端服务\(包括但不限于用户服务，ChatGPT，等等\)
 
@@ -65,7 +79,7 @@
 + music-metadata-browser([MIT License](https://github.com/Borewit/music-metadata-browser/blob/master/LICENSE.txt))
 + buffer([MIT License](https://github.com/feross/buffer/blob/master/LICENSE))
 + process([MIT License](https://github.com/defunctzombie/node-process/blob/master/LICENSE))
-
++ vite([MIT License](https://github.com/vitejs/vite/blob/main/LICENSE))
 
 #### 后端
 

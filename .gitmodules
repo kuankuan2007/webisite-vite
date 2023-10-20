@@ -4,6 +4,8 @@
 [submodule "modifiedPackage/particles.js"]
 	path = modifiedPackage/particles.js
 	url = https://github.com/kuankuan2007/particles.js.git
+	branch = kuankuan2007
 [submodule "modifiedPackage/node-process"]
 	path = modifiedPackage/node-process
 	url = https://github.com/kuankuan2007/node-process.git
+	branch = kuankuan2007

@@ -1,4 +1,4 @@
-import {} from "particles.js"
+import particlesJS from "particles.js"
 import {nowdata} from "../../src/common/script/themes"
 let theme = nowdata
 addEventListener("themeRefresh",(e)=>{

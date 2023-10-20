@@ -32,7 +32,6 @@ import linkLikeButton from "./linkLikeButton.vue"
 let onFold = ref(true)
 let valueList = ref(null)
 let selecter=ref(null)
-let looking=ref(props.choice)
 function scrollIn(){
     for (let i = 0; i < valueList.value.children.length; i++) {
         if (valueList.value.children[i].dataset.name === props.choice) {
@@ -119,6 +118,8 @@ let props = defineProps({
         required:false
     }
 })
+let looking = ref(props.choice)
+
 let emit = defineEmits(["update:choice"])
 function chaneChoice(value) {
     emit("update:choice", value)

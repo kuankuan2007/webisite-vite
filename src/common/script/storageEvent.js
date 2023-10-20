@@ -11,6 +11,7 @@ const myLocalStorage = new Proxy(_localStorage, {
                 setItemEvent.key = key;
                 target.setItem(...arguments);
                 window.dispatchEvent(setItemEvent);
+                return true
             }, getItem(key) {
                 let getItemEvent = new Event('localStorageGetItemEvent');
                 let value = target.getItem(...arguments);
@@ -24,6 +25,7 @@ const myLocalStorage = new Proxy(_localStorage, {
                 removeItemEvent.oldValue = target.getItem(key);
                 target.removeItem(...arguments);
                 window.dispatchEvent(removeItemEvent);
+                return true
             }
         }
         if (key in specialValue) {
@@ -42,12 +44,14 @@ const myLocalStorage = new Proxy(_localStorage, {
         setItemEvent.newValue = value;
         target[key]=value
         window.dispatchEvent(setItemEvent);
+        return true
     },deleteProperty(target,key,receiver){
         const removeItemEvent = new Event('localStorageRemoveItemEvent');
         removeItemEvent.key = key;
         removeItemEvent.oldValue = target.getItem(key);
         delete target[key]
         window.dispatchEvent(removeItemEvent);
+        return true
     }
 })
 
@@ -62,6 +66,7 @@ const mySessionStorage = new Proxy(_sessionStorage, {
                 setItemEvent.key = key;
                 target.setItem(...arguments);
                 window.dispatchEvent(setItemEvent);
+                return true
             }, getItem(key) {
                 const getItemEvent = new Event('sessionStorageGetItemEvent');
                 const value = target.getItem(...arguments);
@@ -75,6 +80,7 @@ const mySessionStorage = new Proxy(_sessionStorage, {
                 removeItemEvent.oldValue = target.getItem(key);
                 target.removeItem(...arguments);
                 window.dispatchEvent(removeItemEvent);
+                return true
             }
         }
         if (key in specialValue) {
@@ -95,12 +101,14 @@ const mySessionStorage = new Proxy(_sessionStorage, {
         setItemEvent.newValue = value;
         target[key]=value
         window.dispatchEvent(setItemEvent);
-    },deleteProperty(target,key,receiver){
+        return true
+    }, deleteProperty(target, key, receiver) {
         const removeItemEvent = new Event('sessionStorageRemoveItemEvent');
         removeItemEvent.key = key;
         removeItemEvent.oldValue = target.getItem(key);
         delete target[key]
         window.dispatchEvent(removeItemEvent);
+        return true
     }
 })
 

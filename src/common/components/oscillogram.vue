@@ -21,11 +21,11 @@ import { nowdata } from '../script/themes';
 /**@type {import("vue").Ref<HTMLCanvasElement>} */
 const canvas = ref()
 const inited = ref(false)
-function resize(){
+function resize() {
     canvas.value.width = canvas.value.parentElement.clientWidth
     canvas.value.height = canvas.value.parentElement.clientHeight
     console.log(nowdata)
-    ctx.fillStyle = nowdata.light === 'dark' ? "rgb(96, 89, 0)" : "rgb(59, 137, 255)"
+    themeRefresh(nowdata.light)
 }
 defineExpose({
     resize
@@ -33,13 +33,13 @@ defineExpose({
 let ctx, analyser, dataArray;
 onMounted(() => {
     ctx = canvas.value.getContext("2d")
-    ctx.fillStyle = nowdata.light === 'dark' ? "rgb(96, 89, 0)" : "rgb(59, 137, 255)"
     resize()
     watchEffect(() => {
         if (!props.audio) {
             return
         }
         props.audio.addEventListener("play", () => {
+            themeRefresh(nowdata.light)
             if (inited.value) {
                 return
             }
@@ -73,8 +73,19 @@ const props = defineProps({
         required: true
     }
 })
+function themeRefresh(light) {
+    const gradient = ctx.createLinearGradient(canvas.value.width / 2, 0, canvas.value.width / 2, canvas.value.height)
+    if (light === "dark") {
+        gradient.addColorStop(0, "rgb(13, 0, 95)")
+        gradient.addColorStop(1, "rgb(14, 61, 0)")
+    } else {
+        gradient.addColorStop(0, "rgb(255, 146, 146)")
+        gradient.addColorStop(1, "rgb(148, 146, 255)")
+    }
+    ctx.fillStyle = gradient
+}
 addEventListener("themeRefresh", (e) => {
-    ctx.fillStyle = e.value.light === 'dark' ? "rgb(96, 89, 0)" : "rgb(59, 137, 255)"
+    themeRefresh(e.value.light)
 })
 
 function draw() {
@@ -89,7 +100,7 @@ function draw() {
 
     const length = dataArray.length / props.scale
     for (let i = 0; i < length; i++) {
-        const h = dataArray[i] / 255 * (height-5) + 5
+        const h = dataArray[i] / 255 * (height - 5) + 5
         const w = width / length / 2
         ctx.fillRect(
             (length - i - 1) * w,
@@ -108,7 +119,11 @@ function draw() {
 }
 </script>
 <style scoped lang="scss">
-canvas{
+canvas {
     filter: url("#blendFilter");
+}
+
+.temp {
+    // background-color: rgb(13, 0, 95);
 }
 </style>
