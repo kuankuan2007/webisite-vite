@@ -49,8 +49,7 @@ let values = {
     hidden: "隐藏"
   }
 }
-let showcontent=debounceRef(props.content,500)
-watchEffect(()=>{showcontent.value=props.content})
+
 let hiddenModeShowing = ref("editer")
 let defaultSet = {
   display: "horizontal"
@@ -114,6 +113,8 @@ let props = defineProps({
     required: false
   }
 })
+let showcontent = debounceRef(props.content, 500)
+watchEffect(() => { showcontent.value = props.content })
 onMounted(() => {
   refrsh()
   window.addEventListener("localStorageSetItemEvent", (event) => {
