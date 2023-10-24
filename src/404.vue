@@ -89,7 +89,7 @@ let specialURLMap = {
         to: `\/docs\/docsPage\/\?name=%(retsult[1])s`
     }
 }
-const endSupportListOfUnstableVersion=[]
+const endSupportListOfUnstableVersion=['/vditor/']
 for (let name in specialURLMap) {
     let retsult = location.href.match(specialURLMap[name].from)
     console.log(retsult);

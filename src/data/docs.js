@@ -60,7 +60,7 @@ export default {
             "name": "chinese-easy-wordcloud",
             "title": "中文简易词云"
         }, {
-            "name": "chinese-easy-wordcloud",
+            "name": "vite-plugin-electron",
             "title": "Electron的vite开发插件"
         }
     ]
