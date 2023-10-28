@@ -188,9 +188,28 @@ export function downloadData(data, name, memi = 'text/plain') {
     aTag.remove()
     URL.revokeObjectURL(objectURL)
 }
+/**
+ * @type {import('vue').UnwrapNestedRefs<{
+ *  width:number,
+ *  height:number,
+ *  readonly minSize:number,
+ *  readonly maxSize:number,
+ *  readonly meanSize:number
+ * }>}
+ */
 export let windowSize = reactive({
     width: window.innerWidth,
-    height: window.innerHeight
+    height: window.innerHeight,
+    get minSize(){
+        return Math.min(windowSize.width, windowSize.height)
+    }
+    ,get maxSize(){
+        return Math.max(windowSize.width, windowSize.height)
+    },
+    get meanSize(){
+        return (windowSize.width + windowSize.height) / 2
+    }
+
 })
 window.addEventListener("resize", () => {
     windowSize.height = window.innerHeight

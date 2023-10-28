@@ -1,0 +1,186 @@
+<template>
+    <div class="nav-list-scroll" :style="{
+        '--scroll': scrollTop / simplePageHeight
+    }">
+        <div class="nav-list-box">
+            <img class="center-logo" src="../../logo.png" />
+            <div class="centers">
+                <h1 class="list-title">多彩世界，纷至沓来</h1>
+                <div class="center-list" ref="centerBox" v-on-resize="refreshCenterBoxSize">
+                    <div v-for="data in nav.nav" :key="data.href">
+                        <div class="icon-box">
+                            <p class="demo-icon">{{ data.icon }}</p>
+                            <p class="title">{{ data.word }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg">
+                <div :style="{
+                    '--x': data.x,
+                    '--y': data.y,
+                    '--size': data.size,
+                    '--color': data.color,
+                    '--speed': data.speed
+                }" class="color-block" v-for="data, index in colorBolcks.data" :key="index"></div>
+            </div>
+        </div>
+    </div>
+</template>
+<script setup>
+import { ref, onMounted } from "vue";
+import nav from "../data/nav"
+import vOnResize from "../common/command/onResize"
+import { debounce } from "../common/script/normal";
+import { RandomColorboxList } from "../blockList"
+
+/**@type {import('vue').Ref<HTMLDivElement>} */
+const centerBox = ref()
+const refreshCenterBoxSize = debounce(() => {
+    if (centerBox.value) {
+        centerBox.value.style.setProperty('--center-list-width', `${centerBox.value.offsetWidth - 40}`)
+        centerBox.value.style.setProperty('--center-list-height', `${centerBox.value.offsetHeight - 40}`)
+
+        for (const i of centerBox.value.children) {
+            setTimeout((i) => {
+                i.style.setProperty('--center-list-item-left', `${i.offsetLeft - 20}`)
+                i.style.setProperty('--center-list-item-top', `${i.offsetTop - 20}`)
+                i.style.setProperty('--distance', `${Math.sqrt(((centerBox.value.offsetWidth / 2 - i.offsetLeft - 50) * 2 / centerBox.value.offsetWidth) ** 2 + ((centerBox.value.offsetHeight / 2 - i.offsetTop - 50) * 2 / centerBox.value.offsetHeight) ** 2)}`)
+            }, 0, i)
+        }
+    }
+}, 300)
+
+
+
+const props = defineProps({
+    scrollTop: {
+        type: Number,
+        required: false,
+        default: 0
+    }, simplePageHeight: {
+        type: Number,
+        required: false,
+        default: 0
+    }
+})
+const colorBolcks = new RandomColorboxList(props, "simplePageHeight")
+
+onMounted(() => {
+    refreshCenterBoxSize()
+})
+</script>
+<style scoped lang="scss">
+@use "sass:math";
+
+
+
+.nav-list-box {
+    position: sticky;
+    top: 0px;
+    height: calc(var(--simple-page-height) * 1px);
+
+    // background-color: bisque;
+    &>.center-logo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background-color: var(--theme-2-3);
+        width: 13vmin;
+        padding: 1%;
+        border-radius: 10%;
+        backdrop-filter: blur(10px);
+        --self-scroll: max(calc(var(--scroll) - 0.8), 0);
+        transform: translate(-50%, calc(-50% - var(--self-scroll) * var(--simple-page-height) * 1px)) scale(calc(var(--self-scroll) * 2 + 1));
+        opacity: calc(1 - min(var(--self-scroll) * 2, 1));
+    }
+
+    &>.centers {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        min-width: 80%;
+
+        &>.list-title {
+            font-size: 2.5em;
+            text-align: center;
+            --self-scroll: clamp(0, calc(var(--scroll) - 1), 1);
+            transform: translate(0, calc(300% * (1 - var(--self-scroll)))) scale(calc(var(--self-scroll)));
+            opacity: var(--self-scroll);
+        }
+
+        &>.center-list {
+            background-color: var(--theme-2-3);
+            display: flex;
+            flex-wrap: wrap;
+            row-gap: 20px;
+            column-gap: 20px;
+            padding: 20px;
+            align-items: center;
+            justify-content: space-around;
+            --self-scroll: max(calc(var(--scroll) - 1), 0);
+            transform: scale(min(1, var(--self-scroll)));
+            opacity: min(1, calc(var(--self-scroll) - 0.2));
+            border-radius: calc(60px * var(--theme-border-radius) * var(--theme-border-radius));
+            backdrop-filter: blur(15px);
+            &>* {
+                $size: 100;
+                width: #{$size}px;
+                height: #{$size}px;
+
+                &>div {
+                    width: #{$size}px;
+                    height: #{$size}px;
+                    --self-scroll: clamp(0, calc(var(--scroll) - 1.5 + var(--distance)), 1);
+                    flex-shrink: 0;
+                    background-color: var(--theme-2-5);
+                    font-size: 12px;
+
+                    display: flex;
+                    justify-content: center;
+                    border-radius: calc(50% * var(--theme-border-radius) * var(--theme-border-radius));
+                    align-items: center;
+                    flex-direction: column;
+                    left: calc(sqrt(calc(var(--raw-distance))));
+                    // transform-origin: calc((var(--center-list-width) / 2 - var(--center-list-item-left)) * 1px) calc((var(--center-list-height) / 2 - var(--center-list-item-top)) * 1px);
+                    // transform: scale(calc(max(0, var(--self-scroll) - var(--delay))));
+                    // transform: scale(var(--delay));
+                    --d: calc(1 - (1 - var(--distance)) * (1 - var(--distance)));
+                    transform: translate(calc((var(--center-list-width) / 2 - var(--center-list-item-left) - #{math.div($size,2)}) * 1px * (1 - var(--self-scroll))), calc((var(--center-list-height) / 2 - var(--center-list-item-top) - #{math.div($size,2)}) * 1px * (1 - var(--self-scroll)))) scale(var(--self-scroll));
+
+                    &>p {
+                        margin: 0;
+
+                        &.demo-icon {
+                            font-size: 3em;
+                        }
+
+                        &.title {
+                            font-size: 1.5em;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &>.bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+
+        &>.color-block {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: translate(calc(-50% + var(--x) * 1px), calc(-50% + var(--y) * 1px));
+            width: calc(var(--size) * 1px);
+            height: calc(var(--size) * 1px);
+            background-color: var(--color);
+            border-radius: 10%;
+            transition: 0.3s;
+        }
+    }
+}
+</style>
