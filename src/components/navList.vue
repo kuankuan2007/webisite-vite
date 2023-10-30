@@ -6,10 +6,14 @@
                 <h1 class="list-title">多彩世界，纷至沓来</h1>
                 <div class="center-list" ref="centerBox" v-on-resize="refreshCenterBoxSize">
                     <div v-for="data in nav.nav" :key="data.href">
-                        <div class="icon-box">
-                            <p class="demo-icon">{{ data.icon }}</p>
-                            <p class="title">{{ data.word }}</p>
-                        </div>
+                        <a :href="getJumpUrl(data.href)">
+                            <div class="icon-box" :style="{
+                                '--main-color':data.mainColor
+                            }">
+                                <p class="demo-icon">{{ data.icon }}</p>
+                                <p class="title">{{ data.word }}</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -19,7 +23,7 @@
                     '--y': data.y,
                     '--size': data.size,
                     '--color': data.color,
-                    '--speed':data.speed,
+                    '--speed': data.speed,
                     '--end-x': data.x <= navListSize.width / 2 ? -data.x * Math.abs((navListSize.width / 2 - data.x) / navListSize.height / 2) * data.speed : (navListSize.width - data.x) * Math.abs(((navListSize.width / 2 - data.x) / navListSize.height / 2)) * data.speed,
                     '--end-y': data.y <= navListSize.height / 2 ? -data.y * Math.abs((navListSize.height / 2 - data.y) / navListSize.height / 2) * data.speed : (navListSize.height - data.y) * Math.abs((navListSize.height / 2 - data.y) / navListSize.height / 2) * data.speed
                 }" class="color-block" v-for="data, index in colorBolcks.data" :key="index"></div>
@@ -31,7 +35,7 @@
 import { ref, reactive, onMounted } from "vue";
 import nav from "../data/nav"
 import vOnResize from "../common/command/onResize"
-import { debounce } from "../common/script/normal";
+import { debounce,getJumpUrl } from "../common/script/normal";
 import { RandomColorboxList } from "../blockList"
 
 const props = defineProps({
@@ -143,38 +147,44 @@ onMounted(() => {
                 width: #{$size}px;
                 height: #{$size}px;
 
-                &>div {
-                    width: #{$size}px;
-                    height: #{$size}px;
-                    --self-scroll: clamp(0, calc(var(--scroll) - 1.5 + var(--distance)), 1);
-                    flex-shrink: 0;
-                    background-color: var(--theme-2-5);
-                    font-size: 12px;
+                &>a {
+                    all:inherit;
+                    cursor: pointer;
+                    &>div {
+                        width: #{$size}px;
+                        height: #{$size}px;
+                        --self-scroll: clamp(0, calc(var(--scroll) - 1.5 + var(--distance)), 1);
+                        flex-shrink: 0;
+                        background-color: var(--main-color);
+                        font-size: 12px;
+                        color: white;
 
-                    display: flex;
-                    justify-content: center;
-                    border-radius: calc(50% * var(--theme-border-radius) * var(--theme-border-radius));
-                    align-items: center;
-                    flex-direction: column;
-                    left: calc(sqrt(calc(var(--raw-distance))));
-                    // transform-origin: calc((var(--center-list-width) / 2 - var(--center-list-item-left)) * 1px) calc((var(--center-list-height) / 2 - var(--center-list-item-top)) * 1px);
-                    // transform: scale(calc(max(0, var(--self-scroll) - var(--delay))));
-                    // transform: scale(var(--delay));
-                    --d: calc(1 - (1 - var(--distance)) * (1 - var(--distance)));
-                    transform: translate(calc((var(--center-list-width) / 2 - var(--center-list-item-left) - #{math.div($size,2)}) * 1px * (1 - var(--self-scroll))), calc((var(--center-list-height) / 2 - var(--center-list-item-top) - #{math.div($size,2)}) * 1px * (1 - var(--self-scroll)))) scale(var(--self-scroll));
+                        display: flex;
+                        justify-content: center;
+                        border-radius: calc(50% * var(--theme-border-radius) * var(--theme-border-radius));
+                        align-items: center;
+                        flex-direction: column;
+                        left: calc(sqrt(calc(var(--raw-distance))));
+                        // transform-origin: calc((var(--center-list-width) / 2 - var(--center-list-item-left)) * 1px) calc((var(--center-list-height) / 2 - var(--center-list-item-top)) * 1px);
+                        // transform: scale(calc(max(0, var(--self-scroll) - var(--delay))));
+                        // transform: scale(var(--delay));
+                        --d: calc(1 - (1 - var(--distance)) * (1 - var(--distance)));
+                        transform: translate(calc((var(--center-list-width) / 2 - var(--center-list-item-left) - #{math.div($size,2)}) * 1px * (1 - var(--self-scroll))), calc((var(--center-list-height) / 2 - var(--center-list-item-top) - #{math.div($size,2)}) * 1px * (1 - var(--self-scroll)))) scale(var(--self-scroll));
 
-                    &>p {
-                        margin: 0;
+                        &>p {
+                            margin: 0;
 
-                        &.demo-icon {
-                            font-size: 3em;
-                        }
+                            &.demo-icon {
+                                font-size: 3em;
+                            }
 
-                        &.title {
-                            font-size: 1.5em;
+                            &.title {
+                                font-size: 1.5em;
+                            }
                         }
                     }
                 }
+
             }
         }
     }

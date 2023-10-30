@@ -8,12 +8,14 @@ export default {
         {
             "href": "/",
             "word": "主页",
-            "icon": "\ue800"
+            "icon": "\ue800",
+            "mainColor": "#4258A9",
         },
         {
             "href": "/blogs/",
             "word": "博客",
-            "icon": "\ue801"
+            "icon": "\ue801",
+            "mainColor": "#6969FF"
         },
         {
             "href": "/docs/",
@@ -33,60 +35,72 @@ export default {
                         "pageList"
                     ]
                 }
-            }
+            },
+            "mainColor": "#1F6B22"
         },
         {
             "href": "/novel/",
             "word": "小说",
-            "icon": "\ue803"
+            "icon": "\ue803",
+            "mainColor": "#FF3B86"
         },
         {
             "href": "/calc24/",
             "word": "24点",
-            "icon": "\ue81d"
+            "icon": "\ue81d",
+            "mainColor": "#9B9E81"
         },
         {
             "href": "/contactInformation/",
             "word": "联系我们",
-            "icon": "\uf2b9"
+            "icon": "\uf2b9",
+            "mainColor": "#FF2259"
         },{
             "href": "/player/",
             "word":"播放器",
-            "icon": iconMap.noteBeamed
+            "icon": iconMap.noteBeamed,
+            "mainColor": "#6503B8"
         },
         {
             "href": "/feedback/",
             "word": "反馈",
-            "icon": "\uf2b6"
+            "icon": "\uf2b6",
+            "mainColor": "#FF8800"
         },
         {
             "href": "/chat/",
             "word": "聊天",
-            "icon": "\ue813"
+            "icon": "\ue813",
+            "mainColor": "#8C8F00"
         },
         {
             "href": "/chatgpt/",
             "word": "ChatGPT",
-            "icon": "\uf18d"
+            "icon": "\uf18d",
+            "mainColor": "#570000"
         },
         {
             "href": "/about/",
             "word": "关于",
-            "icon": iconMap.infoCircled
+            "icon": iconMap.infoCircled,
+            "mainColor": "#0078D4"
         },
         {
             "href": "https://pypi.org/user/kuankuan/",
             "word": "PyPI",
-            "icon": "\ue808"
+            "icon": "\ue808",
+            "mainColor": "#0073B7"
         }, {
             "href": "https://www.npmjs.com/~kuankuan",
-            "word": "NPM",
-            "icon": iconMap.npm
+            "word": "npm",
+            "icon": iconMap.npm,
+            "mainColor": "#CB0303"
         },
         {
             "href": "https://members.opensource.org/user/kuankuan/",
             "word": "OSI",
-            "icon": "\uE81E"
+            "icon": "\uE81E",
+            "mainColor": "#3DA639"
         },
         {
             "href": "https://gitee.com/kuankuan2007",
@@ -104,7 +118,8 @@ export default {
                     "value":repositories,
                     "obj": []
                 }
-            }
+            },
+            "mainColor": "#FF0000"
         },
         {
             "href": "https://gitlab.com/kuankuan2007",
@@ -122,7 +137,8 @@ export default {
                     "value":repositories,
                     "obj": []
                 }
-            }
+            },
+            "mainColor": "#FF0000"
         },
         {
             "href": "https://github.com/kuankuan2007",
@@ -140,7 +156,8 @@ export default {
                     "value":repositories,
                     "obj": []
                 }
-            }
+            },
+            "mainColor": "#2B001F"
         }
     ]
 }

@@ -113,16 +113,25 @@ export function debounceRef(value, duration = 1000) {
  * @return {void} This function does not return a value.
  */
 export function jump(url, onOtherWindow) {
-    console.log(url)
-    if (url.startsWith("/") && !url.startsWith(import.meta.env.BASE_URL)) {
-        console.warn("Base URL is not included in the URL.")
-        url = import.meta.env.BASE_URL + url.slice(1)
-    }
+    url=getJumpUrl(url)
     if (onOtherWindow) {
         window.open(url)
     } else {
         window.location.href = url
     }
+}
+/**
+ * Returns a modified URL if it starts with "/" and does not start with the base URL.
+ *
+ * @param {string} url - The URL to be checked and possibly modified.
+ * @return {string} The modified URL, if necessary.
+ */
+export function getJumpUrl(url){
+    if (url.startsWith("/") && !url.startsWith(import.meta.env.BASE_URL)) {
+        // console.warn("Base URL is not included in the URL.")
+        url = import.meta.env.BASE_URL + url.slice(1)
+    }
+    return url
 }
 function getStorageName(value) {
     if (value === localStorage) {
@@ -228,13 +237,22 @@ export function hyphenNaming2HumpNaming(str) {
     });
 }
 /**
+ * Generates a URL by appending the current URL to the base URL.
+ *
+ * @param {string} baseUrl - The base URL to append to.
+ * @return {string} The generated URL.
+ */
+export function getJumpToWithFromNowUrl(baseUrl) {
+    `${baseURL}${baseURL.includes("?") ? "" : "?"}&from=${encodeURIComponent(location.href)}`
+}
+/**
  * Redirects the user to a specified URL with an additional "from" query parameter.
  *
  * @param {string} baseURL - The base URL to redirect to.
  * @return {void} This function does not return a value.
  */
 export function jumpToWithFromNow(baseURL) {
-    jump(`${baseURL}${baseURL.includes("?") ? "" : "?"}&from=${encodeURIComponent(location.href)}`)
+    jump(getJumpToWithFromNowUrl(baseURL))
 }
 /**
  * Jumps back to the previous page while passing the "from" parameter in the URL.
@@ -244,12 +262,22 @@ export function jumpBackToFrom() {
     jump(decodeURIComponent(getQueryVariable("from", "/")))
 }
 /**
+ * Returns a URL with a query parameter "from" added to it, derived from the provided base URL.
+ *
+ * @param {string} baseUrl - The base URL to add the "from" parameter to.
+ * @return {string} The modified URL with the "from" parameter added.
+ */
+export function getJumpToWithFromUrl(baseUrl){
+    return `${baseURL}${baseURL.includes("?") ? "" : "?"}&from=${getQueryVariable("from", "/")}`
+}
+/**
  * Redirects the user to a new URL by appending a `from` query parameter.
  *
  * @return {void} No return value.
  */
 export function jumpToWithFrom(baseURL) {
-    jump(`${baseURL}${baseURL.includes("?") ? "" : "?"}&from=${getQueryVariable("from", "/")}`)
+    jump(/* The above code is defining a function called "getJumpToWithFromUrl" in JavaScript. */
+    getJumpToWithFromUrl(baseURL))
 }
 /**
  * make QR Code and return the data url
