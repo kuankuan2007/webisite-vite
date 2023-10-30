@@ -78,6 +78,10 @@ export default {
             "href": "https://pypi.org/user/kuankuan/",
             "word": "PyPI",
             "icon": "\ue808"
+        }, {
+            "href": "https://www.npmjs.com/~kuankuan",
+            "word": "NPM",
+            "icon": iconMap.npm
         },
         {
             "href": "https://members.opensource.org/user/kuankuan/",
