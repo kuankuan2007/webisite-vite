@@ -1,5 +1,7 @@
 <template>
-    <div class="introduce">
+    <div class="introduce" :style="{
+        '--introduce-index': props.index
+    }">
         <div class="page">
             <div class="content">
                 <p class="left-brace">{</p>
@@ -16,7 +18,7 @@
                 '--size': data.size,
                 '--color': data.color,
                 '--speed': data.speed
-            }" class="color-block" v-for="data, index in colorBolcks.data" :key="index"></div>
+            }" class="color-block" v-for="data, index in colorBlocks.data" :key="index"></div>
         </div>
     </div>
 </template>
@@ -36,9 +38,12 @@ const props = defineProps({
     }, simplePageHeight: {
         type: Number,
         required: true,
+    }, index: {
+        type: Number,
+        required: true,
     }
 })
-const colorBolcks = new RandomColorboxList(props, "simplePageHeight")
+const colorBlocks = new RandomColorboxList(props, "simplePageHeight")
 
 </script>
 <style scoped lang="scss">
@@ -62,15 +67,17 @@ const colorBolcks = new RandomColorboxList(props, "simplePageHeight")
         z-index: -1;
 
         &>.color-block {
+            --block-scroll: calc(var(--scroll) - 3.5 - var(--introduce-index));
             position: absolute;
-            top: 0;
-            left: 0;
-            transform: translate(calc(-50% + var(--x) * 1px), calc(-50% + var(--y) * 1px));
+            --self-scroll: clamp(0, calc(var(--scroll) - 1), 1);
+            left: calc((var(--x) - var(--size) / 2) * 1px);
+            top: calc((var(--y) - var(--size) / 2) * 1px);
+            transform: translate(0, calc(var(--block-scroll) * (var(--speed) - 2) * var(--simple-page-height) * 0.02px));
             width: calc(var(--size) * 1px);
             height: calc(var(--size) * 1px);
             background-color: var(--color);
             border-radius: 10%;
-            transition: 0.3s;
+            transition: 0.3s, transform 0.05s;
         }
     }
 

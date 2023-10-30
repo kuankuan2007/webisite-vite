@@ -1,16 +1,18 @@
 <template>
   <myHeader :class="{
     'hidden': hiddenHeader,
-    'loaded': loaded
+    'loaded': loaded,
   }" title="宽宽的小天地"></myHeader>
   <div class="fixed" ref="fixedEle" @scroll="refreshScrollTop" v-on-resize="debounceRefreshSimplePageHeight" :style="{
     '--foot-num': footList.length,
     '--simple-page-height': simplePageHeight
   }">
-    <div class="scroll">
+    <div class="scroll" :style="{
+      '--scroll': scrollTop / simplePageHeight
+    }">
       <topEle :simple-page-height="simplePageHeight"/>
-      <navList :scroll-top="scrollTop" :simple-page-height="simplePageHeight" />
-      <introduce v-for="data in footList" :key="data.title" :data="data" :simple-page-height="simplePageHeight"/>
+      <navList :simple-page-height="simplePageHeight" />
+      <introduce v-for="data,index in footList" :key="index" :data="data" :index="index" :simple-page-height="simplePageHeight"/>
     </div>
   </div>
 </template>
@@ -156,7 +158,7 @@ onMounted(() => {
 
   &>.scroll {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 100%;
     grid-template-rows: 1fr 2.5fr repeat(var(--foot-num), 1fr);
 
     &>* {

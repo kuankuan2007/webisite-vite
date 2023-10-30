@@ -7,15 +7,16 @@ type colorBlock = {
     x: number,
     y: number,
     size: number,
-    speed: number
+    speed: number,
+    r:number
 }
 
 function getRandomColor(light: 'light' | 'dark') {
     console.log(light)
     if (light === 'light') {
-        return `rgb(${getRandomInt(64, 160)},${getRandomInt(128, 192)},${getRandomInt(128, 192)})`
+        return `hsl(${getRandomInt(0, 360)}deg,${getRandomInt(40, 80)}%,${getRandomInt(45, 95)}%)`
     } else {
-        return `rgb(${getRandomInt(96, 196)},${getRandomInt(64, 128)},${getRandomInt(64, 128)})`
+        return `hsl(${getRandomInt(0, 360)}deg,${getRandomInt(40, 80)}%,${getRandomInt(5, 55)}%)`
     }
 }
 
@@ -61,9 +62,10 @@ export class RandomColorboxList {
         return {
             color:getRandomColor(theme.light),
             x:getRandomInt(0,windowSize.width),
-            y:getRandomInt(0,this.simplePageSize),
-            size: getRandomInt(windowSize.meanSize / 70, windowSize.meanSize /7),
-            speed:getRandomFloat(0.5,2)
+            y: getRandomInt(this.simplePageSize * -0.1,this.simplePageSize *1.1),
+            size: getRandomInt(windowSize.meanSize / 50, windowSize.meanSize /6),
+            speed:getRandomFloat(1,8),
+            r:getRandomInt(-180,180)
         }
     }
     refreshColor() {
@@ -72,7 +74,7 @@ export class RandomColorboxList {
         }
     }
     get targetLength(){
-        return Math.floor(windowSize.meanSize / 30)
+        return Math.floor(windowSize.meanSize / 40)
     }
     refreshSize(){
         if (this.data.length > this.targetLength) {

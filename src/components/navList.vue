@@ -1,9 +1,7 @@
 <template>
-    <div class="nav-list-scroll" :style="{
-        '--scroll': scrollTop / simplePageHeight
-    }">
-        <div class="nav-list-box">
-            <img class="center-logo" src="../../logo.png" />
+    <div class="nav-list-scroll">
+        <div class="nav-list-box" ref="navList" v-on-resize="refreshNavListBoxSize">
+            <img class="center-logo" src="../../public/logo.png" />
             <div class="centers">
                 <h1 class="list-title">多彩世界，纷至沓来</h1>
                 <div class="center-list" ref="centerBox" v-on-resize="refreshCenterBoxSize">
@@ -21,21 +19,46 @@
                     '--y': data.y,
                     '--size': data.size,
                     '--color': data.color,
-                    '--speed': data.speed
+                    '--speed':data.speed,
+                    '--end-x': data.x <= navListSize.width / 2 ? -data.x * Math.abs((navListSize.width / 2 - data.x) / navListSize.height / 2) * data.speed : (navListSize.width - data.x) * Math.abs(((navListSize.width / 2 - data.x) / navListSize.height / 2)) * data.speed,
+                    '--end-y': data.y <= navListSize.height / 2 ? -data.y * Math.abs((navListSize.height / 2 - data.y) / navListSize.height / 2) * data.speed : (navListSize.height - data.y) * Math.abs((navListSize.height / 2 - data.y) / navListSize.height / 2) * data.speed
                 }" class="color-block" v-for="data, index in colorBolcks.data" :key="index"></div>
             </div>
         </div>
     </div>
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import nav from "../data/nav"
 import vOnResize from "../common/command/onResize"
 import { debounce } from "../common/script/normal";
 import { RandomColorboxList } from "../blockList"
 
+const props = defineProps({
+    simplePageHeight: {
+        type: Number,
+        required: false,
+        default: 0
+    }
+})
+
+/**@type {import('vue').Ref<HTMLDivElement>} */
+const navList = ref()
+
 /**@type {import('vue').Ref<HTMLDivElement>} */
 const centerBox = ref()
+
+const navListSize = reactive({
+    width: window.innerWidth,
+    height: props.simplePageHeight
+})
+const refreshNavListBoxSize = debounce(() => {
+    if (!navList.value) {
+        return
+    }
+    navListSize.width = navList.value.offsetWidth
+    navListSize.height = navList.value.offsetHeight
+})
 const refreshCenterBoxSize = debounce(() => {
     if (centerBox.value) {
         centerBox.value.style.setProperty('--center-list-width', `${centerBox.value.offsetWidth - 40}`)
@@ -53,17 +76,7 @@ const refreshCenterBoxSize = debounce(() => {
 
 
 
-const props = defineProps({
-    scrollTop: {
-        type: Number,
-        required: false,
-        default: 0
-    }, simplePageHeight: {
-        type: Number,
-        required: false,
-        default: 0
-    }
-})
+
 const colorBolcks = new RandomColorboxList(props, "simplePageHeight")
 
 onMounted(() => {
@@ -124,6 +137,7 @@ onMounted(() => {
             opacity: min(1, calc(var(--self-scroll) - 0.2));
             border-radius: calc(60px * var(--theme-border-radius) * var(--theme-border-radius));
             backdrop-filter: blur(15px);
+
             &>* {
                 $size: 100;
                 width: #{$size}px;
@@ -169,17 +183,20 @@ onMounted(() => {
         position: absolute;
         inset: 0;
         z-index: -1;
+        --self-scroll: clamp(0, calc(var(--scroll) - 1), 1);
 
         &>.color-block {
             position: absolute;
-            top: 0;
-            left: 0;
-            transform: translate(calc(-50% + var(--x) * 1px), calc(-50% + var(--y) * 1px));
+            --block-scroll: calc(var(--scroll) - 1);
+
+            left: calc((var(--x) - var(--size) / 2) * 1px);
+            top: calc((var(--y) - var(--size) / 2) * 1px);
+            transform: translate(calc(1px * (var(--self-scroll) * var(--end-x))), calc(var(--block-scroll) * (var(--speed) - 2) * var(--simple-page-height) * 0.02px + 1px * (var(--self-scroll) * var(--end-y))));
             width: calc(var(--size) * 1px);
             height: calc(var(--size) * 1px);
             background-color: var(--color);
             border-radius: 10%;
-            transition: 0.3s;
+            transition: 0.3s, transform 0.05s;
         }
     }
 }

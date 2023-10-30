@@ -21,7 +21,7 @@ export default defineConfig({
   server: {
     port: 81,
     host: "0.0.0.0"
-  },
+  },base:"/new-index/",
   appType:"mpa",
   plugins: [vue(), Inspect(), visualizer({
     gzipSize: true,
@@ -76,5 +76,5 @@ export default defineConfig({
     },
     minify: "terser",
     target: "es2015"
-  },
+  }
 })
