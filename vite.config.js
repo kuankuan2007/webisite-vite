@@ -7,7 +7,7 @@ import { visualizer } from "rollup-plugin-visualizer";
 import sitemapPlugin from 'vite-plugin-sitemap';
 
 import ViteCustom404PagePlugin from './plugins/ViteCustom404PagePlugin';
-import findHtmls from "./assist/findHtml"
+import { dfsSearch } from "./assist/findFiles"
 
 
 /** @type {import('vite').UserConfig} */
@@ -37,10 +37,23 @@ export default defineConfig({
     ), ViteCustom404PagePlugin()],
   build: {
     rollupOptions: {
-      input: findHtmls(),
+      input: dfsSearch(path.resolve("./"), str => str.endsWith(".html") || str.endsWith(".htm")),
       output: {
         manualChunks: {
           markdown: ["showdown", "showdown-katex", "xss", "katex", "highlight.js"],
+          connections: [path.resolve(__dirname, "./src/common/script/connection.js")],
+          normal: [path.resolve(__dirname,"./src/common/script/normal.js")],
+          infomations : [path.resolve(__dirname,"./src/common/script/infomations.js")],
+          initEnv:[
+            path.resolve(__dirname, "./src/common/script/all.js"),
+            path.resolve(__dirname, "./src/common/script/arraySort.js"),
+            path.resolve(__dirname, "./src/common/script/arrayBufferJsonSport.js"),
+            path.resolve(__dirname, "./src/common/script/storageEvent.js"),
+            path.resolve(__dirname, "./src/common/script/stringPoint.js"),
+            path.resolve(__dirname, "./src/common/script/browerInfo.js"),
+            path.resolve(__dirname, "./src/common/script/copy.js"),
+            "buffer","process"
+          ]
         }, entryFileNames: function (chunkInfo) {
           let pathName = (path.dirname(chunkInfo.facadeModuleId).slice((__dirname.replace(/\\/g, "/")).length) + "/script/[name]-[hash].js").slice(1);
           return pathName
