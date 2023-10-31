@@ -4,8 +4,7 @@
         <div class="buttons" :class="{
             fold: fold
         }">
-                <linkLikeButton class="demo-icon onplay" @click="copy"
-                    :class="{ active: playing === data.id }">{{
+                <linkLikeButton class="demo-icon onplay" @click="copy">{{
                         iconMap.copy
                     }}</linkLikeButton>
                 <linkLikeButton @click="jump(`https://hitokoto.cn?uuid=${props.data.uuid}`,true)" class="demo-icon delete">{{

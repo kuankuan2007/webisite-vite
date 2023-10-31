@@ -1,23 +1,12 @@
 <template>
-    <svg style="display:none;">
-        <defs>
-            <filter id="blendFilter">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"></feGaussianBlur>
-                <feColorMatrix in="blur" mode="matrix" values="
-                    1 0 0 0 0
-                    0 1 0 0 0
-                    0 0 1 0 0
-                    0 0 0 40 -20
-                    ">
-                </feColorMatrix>
-            </filter>
-        </defs>
-    </svg>
-    <canvas ref="canvas" class="canvas"></canvas>
+    <blend>
+        <canvas ref="canvas" class="canvas"></canvas>
+    </blend>
 </template>
 <script setup>
 import { onMounted, ref, watchEffect } from 'vue';
 import { nowdata } from '../script/themes';
+import blend from './blend.vue';
 /**@type {import("vue").Ref<HTMLCanvasElement>} */
 const canvas = ref()
 const inited = ref(false)
@@ -119,11 +108,4 @@ function draw() {
 }
 </script>
 <style scoped lang="scss">
-canvas {
-    filter: url("#blendFilter");
-}
-
-.temp {
-    // background-color: rgb(13, 0, 95);
-}
 </style>
