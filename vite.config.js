@@ -33,9 +33,11 @@ export default defineConfig({
     {
       hostname: 'http://kuankuan2007.gitee.io/',
       changefreq: 'weekly',
+      outDir:"builded/dist"
     }
     ), ViteCustom404PagePlugin()],
   build: {
+    outDir:"builded/dist",
     rollupOptions: {
       input: dfsSearch(path.resolve("./"), str => str.endsWith(".html") || str.endsWith(".htm")),
       output: {
