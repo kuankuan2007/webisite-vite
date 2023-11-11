@@ -132,20 +132,18 @@ onMounted(() => {
 })
 
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 html {}
 
 .header {
-  left: 80px !important;
-  width: calc(100% - 80px) !important;
-  transform: translate(0, 0) !important;
+  transform: translate(-50%, 0) !important;
 
   &.loaded {
     transition: transform 0.3s;
   }
 
   &.hidden {
-    transform: translate(0, -100%) !important;
+    transform: translate(-50%, -100%) !important;
   }
 }
 
@@ -156,7 +154,6 @@ html {}
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-  padding-left: 80px;
 
   &::-webkit-scrollbar {
     width: 0;
