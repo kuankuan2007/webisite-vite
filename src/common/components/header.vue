@@ -1,5 +1,7 @@
 <template>
-  <header class="header">
+  <header class="header" :class="{
+    'nav-visible': navVisibility,
+  }">
     <div id="titleGroup">
       <h1 id="title">
         {{ props.title }}
@@ -11,15 +13,17 @@
       <themesChoice />
       <userBox :need-rights="needRights" :jump="props.jump" :to-login="props.toLogin" :need-info="props.needInfo" />
     </div>
-    <mynav />
+    <myNav @visibility="navVisibility = $event"/>
   </header>
 </template>
 <script setup>
 import userBox from "./userBox.vue"
 import themesChoice from "./themesChoice.vue";
-import mynav from "./nav.vue"
+import myNav from "./nav.vue"
 import announcement from "./announcement.vue";
 import versionStatus from "./versionStatus.vue";
+import { ref } from "vue";
+const navVisibility = ref(false)
 var _hmt = _hmt || [];
 (function () {
   var hm = document.createElement("script");
@@ -61,7 +65,7 @@ let title = document.createElement("title")
 title.innerText = props.title
 document.head.appendChild(title)
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .right-bottons {
   position: absolute;
   display: flex;
@@ -81,6 +85,14 @@ header {
   width: 100%;
   left: 50%;
   transform: translate(-50%, 0);
+  &>*{
+    transition: opacity 0.3s;
+  }
+  &.nav-visible {
+    &>*{
+      opacity: 0;
+    }
+  }
 }
 
 #titleGroup {

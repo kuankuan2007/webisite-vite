@@ -1,45 +1,55 @@
 <template>
-    <div :class="{ nav: true, fold: nowList.length === 0, unfold: nowList.length > 0 }" ref="nav" v-show="finished">
-        <div class="button-box">
-            <transition duration="300" name="fold-button">
-                <importbutton v-if="!(nowList.length === 0)" class="fold-button demo-icon" @click="back">&#xf137;
-                </importbutton>
-                <importbutton v-else class="unfold-button demo-icon" @click="unfoldNav">&#xf0c9;</importbutton>
-            </transition>
+    <teleport to='body'>
+        <div :class="{ nav: true, fold: nowList.length === 0, unfold: nowList.length > 0 }" ref="nav" v-show="finished">
+            <div class="button-box">
+                <transition duration="300" name="fold-button">
+                    <import-button v-if="!(nowList.length === 0)" class="fold-button demo-icon" @click="back">&#xf137;
+                    </import-button>
+                    <import-button v-else class="unfold-button demo-icon" @click="unfoldNav">&#xf0c9;</import-button>
+                </transition>
 
-        </div>
-        <transition-group duration="1000" @enter="onNavEnter" @leave="onNavLeave">
-            <div class="nav-list" :class="{
-                inactive: index < nowList.length - 1,
-                active: index === nowList.length - 1
-            }" :style="{
+            </div>
+            <transition-group duration="1000" @enter="onNavEnter" @leave="onNavLeave">
+                <div class="nav-list" :class="{
+                    inactive: index < nowList.length - 1,
+                    active: index === nowList.length - 1
+                }" :style="{
     '--width': nowData.width + 'px'
 }" v-for="nowData, index in nowList" :key="nowData">
-                <p class="title">
-                    {{ nowData.title }}
-                </p>
-                <transition duration="1000">
-                    <ul class="list" v-if="index === nowList.length - 1">
-                        <li :style="{ '--index': index }" v-for="i, index in nowData.nav" @click="jump(i)" class="nums">
-                            <link-like-button class="demo-icon icon">{{ i.icon }}</link-like-button>
-                            <p class="word">{{ i.word }}</p>
-                            <link-like-button class="demo-icon full-button" v-if="'subNav' in i"
-                                @click="next(i.subNav, $event)">&#xf138;</link-like-button>
-                        </li>
-                    </ul>
-                </transition>
-            </div>
-        </transition-group>
-    </div>
+                    <p class="title">
+                        {{ nowData.title }}
+                    </p>
+                    <transition duration="1000">
+                        <ul class="list" v-if="index === nowList.length - 1">
+                            <li :style="{ '--index': index }" v-for="i, index in nowData.nav" class="nums">
+                                <a href="">
+                                    <p class="demo-icon icon">{{ i.icon }}</p>
+                                    <p class="word">{{ i.word }}</p>
+                                </a>
+
+                                <p class="demo-icon full-button" v-if="'subNav' in i" @click="next(i.subNav, $event)">
+                                    &#xf138;</p>
+                            </li>
+                        </ul>
+                    </transition>
+                </div>
+            </transition-group>
+        </div>
+    </teleport>
 </template>
 <script setup>
 import { sprintf } from "sprintf"
-import { reactive, ref } from "vue"
-import importbutton from "./input/linkLikeButton.vue"
+import { reactive, ref, watchEffect } from "vue"
+import { getJumpUrl } from "../script/normal";
+import importButton from "./input/linkLikeButton.vue"
 let isFold = ref(true)
 let finished = ref(false)
 let data = reactive({})
 let nowList = ref([])
+const emit = defineEmits("visibility")
+watchEffect(() => {
+    emit("visibility", nowList.value.length > 0)
+})
 function onNavEnter(el) {
     setTimeout(() => { el.classList.add('in') })
 }
@@ -92,9 +102,6 @@ function next(subNav, e) {
     nowList.value.push(subNav)
     e && e.stopPropagation()
 }
-function jump(data) {
-    location.href = data.href
-}
 import rootNav from "../../data/nav";
 import LinkLikeButton from "./input/linkLikeButton.vue";
 buildNavTree(rootNav).then(
@@ -120,6 +127,7 @@ buildNavTree(rootNav).then(
 
 .button-box {
     z-index: 999;
+    pointer-events: all;
     position: absolute;
     font-size: 36px;
     top: 0;
@@ -165,6 +173,22 @@ buildNavTree(rootNav).then(
     }
 }
 
+.nav-list {
+    position: absolute;
+
+    &.v-leave-to,
+    &.v-enter-from {
+        &>.list {
+
+            backdrop-filter: blur(0px);
+        }
+    }
+
+    &.v-leave-to {
+        pointer-events: none;
+    }
+}
+
 .list .nums,
 .title {
     .nav-list & {
@@ -185,7 +209,8 @@ buildNavTree(rootNav).then(
 
 .nav-list .list {
     scrollbar-width: none;
-
+    transition: 0.3s;
+    backdrop-filter: blur(calc(10px * var(--theme-backdrop-blur)));
     &::-webkit-scrollbar {
         width: 0;
     }
@@ -207,14 +232,16 @@ buildNavTree(rootNav).then(
     margin: 0;
     top: 60px;
     position: absolute;
+    z-index: -1;
     height: 100%;
-    overflow-y: scroll;
+    // overflow-y: scroll;
+    position: relative;
     width: calc((var(--width) + 70px));
 }
 
 .list li {
     display: grid;
-    grid-template-columns: 1fr max-content 1fr;
+    grid-template-columns: 1fr max-content;
     padding-bottom: 20px;
     padding-left: 40px;
     padding-right: 30px;
@@ -222,14 +249,25 @@ buildNavTree(rootNav).then(
         transform 0.3s calc(0.04s * var(--index)),
         opacity 0.3s calc(0.04s * var(--index));
     width: var(--width);
+
+    &>a {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+        display: grid;
+        grid-template-columns: max-content 1fr;
+    }
 }
 
 .nav {
     position: fixed;
     display: block;
+    top: 0;
     left: 0;
     height: calc(100vh - 60px);
     transition: 0.3s;
+    z-index: 9999;
+    pointer-events: none;
 }
 
 .icon {
@@ -259,10 +297,10 @@ buildNavTree(rootNav).then(
 
 .nums {
     background: var(--theme-1-3);
+
     &:hover {
 
-        &>.word,
-        &>.icon {
+        &>a {
             color: var(--theme-1-b);
         }
     }

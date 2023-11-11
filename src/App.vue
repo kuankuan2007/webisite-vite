@@ -10,9 +10,10 @@
     <div class="scroll" :style="{
       '--scroll': scrollTop / simplePageHeight
     }">
-      <topEle :simple-page-height="simplePageHeight"/>
+      <topEle :simple-page-height="simplePageHeight" />
       <navList :simple-page-height="simplePageHeight" />
-      <introduce v-for="data,index in footList" :key="index" :data="data" :index="index" :simple-page-height="simplePageHeight"/>
+      <introduce v-for="data, index in footList" :key="index" :data="data" :index="index"
+        :simple-page-height="simplePageHeight" />
     </div>
   </div>
 </template>
@@ -40,25 +41,25 @@ class IntroduceNode {
    * @param {array} classList - The list of classes for the object.
    * @param {function} onclick - The onclick event handler for the object.
    */
-  constructor(content, classList=[],onclick=()=>{}) {
+  constructor(content, classList = [], onclick = () => { }) {
     this.content = content;
     this.classList = classList;
-    this.onClick = (...args)=>{
-      onclick.call(this,...args);
+    this.onClick = (...args) => {
+      onclick.call(this, ...args);
     }
   }
 }
 
 const footList = reactive([
   {
-    title: new IntroduceNode("合作",['h1']),
-    content: new IntroduceNode("在宽宽的小天地，我们秉持着合作的精神。我们鼓励用户和开发者之间的互动与合作，致力于打造一个共同成长的社区。无论是对于我们的开源项目，还是对于我们提供的各种服务，我们都欢迎大家积极参与和提供宝贵的意见和建议。通过合作，我们相信可以共同推动网站的进一步发展和完善。",[]),
-    openSource:{
-      repository:[
+    title: new IntroduceNode("合作", ['h1']),
+    content: new IntroduceNode("在宽宽的小天地，我们秉持着合作的精神。我们鼓励用户和开发者之间的互动与合作，致力于打造一个共同成长的社区。无论是对于我们的开源项目，还是对于我们提供的各种服务，我们都欢迎大家积极参与和提供宝贵的意见和建议。通过合作，我们相信可以共同推动网站的进一步发展和完善。", []),
+    openSource: {
+      repository: [
         {
-          title:new IntroduceNode("最新版", ['h2']),
-          url:new IntroduceNode("https://gitee.com/kuankuan2007/website-vite",['click-able'],function(){
-            jump(this.content,true)
+          title: new IntroduceNode("最新版", ['h2']),
+          url: new IntroduceNode("https://gitee.com/kuankuan2007/website-vite", ['click-able'], function () {
+            jump(this.content, true)
           })
         }, {
           title: new IntroduceNode("旧版（停止维护）", ['h2']),
@@ -78,9 +79,9 @@ const footList = reactive([
     }
   },
   {
-    title: new IntroduceNode("共享",['h1']),
+    title: new IntroduceNode("共享", ['h1']),
     content: new IntroduceNode("宽宽的小天地一直以共享为宗旨。我们坚信只有共享才能获得更多的创新和进步。因此，我们不仅将我们的开源项目公之于众，还提供了免费的ChatGPT等服务。我们希望通过共享的平台，让更多人能够参与其中，发挥个人的创造力和想象力。我们鼓励用户通过使用我们的服务来实现自己的目标，同时也欢迎开发者共同贡献代码和功能，共同推动互联网的开放和发展。"),
-    pages:[
+    pages: [
       new IntroduceNode("ChatGPT", ['click-able'], function () {
         jump("/chatgpt/", true)
       }),
@@ -93,7 +94,7 @@ const footList = reactive([
     ]
   },
   {
-    title: new IntroduceNode("创新",['h1']),
+    title: new IntroduceNode("创新", ['h1']),
     content: new IntroduceNode('在宽宽的小天地，我们追求创新。我们持续关注最新的技术和趋势，不断更新和迭代我们的产品和服务。我们努力将最新的科技融入到我们的网站中，以提供更好的用户体验和功能。同时，我们也鼓励用户创新和尝试，提供一个自由发挥的空间。我们相信，只有通过不断创新，我们才能够不断提升我们的网站，更好地满足用户的需求。')
   }
 ])
@@ -131,14 +132,20 @@ onMounted(() => {
 })
 
 </script>
-<style scoped lang="scss">
+<style lang="scss">
+html {}
+
 .header {
+  left: 80px !important;
+  width: calc(100% - 80px) !important;
+  transform: translate(0, 0) !important;
+
   &.loaded {
     transition: transform 0.3s;
   }
 
   &.hidden {
-    transform: translate(-50%, -100%);
+    transform: translate(0, -100%) !important;
   }
 }
 
@@ -149,6 +156,7 @@ onMounted(() => {
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
+  padding-left: 80px;
 
   &::-webkit-scrollbar {
     width: 0;
@@ -173,4 +181,5 @@ onMounted(() => {
       }
     }
   }
-}</style>
+}
+</style>
