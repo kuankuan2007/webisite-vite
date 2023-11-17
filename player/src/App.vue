@@ -38,7 +38,7 @@
             <p class="music-length-shower">{{ currentTimeShower }}</p>
             <slider :disabled="!playerStatue.inited"
               @change="playerStatue.currentTime = $event, setAudioCurrentTime($event)" :value="playerStatue.currentTime"
-              :max="playerStatue.data.length"/>
+              :max="playerStatue.data.length" />
             <p class="music-length-shower">{{ durationTimeShiwer }}</p>
           </div>
           <div class="buttons">
@@ -53,23 +53,20 @@
                 iconMap.next }}</button>
             </div>
             <div class="right">
-              <div class="volume">
-                <p class="demo-icon">{{ 
-                  playerStatue.volume === 0 ?
-                  iconMap.volume0: 
-                  playerStatue.volume <= 100/3 ?
-                  iconMap.volume1:
-                  playerStatue.volume <= 200/3?
-                  iconMap.volume2:
-                  iconMap.volume3
-                 }}</p>
-                <slider class="volume-slider"
-                  @change="playerStatue.volume = $event, console.log($event)" :value="playerStatue.volume"
-                  :max="100" :min="0" :step="1"/>
-                <div>
-                  <p>100%</p>
-                  <p>{{ Math.round(playerStatue.volume) }}%</p>
-                </div>
+              <div class="volume" :class="{
+                mute: playerStatue.mute
+              }">
+                <linkLikeButton class="demo-icon" @click="playerStatue.mute = !playerStatue.mute">{{
+                  playerStatue.volume === 0 || playerStatue.mute ?
+                  iconMap.volume0 :
+                  playerStatue.volume <= 100 / 3 ? iconMap.volume1 : playerStatue.volume <= 200 / 3 ? iconMap.volume2 :
+                    iconMap.volume3 }}</linkLikeButton>
+                    <slider class="volume-slider" @change="playerStatue.volume = $event, playerStatue.mute = false"
+                      :value="playerStatue.mute ? 0 : playerStatue.volume" :max="100" :min="0" :step="1" />
+                    <div>
+                      <p>100%</p>
+                      <p>{{ Math.round(playerStatue.volume) }}%</p>
+                    </div>
               </div>
               <button class="repeat-type demo-icon" style="font-size: 1.5em;"
                 @click="playerStatue.playWay = (playerStatue.playWay + 1) % 4">{{ [iconMap.playInOrder,
@@ -99,6 +96,7 @@ import { Buffer } from "buffer";
 import { showImages } from "../../src/common/script/infomations";
 import placeHolderPicture from "./assets/music.svg?url"
 import oscillogram from "../../src/common/components/oscillogram.vue";
+import linkLikeButton from "../../src/common/components/input/linkLikeButton.vue";
 import vOnResize from "../../src/common/command/onResize";
 
 const _toWaveShower = shallowRef(undefined)
@@ -342,6 +340,7 @@ const playerStatue = reactive({
   idEnd: 0,
   onSetAudioCurrentTime: false,
   volume: 100,
+  mute: false
 })
 
 const setAudioCurrentTime = debounce((currentTime) => {
@@ -494,7 +493,13 @@ onMounted(() => {
     audioContextEle.ctx = new AudioContext()
     audioContextEle.gain = audioContextEle.ctx.createGain()
     watchEffect(() => {
-      audioContextEle.gain.gain.value = playerStatue.volume/100
+      playerStatue.volume
+      if (playerStatue.mute) {
+        audioContextEle.gain.gain.value = 0
+      }
+      else {
+        audioContextEle.gain.gain.value = playerStatue.volume / 100
+      }
     })
     audioContextEle.analyser = audioContextEle.ctx.createAnalyser()
     audioContextEle.source = audioContextEle.ctx.createMediaElementSource(playerAudio.value)
@@ -649,31 +654,44 @@ onMounted(() => {
       &>.center {
         flex-grow: 1;
       }
+
       &>.right>.volume {
         width: 10vw;
         min-width: 150px;
         display: flex;
         justify-content: center;
         align-items: center;
-        &>*:nth-child(3){
+
+        &>*:nth-child(3) {
           position: relative;
-          &>*:nth-child(1){
+
+          &>*:nth-child(1) {
             opacity: 0;
             pointer-events: none;
             user-select: none;
-          }&>*:nth-child(2){
+          }
+
+          &>*:nth-child(2) {
             position: absolute;
             right: 0;
             top: 0;
           }
         }
-        &>*:nth-child(2){
+
+        &>*:nth-child(2) {
           flex-grow: 1;
         }
-        &>*:nth-child(1){
+
+        &>*:nth-child(1) {
           font-size: 1.5em;
           margin: 0;
           padding: 0;
+          user-select: none;
+          cursor: pointer;
+
+          &:hover {
+            color: var(--theme-strong1-3);
+          }
         }
       }
     }
