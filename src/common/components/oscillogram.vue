@@ -20,7 +20,6 @@ import { onMounted, ref, watchEffect } from 'vue';
 import { nowdata } from '../script/themes';
 /**@type {import("vue").Ref<HTMLCanvasElement>} */
 const canvas = ref()
-const inited = ref(false)
 function resize() {
     canvas.value.width = canvas.value.parentElement.clientWidth
     canvas.value.height = canvas.value.parentElement.clientHeight
@@ -35,31 +34,22 @@ onMounted(() => {
     ctx = canvas.value.getContext("2d")
     resize()
     watchEffect(() => {
-        if (!props.audio) {
+        if (!props.analyser){
             return
         }
-        props.audio.addEventListener("play", () => {
-            themeRefresh(nowdata.light)
-            if (inited.value) {
-                return
-            }
-            const audioCtx = new AudioContext()
-            analyser = audioCtx.createAnalyser()
-            const source = audioCtx.createMediaElementSource(props.audio)
-
-            analyser.fftSize = props.fftSize
-            dataArray = new Uint8Array(analyser.frequencyBinCount)
-            source.connect(analyser)
-            analyser.connect(audioCtx.destination)
-            inited.value = true
-            draw()
-        })
+        console.log(props.analyser)
+        themeRefresh(nowdata.light)
+        analyser = props.analyser
+        analyser.fftSize = props.fftSize
+        dataArray = new Uint8Array(analyser.frequencyBinCount)
+        draw()
     })
 })
 const props = defineProps({
-    audio: {
-        type: HTMLAudioElement,
-        required: true
+    analyser: {
+        type: AnalyserNode,
+        required: false,
+        default: null
     }, fftSize: {
         type: Number,
         default: 512,
@@ -90,14 +80,11 @@ addEventListener("themeRefresh", (e) => {
 
 function draw() {
     requestAnimationFrame(draw)
-    if (!inited.value) {
-        return
-    }
 
     const { width, height } = canvas.value
     ctx.clearRect(0, 0, width, height)
     analyser.getByteFrequencyData(dataArray)
-
+    // console.log(dataArray)
     const length = dataArray.length / props.scale
     for (let i = 0; i < length; i++) {
         const h = dataArray[i] / 255 * (height - 5) + 5

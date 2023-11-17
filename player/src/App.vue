@@ -1,7 +1,8 @@
 <template>
   <myheader title="播放器"></myheader>
   <div class="main">
-    <listDialog :text-statue="textStatue" :player-statue="playerStatue" @update-text-statue="textStatueChange" @update-music-list="musicListChange" ref="myListDialog" />
+    <listDialog :text-statue="textStatue" :player-statue="playerStatue" @update-text-statue="textStatueChange"
+      @update-music-list="musicListChange" ref="myListDialog" />
     <div class="top-shower">
       <div class="text-shower">
         <p class="text">
@@ -18,7 +19,7 @@
           waveShower.resize()
         }
       }">
-        <oscillogram :audio="_toWaveShower" ref="waveShower" />
+        <oscillogram :analyser="_toWaveShower" ref="waveShower" />
       </div>
     </div>
     <div class="player">
@@ -37,13 +38,14 @@
             <p class="music-length-shower">{{ currentTimeShower }}</p>
             <slider :disabled="!playerStatue.inited"
               @change="playerStatue.currentTime = $event, setAudioCurrentTime($event)" :value="playerStatue.currentTime"
-              :max="playerStatue.data.length"></slider>
+              :max="playerStatue.data.length"/>
             <p class="music-length-shower">{{ durationTimeShiwer }}</p>
           </div>
           <div class="buttons">
             <div class="center">
-              <button @click="playerControler.last" :disabled="!playerStatue.playList.length || playerStatue.playWay === 2"
-                class="left demo-icon">{{ iconMap.last }}</button>
+              <button @click="playerControler.last"
+                :disabled="!playerStatue.playList.length || playerStatue.playWay === 2" class="left demo-icon">{{
+                  iconMap.last }}</button>
               <button :disabled="!playerStatue.playList.length" @click="playerControler.playOrPause"
                 class="play-pause demo-icon">{{
                   playerStatue.playing ? iconMap.pause : iconMap.play }}</button>
@@ -51,6 +53,24 @@
                 iconMap.next }}</button>
             </div>
             <div class="right">
+              <div class="volume">
+                <p class="demo-icon">{{ 
+                  playerStatue.volume === 0 ?
+                  iconMap.volume0: 
+                  playerStatue.volume <= 100/3 ?
+                  iconMap.volume1:
+                  playerStatue.volume <= 200/3?
+                  iconMap.volume2:
+                  iconMap.volume3
+                 }}</p>
+                <slider class="volume-slider"
+                  @change="playerStatue.volume = $event, console.log($event)" :value="playerStatue.volume"
+                  :max="100" :min="0" :step="1"/>
+                <div>
+                  <p>100%</p>
+                  <p>{{ Math.round(playerStatue.volume) }}%</p>
+                </div>
+              </div>
               <button class="repeat-type demo-icon" style="font-size: 1.5em;"
                 @click="playerStatue.playWay = (playerStatue.playWay + 1) % 4">{{ [iconMap.playInOrder,
                 iconMap.loopPlayBack, iconMap.shufflePlay, iconMap.singleCycle][playerStatue.playWay] }}</button>
@@ -62,10 +82,11 @@
     </div>
   </div>
   <div class="play-list-box"></div>
+  <audio id="temp" src=""></audio>
   <div id="particles-js" class="background"></div>
 </template>
 <script setup>
-import { ref, reactive, onMounted, computed } from "vue";
+import { ref, reactive, onMounted, computed, shallowRef, watchEffect } from "vue";
 import myheader from "../../src/common/components/header.vue";
 import showBG from "./back"
 import { showError } from "../../src/common/script/infomations";
@@ -80,7 +101,7 @@ import placeHolderPicture from "./assets/music.svg?url"
 import oscillogram from "../../src/common/components/oscillogram.vue";
 import vOnResize from "../../src/common/command/onResize";
 
-const _toWaveShower = ref()
+const _toWaveShower = shallowRef(undefined)
 const waveShower = ref()
 /**@type {import("vue").Ref<HTMLAudioElement>} */
 const playerAudio = ref()
@@ -90,7 +111,6 @@ const cursorBox = ref()
 const textBox = ref()
 
 const myListDialog = ref()
-
 const currentTimeShower = computed(() => {
   return formattingTime(playerStatue.currentTime)
 })
@@ -174,19 +194,19 @@ async function musicListChange(e) {
     }
   }
 }
-async function textStatueChange(e){
+async function textStatueChange(e) {
   console.log(e)
-  if(e.type==='play'){
+  if (e.type === 'play') {
     if (textStatue.textGetErrorPaused) {
       textStatue.textGetErrorPaused = false
       textControl()
-    }else{
+    } else {
       textStatue.textGetErrorPaused = true
     }
-  }if (e.type==='typeChange'){
-    if (textStatue.types.includes(e.key)){
+  } if (e.type === 'typeChange') {
+    if (textStatue.types.includes(e.key)) {
       textStatue.types.splice(textStatue.types.indexOf(e.key), 1)
-    }else{
+    } else {
       textStatue.types.push(e.key)
     }
   }
@@ -320,7 +340,8 @@ const playerStatue = reactive({
   playing: false,
   playWay: 0,//0顺序 1循环 2随机 3单曲
   idEnd: 0,
-  onSetAudioCurrentTime: false
+  onSetAudioCurrentTime: false,
+  volume: 100,
 })
 
 const setAudioCurrentTime = debounce((currentTime) => {
@@ -335,8 +356,8 @@ const textStatue = reactive({
   onRefreshText: false,
   textHistory: [],
   textGetErrorPaused: false,
-  types:[
-    'a','b','d','e','h','i','k'
+  types: [
+    'a', 'b', 'd', 'e', 'h', 'i', 'k'
   ]
 })
 
@@ -352,17 +373,17 @@ function failToGetWords(err) {
  */
 function refreshWords() {
   return new Promise((resolve, reject) => {
-    let args='randnum='+Math.random()
+    let args = 'randnum=' + Math.random()
     for (const i of textStatue.types) {
-      args+='&c='+i
+      args += '&c=' + i
     }
-    fetch('https://v1.hitokoto.cn?'+args,).then(
+    fetch('https://v1.hitokoto.cn?' + args,).then(
       (res) => {
         res.json().then(
           (data) => {
             let text = data.hitokoto
             if (data["from"]) {
-              let addAfter= data["from"]
+              let addAfter = data["from"]
               if (data["from_who"]) {
                 addAfter += "·" + data["from_who"]
               }
@@ -427,6 +448,17 @@ function textControl() {
     setTimeout(textControl, 2000)
   }, failToGetWords)
 }
+
+/**
+ * @type {{
+ *  ctx:AudioContext
+ *  analyser:AnalyserNode
+ *  gain:GainNode
+ *  source:MediaElementAudioSourceNode
+ * }}
+ */
+const audioContextEle = reactive({})
+window.ctx = audioContextEle
 onMounted(() => {
   textControl()
   showBG()
@@ -456,8 +488,23 @@ onMounted(() => {
         playerAudio.value.play()
       }, 0)
     }
-  }),
-    _toWaveShower.value = playerAudio.value
+  })
+  playerAudio.value.addEventListener("play", () => {
+
+    audioContextEle.ctx = new AudioContext()
+    audioContextEle.gain = audioContextEle.ctx.createGain()
+    watchEffect(() => {
+      audioContextEle.gain.gain.value = playerStatue.volume/100
+    })
+    audioContextEle.analyser = audioContextEle.ctx.createAnalyser()
+    audioContextEle.source = audioContextEle.ctx.createMediaElementSource(playerAudio.value)
+    audioContextEle.source.connect(audioContextEle.gain)
+    audioContextEle.gain.connect(audioContextEle.analyser)
+    audioContextEle.analyser.connect(audioContextEle.ctx.destination)
+    _toWaveShower.value = audioContextEle.analyser
+  }, {
+    once: true
+  })
 })
 
 </script>
@@ -586,6 +633,7 @@ onMounted(() => {
           transition: 0.3s;
           font-size: 1.2em;
           color: var(--font-color);
+
           &:hover {
             color: var(--font-color-b);
             background: var(--theme-strong1);
@@ -600,6 +648,33 @@ onMounted(() => {
 
       &>.center {
         flex-grow: 1;
+      }
+      &>.right>.volume {
+        width: 10vw;
+        min-width: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &>*:nth-child(3){
+          position: relative;
+          &>*:nth-child(1){
+            opacity: 0;
+            pointer-events: none;
+            user-select: none;
+          }&>*:nth-child(2){
+            position: absolute;
+            right: 0;
+            top: 0;
+          }
+        }
+        &>*:nth-child(2){
+          flex-grow: 1;
+        }
+        &>*:nth-child(1){
+          font-size: 1.5em;
+          margin: 0;
+          padding: 0;
+        }
       }
     }
   }
@@ -679,5 +754,4 @@ onMounted(() => {
   top: 0;
   left: 0;
   z-index: -1;
-}
-</style>
+}</style>
