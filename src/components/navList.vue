@@ -125,6 +125,8 @@ onMounted(() => {
             --self-scroll: clamp(0, calc(var(--scroll) - 1), 1);
             transform: translate(0, calc(300% * (1 - var(--self-scroll)))) scale(calc(var(--self-scroll)));
             opacity: var(--self-scroll);
+            word-wrap: none;
+            word-break: keep-all;
         }
 
         &>.center-list {
@@ -143,20 +145,19 @@ onMounted(() => {
             backdrop-filter: blur(15px);
 
             &>* {
-                $size: 100;
+                $size: clamp(50px,10vw,150px);
                 width: #{$size}px;
                 height: #{$size}px;
-
                 &>a {
                     all:inherit;
                     cursor: pointer;
                     &>div {
-                        width: #{$size}px;
-                        height: #{$size}px;
+                        width: #{$size};
+                        height: #{$size};
                         --self-scroll: clamp(0, calc(var(--scroll) - 1.5 + var(--distance)), 1);
                         flex-shrink: 0;
                         background-color: var(--main-color);
-                        font-size: 12px;
+                        font-size: clamp(6px,1.2vw,18px);
                         color: white;
 
                         display: flex;
@@ -169,7 +170,7 @@ onMounted(() => {
                         // transform: scale(calc(max(0, var(--self-scroll) - var(--delay))));
                         // transform: scale(var(--delay));
                         --d: calc(1 - (1 - var(--distance)) * (1 - var(--distance)));
-                        transform: translate(calc((var(--center-list-width) / 2 - var(--center-list-item-left) - #{math.div($size,2)}) * 1px * (1 - var(--self-scroll))), calc((var(--center-list-height) / 2 - var(--center-list-item-top) - #{math.div($size,2)}) * 1px * (1 - var(--self-scroll)))) scale(var(--self-scroll));
+                        transform: translate(calc(((var(--center-list-width) / 2 - var(--center-list-item-left)) * 1px - (#{$size} / 2)) * (1 - var(--self-scroll))), calc(((var(--center-list-height) / 2 - var(--center-list-item-top)) * 1px  - (#{$size} / 2))* (1 - var(--self-scroll)))) scale(var(--self-scroll));
 
                         &>p {
                             margin: 0;
