@@ -129,6 +129,8 @@ export function jump(url, onOtherWindow) {
 export function getJumpUrl(url){
     if (url.startsWith("/") && !url.startsWith(import.meta.env.BASE_URL)) {
         // console.warn("Base URL is not included in the URL.")
+        console.log(url)
+
         url = import.meta.env.BASE_URL + url.slice(1)
     }
     return url

@@ -22,7 +22,7 @@
                     <transition duration="1000">
                         <ul class="list" v-if="index === nowList.length - 1">
                             <li :style="{ '--index': index }" v-for="i, index in nowData.nav" class="nums">
-                                <a href="">
+                                <a :href="getJumpUrl(i.href)">
                                     <p class="demo-icon icon">{{ i.icon }}</p>
                                     <p class="word">{{ i.word }}</p>
                                 </a>
