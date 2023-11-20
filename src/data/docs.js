@@ -62,6 +62,9 @@ export default {
         }, {
             "name": "vite-plugin-electron",
             "title": "Electron的vite开发插件"
+        }, {
+            "name": "retryCommand",
+            "title": "批量重试指令"
         }
     ]
 }
