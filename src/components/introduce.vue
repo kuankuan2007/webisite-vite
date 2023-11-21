@@ -56,6 +56,7 @@ const colorBlocks = new RandomColorboxList(props, "simplePageHeight")
 }
 
 .introduce {
+    font-size: clamp(6px,1.2vw,18px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -102,10 +103,10 @@ const colorBlocks = new RandomColorboxList(props, "simplePageHeight")
                 backdrop-filter: blur(10px);
                 position: absolute;
                 margin: 0;
-                font-size: 72px;
-                width: 128px;
-                height: 128px;
-                line-height: 128px;
+                font-size: clamp(36px,5vw,108px);
+                width: clamp(64px,5vw,192px);
+                height: clamp(64px,5vw,192px);
+                line-height: clamp(64px,5vw,192px);
                 color: var(--theme-strong1-2);
                 text-align: center;
                 background-color: var(--theme-3-10);
