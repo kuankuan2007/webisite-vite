@@ -1,15 +1,14 @@
 <template>
     <div v-show="finished" id="user">
-        <linkLikeButton class="login" v-if="username === ''" @click="login">登录</linkLikeButton>
-        <linkLikeButton class="user" v-else @click="userPage">{{ username }}</linkLikeButton>
+        <a class="login" :href="getJumpToWithFromNowUrl('/login/')" v-if="username === ''" @click="login">登录</a>
+        <a class="user" :href="getJumpUrl('/user/')" v-else @click="userPage">{{ username }}</a>
     </div>
 </template>
 <script setup>
 import { getInfo, getUserName ,getRights } from "../script/connection.js";
 import { ref } from "vue"
 import ALL from "../script/all.js"
-import linkLikeButton from "./input/linkLikeButton.vue"
-import {jumpToWithFromNow} from  "../../../src/common/script/normal"
+import {jumpToWithFromNow,getJumpToWithFromNowUrl,getJumpUrl} from  "../../../src/common/script/normal"
 let props = defineProps({
     jump: {
         type: String,
@@ -105,15 +104,15 @@ function userPage() {
 
 
 
-button.user {
+.user {
     border-color: var(--theme-2-10);
 }
 
-button.login {
+.login {
     border-color: var(--theme-strong1);
 
 }
-button.login,button.user {
+.login,.user {
     display: block;
     font-size: 16px;
     margin: 0;

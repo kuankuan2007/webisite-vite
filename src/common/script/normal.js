@@ -245,7 +245,7 @@ export function hyphenNaming2HumpNaming(str) {
  * @return {string} The generated URL.
  */
 export function getJumpToWithFromNowUrl(baseUrl) {
-    `${baseURL}${baseURL.includes("?") ? "" : "?"}&from=${encodeURIComponent(location.href)}`
+    return `${baseUrl}${baseUrl.includes("?") ? "" : "?"}&from=${encodeURIComponent(location.href)}`
 }
 /**
  * Redirects the user to a specified URL with an additional "from" query parameter.
