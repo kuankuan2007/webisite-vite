@@ -42,7 +42,7 @@ import { sprintf } from "sprintf"
 import { reactive, ref, watchEffect } from "vue"
 import { getJumpUrl } from "../script/normal";
 import importButton from "./input/linkLikeButton.vue"
-let isFold = ref(true)
+
 let finished = ref(false)
 let data = reactive({})
 let nowList = ref([])

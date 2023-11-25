@@ -1,8 +1,5 @@
 <template>
-  <myHeader :class="{
-    'hidden': hiddenHeader,
-    'loaded': loaded,
-  }" title="宽宽的小天地"></myHeader>
+  <myHeader :hidden="hiddenHeader" title="宽宽的小天地"></myHeader>
   <div class="fixed" ref="fixedEle" @scroll="refreshScrollTop" v-on-resize="debounceRefreshSimplePageHeight" :style="{
     '--foot-num': footList.length,
     '--simple-page-height': simplePageHeight
@@ -133,19 +130,7 @@ onMounted(() => {
 
 </script>
 <style lang="scss" scoped>
-html {}
 
-.header {
-  transform: translate(-50%, 0) !important;
-
-  &.loaded {
-    transition: transform 0.3s;
-  }
-
-  &.hidden {
-    transform: translate(-50%, -100%) !important;
-  }
-}
 
 .fixed {
   position: fixed;

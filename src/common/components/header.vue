@@ -1,6 +1,7 @@
 <template>
   <header class="header" :class="{
     'nav-visible': navVisibility,
+    'hidden': hidden && !navVisibility
   }">
     <div id="titleGroup">
       <h1 id="title">
@@ -59,6 +60,10 @@ let props = defineProps({
     type: Boolean,
     default: false,
     required: false
+  },hidden:{
+    type: Boolean,
+    default: false,
+    required: false
   }
 })
 let title = document.createElement("title")
@@ -85,6 +90,7 @@ header {
   width: 100%;
   left: 50%;
   transform: translate(-50%, 0);
+  transition: transform 0.3s;
   &>*{
     transition: opacity 0.3s;
   }
@@ -92,6 +98,9 @@ header {
     &>*{
       opacity: 0;
     }
+  }
+  &.hidden{
+    transform: translate(-50%, -100%);
   }
 }
 
