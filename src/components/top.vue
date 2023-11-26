@@ -10,7 +10,7 @@
                 }">{{ s }}</span>
             </h1>
             <typewriter ref="signature" class="signature"
-                data="如果说，青春如烟，仅此一场，放肆冲动，我会将什么故事写在过去散在风中。即便此刻两手空空，即便隐隐作痛，要记得时而抬起头仰望星空，拥抱彩虹。" />
+                data="我们就这样，某天降生到世上，不停地流浪，一路去不知名的远方" />
         </div>
         <div class="bg" ref="bg" v-on-resize="debounce(onResize, 300)">
             <div :style="{

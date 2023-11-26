@@ -65,6 +65,9 @@ export default {
         }, {
             "name": "retryCommand",
             "title": "批量重试指令"
+        }, {
+            "name": "deep-proxy",
+            "title": "深代理"
         }
     ]
 }
