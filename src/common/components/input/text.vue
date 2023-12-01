@@ -144,6 +144,8 @@ defineExpose({
   opacity: 0.5;
   pointer-events: none;
   transition: 0.3s;
+  pointer-events: none;
+  user-select: none;
 }
 
 .input-group {

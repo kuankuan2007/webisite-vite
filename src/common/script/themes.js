@@ -2,7 +2,7 @@ import {reactive} from "vue";
 import ALL from "./all"
 let themes={
     light:"OS",
-    color:"full",
+    color:"simple",
     opacity:"blur",
     roundedBorder:"normal"
 }

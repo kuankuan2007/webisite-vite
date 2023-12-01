@@ -1,22 +1,26 @@
 <template>
     <div :class="{
-        mobie:mobile
+        mobie: mobile
     }">
-        <a @click="onclick" :href="props.href">
-            <p>{{ props.content }}
-                <div class="qrcode">
-                    <p>{{ props.tips }}</p>
-                    <img :src="qr">
-                </div>
-            </p>
-        </a>
+        <div @click="onclick" :href="props.href">
+            <div>
+                <a :href="props.href">{{ props.content }}</a>
+                <linkLikeButton @click="copy" class="icon"><k-icons icon="copy" /></linkLikeButton>
+            <div class="qrcode">
+                <p>{{ props.tips }}</p>
+                <img :src="qr">
+            </div>
+            </div>
+        </div>
     </div>
 </template>
 <script setup>
 import { ref } from "vue";
-import { jump } from "../../../src/common/script/normal";
-import { askChoice,showImages } from "../../../src/common/script/infomations"
+import { copyText, jump } from "../../../src/common/script/normal";
+import { askChoice, showImages, showMessage } from "../../../src/common/script/infomations"
 import { getQRCode, isMobie } from "../../../src/common/script/normal"
+import linkLikeButton from "../../../src/common/components/input/linkLikeButton.vue";
+import KIcons from "../../../src/common/components/KIcons.vue";
 let props = defineProps({
     href: {
         type: String,
@@ -31,9 +35,15 @@ let props = defineProps({
     }, qrcode: {
         type: String,
         required: false
+    }, copyMessage: {
+        type: String,
+        required: false,
     }
 })
-
+async function copy(){
+    await copyText(props.copyMessage)
+    showMessage("复制成功")
+}
 /**
  * Handles the onclick event.
  *
@@ -47,9 +57,10 @@ function onclick(e) {
             "跳转": "jump",
             "二维码展示": "qrcode"
         }).then(result => {
-            if (result==="jump"){
-                jump(props.href,true)
-            }else{
+            if (result === "jump") {
+                jump(props.href, true)
+            }
+            else {
                 showImages([qr.value])
             }
         }, reason => { })
@@ -91,12 +102,12 @@ div.qrcode {
     background-color: #fff;
     z-index: 1;
     border-radius: calc(10px * var(--theme-border-radius));
-    
-    .mobie &{
+
+    .mobie & {
         display: none;
     }
 
-    p:hover>& {
+    div:hover>& {
         transform: translate(-50%, 0%);
         opacity: 1;
     }
