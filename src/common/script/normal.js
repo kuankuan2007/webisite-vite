@@ -269,7 +269,7 @@ export function jumpBackToFrom() {
  * @param {string} baseUrl - The base URL to add the "from" parameter to.
  * @return {string} The modified URL with the "from" parameter added.
  */
-export function getJumpToWithFromUrl(baseUrl){
+export function getJumpToWithFromUrl(baseURL){
     return `${baseURL}${baseURL.includes("?") ? "" : "?"}&from=${getQueryVariable("from", "/")}`
 }
 /**
@@ -278,8 +278,7 @@ export function getJumpToWithFromUrl(baseUrl){
  * @return {void} No return value.
  */
 export function jumpToWithFrom(baseURL) {
-    jump(/* The above code is defining a function called "getJumpToWithFromUrl" in JavaScript. */
-    getJumpToWithFromUrl(baseURL))
+    jump(getJumpToWithFromUrl(baseURL))
 }
 /**
  * make QR Code and return the data url
