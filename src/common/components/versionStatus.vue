@@ -12,6 +12,9 @@ onMounted(() => {
     let nonStableVersionsTips=[]
     try {
         nonStableVersionsTips = JSON.parse(localStorage.getItem("nonStableVersionsTips", '[]'))
+        if (!nonStableVersionsTips) {
+            nonStableVersionsTips = []
+        }
     } catch {
         nonStableVersionsTips = []
     }
