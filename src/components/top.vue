@@ -67,15 +67,18 @@ const colorBolcks = new RandomColorboxList(props, "simplePageHeight")
 
 div.content {
     max-width: 60%;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     &>h1 {
 
 
         font-size: 3.5em;
         text-align: center;
+        perspective: 700px;
         justify-content: center;
         align-items: center;
-
+        width: fit-content;
         .on-mounted & {
             display: flex;
 
@@ -94,6 +97,11 @@ div.content {
 
                 display: block;
                 opacity: 0;
+                flex-grow: 0;
+                flex-basis: 0;
+                width: 14%;
+                filter: drop-shadow(4px 0 4px var(--font-color-b));
+                z-index: calc(20 - var(--index));
                 animation:title-show 0.8s calc(var(--index) * 0.2s) cubic-bezier(0.78, -0.08, 0.54, 1.29) forwards;
             }
         }

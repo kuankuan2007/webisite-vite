@@ -236,7 +236,7 @@ buildNavTree(rootNav).then(
     height: 100%;
     overflow-y: scroll;
     position: relative;
-    max-height: 100vh;
+    max-height: calc(100vh - 60px);
     width: calc((var(--width) + 70px));
 }
 
