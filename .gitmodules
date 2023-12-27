@@ -11,5 +11,5 @@
 	branch = kuankuan2007
 [submodule "builded"]
 	path = builded
-	url = https://gitee.com/kuankuan2007/new-index.git
+	url = https://gitee.com/kuankuan2007/kuankuan2007.git
 	branch = master
