@@ -1,23 +1,11 @@
 import { getRegistrationOptions, verificationRegistration, getAuthenticationOptions, verificationAuthentication } from "./connection"
 export function checkSupport() {
     return new Promise((resolve, reject) => {
-        if (window.PublicKeyCredential &&
-            PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable &&
-            PublicKeyCredential.isConditionalMediationAvailable) {
-            // Check if user verifying platform authenticator is available.  
-            Promise.all([
-                PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable(),
-                PublicKeyCredential.isConditionalMediationAvailable(),
-            ]).then(results => {
-                if (results.every(r => r === true)) {
-                    reject()
-                } else {
-                    resolve()
-                }
-            });
+        if (navigator.credentials && navigator.credentials.create && navigator.credentials.get ) {
+            resolve(true)
         } else {
-            reject()
-        }
+            resolve(false)
+        }   
     })
 }
 export async function createKeys() {
