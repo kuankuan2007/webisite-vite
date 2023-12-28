@@ -99,7 +99,6 @@ defineExpose({
   position: relative;
   width: calc(100% - 44px);
   font-size: 24px;
-  font-family: monospace;
   outline: none;
   border-style: solid;
   border-width: 0px;

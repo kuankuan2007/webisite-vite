@@ -1,4 +1,65 @@
 @import "./ALIBABA-PUHUITI-3.0.scss";
 *{
     font-family: "ALIBABA PUHUITI 3.0";
+    font-weight: 400;
+}
+h1{
+    font-weight: 800;
+    & *{
+        font-weight: 800;
+    }
+}
+h2{
+    font-weight: 800;
+    & *{
+        font-weight: 800;
+    }
+}
+h3{
+    font-weight: 800;
+    & *{
+        font-weight: 800;
+    }
+}
+h4{
+    font-weight: 800;
+    & *{
+        font-weight: 800;
+    }
+}
+h5{
+    font-weight: 800;
+    & *{
+        font-weight: 800;
+    }
+}
+h6{
+    font-weight: 800;
+    & *{
+        font-weight: 800;
+    }
+}
+p{
+    font-weight: 400;
+    & *{
+        font-weight: 400;
+    }
+}
+b{
+    font-weight: 700;
+}
+a{
+    font-weight: 500;
+}
+input[type="text"],input[type="password"],textarea{
+    font-weight: 200;
+}
+input[type="submit"],input[type="button"],button{
+    font-weight: 500;
+}
+*.katex{
+    font-family: KaTeX_Main, "Times New Roman", serif;
+    & *{
+        font-family: KaTeX_Main, "Times New Roman", serif;
+    }
 }
