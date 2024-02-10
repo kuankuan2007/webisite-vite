@@ -10,7 +10,11 @@ export let nowdata={}
 export let data=reactive(nowdata)
 let matchs=matchMedia('(prefers-color-scheme: dark)')
 function refresh(){
-    nowdata=Object.assign({},themes,JSON.parse(localStorage.getItem('theme')||"{}"));
+    try{
+        nowdata=Object.assign({},themes,JSON.parse(localStorage.getItem('theme')||"{}"));
+    }catch{
+        nowdata=Object.assign({},themes);
+    }
     for(let i in nowdata){
         data[i]=nowdata[i]
     }
