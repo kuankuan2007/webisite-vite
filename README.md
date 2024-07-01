@@ -1,10 +1,6 @@
 # 宽宽的小天地
 
-欢迎访问宽宽的个人网站 - [宽宽的小天地](https://kuankuan2007.gitee.io/)！本仓库包含了宽宽的个人网站的源代码。
-
-# Page
-
-本仓库代码的编译结果放在[pages: 宽宽的博客，欢迎编辑和参考 (gitee.com)](https://gitee.com/kuankuan2007/kuankuan2007)仓库
+欢迎访问宽宽的个人网站 - [宽宽的小天地](https://kuankuan.site/)！本仓库包含了宽宽的个人网站的源代码。
 
 ## 旧版本
 

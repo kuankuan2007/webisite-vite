@@ -106,7 +106,7 @@ export function init(){
     if (inited){
         return
     }
-    chatConnect=new WebSocket("wss://kuankuan.site/chat/ws")
+    chatConnect=new WebSocket("wss://api.kuankuan.site/chat/ws")
     chatConnect.onmessage=onmessage
     chatConnect.onopen=getMore
     inited=true

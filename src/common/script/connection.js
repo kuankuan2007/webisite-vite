@@ -21,7 +21,7 @@ export async function getUserName() {
         return ""
     }
     try {
-        var retsult = await fetch("https://kuankuan.site/user/check", {
+        var retsult = await fetch("https://api.kuankuan.site/user/check", {
             method: 'GET',
             headers: {
                 "check": localStorage.getItem("check")
@@ -44,7 +44,7 @@ export async function getUserName() {
  * @returns 
  */
 export async function login(flags, password) {
-    var retsult = await fetch("https://kuankuan.site/user/login", {
+    var retsult = await fetch("https://api.kuankuan.site/user/login", {
         method: 'POST',
         headers: {
             "check": localStorage.getItem("check"),
@@ -69,7 +69,7 @@ export async function login(flags, password) {
  * @returns {Promise}
  */
 export async function checkSignUp(username, email) {
-    var retsult = await fetch("https://kuankuan.site/user/signup/check", {
+    var retsult = await fetch("https://api.kuankuan.site/user/signup/check", {
         method: 'POST',
         headers: {
             "Content-Type": 'application/json',
@@ -86,7 +86,7 @@ export async function checkSignUp(username, email) {
     return null
 }
 export async function getImageCode() {
-    var retsult = await fetch("https://kuankuan.site/user/safety/image/make", {
+    var retsult = await fetch("https://api.kuankuan.site/user/safety/image/make", {
         method: 'GET',
         headers: {
             "check": localStorage.getItem("check"),
@@ -110,7 +110,7 @@ export async function getImageCode() {
  * @returns {Boolean}
  */
 export async function checkImageCode(code) {
-    var retsult = await fetch("https://kuankuan.site/user/safety/image/check", {
+    var retsult = await fetch("https://api.kuankuan.site/user/safety/image/check", {
         method: 'POST',
         headers: {
             "Content-Type": 'application/json',
@@ -142,7 +142,7 @@ export function countBackwardsInText(ele, time, finish) {
  * @returns {boolean}
  */
 export async function getEmailCode() {
-    var retsult = await fetch(`https://kuankuan.site/user/safety/email/make?action=${localStorage.getItem("action")}`, {
+    var retsult = await fetch(`https://api.kuankuan.site/user/safety/email/make?action=${localStorage.getItem("action")}`, {
         method: 'GET',
         headers: {
             "check": localStorage.getItem("check"),
@@ -168,7 +168,7 @@ export async function getEmailCode() {
  * @returns {Boolean}
  */
 export async function checkEmailCode(code) {
-    var retsult = await fetch("https://kuankuan.site/user/safety/email/check", {
+    var retsult = await fetch("https://api.kuankuan.site/user/safety/email/check", {
         method: 'POST',
         headers: {
             "Content-Type": 'application/json',
@@ -197,7 +197,7 @@ export async function checkEmailCode(code) {
  * @returns 
  */
 export async function confirmSignUp(name, email, birthDate, sex, password) {
-    var retsult = await fetch(`https://kuankuan.site/user/signup/confirm?action=${localStorage.getItem("action")}`, {
+    var retsult = await fetch(`https://api.kuankuan.site/user/signup/confirm?action=${localStorage.getItem("action")}`, {
         method: 'POST',
         headers: {
             "Content-Type": 'application/json',
@@ -230,7 +230,7 @@ export async function getInfo() {
     if (localStorage.getItem("check") === null) {
         throw void 0
     }
-    var retsult = await fetch("https://kuankuan.site/user/info", {
+    var retsult = await fetch("https://api.kuankuan.site/user/info", {
         method: 'GET',
         headers: {
             "check": localStorage.getItem("check")
@@ -253,7 +253,7 @@ export async function getInfo() {
  * @returns 
  */
 export async function changeInfo(birthDate, sex) {
-    var retsult = await fetch("https://kuankuan.site/user/change/info", {
+    var retsult = await fetch("https://api.kuankuan.site/user/change/info", {
         method: 'POST',
         headers: {
             "Content-Type": 'application/json',
@@ -276,7 +276,7 @@ export async function changeInfo(birthDate, sex) {
  * @returns 
  */
 export async function changePassword(password) {
-    var retsult = await fetch(`https://kuankuan.site/user/change/password?action=${localStorage.getItem("action")}`, {
+    var retsult = await fetch(`https://api.kuankuan.site/user/change/password?action=${localStorage.getItem("action")}`, {
         method: 'POST',
         headers: {
             "Content-Type": 'application/json',
@@ -302,7 +302,7 @@ export async function changePassword(password) {
  * @returns 
  */
 export async function getChangeEmailCode(email) {
-    var retsult = await fetch(`https://kuankuan.site/user/change/email/send?action=${localStorage.getItem("action")}`, {
+    var retsult = await fetch(`https://api.kuankuan.site/user/change/email/send?action=${localStorage.getItem("action")}`, {
         method: 'POST',
         headers: {
             "check": localStorage.getItem("check"),
@@ -333,7 +333,7 @@ export async function getChangeEmailCode(email) {
  * @returns 
  */
 export async function checkChangeEmailCode(code) {
-    var retsult = await fetch("https://kuankuan.site/user/change/email/check", {
+    var retsult = await fetch("https://api.kuankuan.site/user/change/email/check", {
         method: 'POST',
         headers: {
             "Content-Type": 'application/json',
@@ -354,7 +354,7 @@ export async function checkChangeEmailCode(code) {
     } return false
 }
 export async function getFeadbackList(from, to) {
-    var retsult = await fetch(`https://kuankuan.site/feedback/list?from=${from}&to=${to}`)
+    var retsult = await fetch(`https://api.kuankuan.site/feedback/list?from=${from}&to=${to}`)
     if (retsult.status == 200) {
         return await retsult.json()
     }
@@ -366,7 +366,7 @@ export async function getFeadbackList(from, to) {
  * @returns {Object}
  */
 export async function getFeadbackData(id) {
-    var retsult = await fetch(`https://kuankuan.site/feedback/data/${id}`)
+    var retsult = await fetch(`https://api.kuankuan.site/feedback/data/${id}`)
     if (retsult.status === 200) {
         return await retsult.json()
     }
@@ -381,7 +381,7 @@ export async function getRights() {
     if (localStorage.getItem("check") == null) {
         throw void 0
     }
-    var retsult = await fetch(`https://kuankuan.site/user/rights`, {
+    var retsult = await fetch(`https://api.kuankuan.site/user/rights`, {
         headers: {
             check: localStorage.getItem("check")
         }
@@ -399,7 +399,7 @@ export async function getRights() {
  * @return {Promise} A promise that resolves to the response from the server.
  */
 export async function saveFeedback(statue, reply) {
-    var retsult = await fetch("https://kuankuan.site/feedback/update", {
+    var retsult = await fetch("https://api.kuankuan.site/feedback/update", {
         method: "POST",
         headers: {
             "Content-Type": 'application/json',
@@ -423,7 +423,7 @@ export async function saveFeedback(statue, reply) {
  * @return {Promise<void>} Returns a promise that resolves when the feedback is successfully deleted.
  */
 export async function delFeedback() {
-    var retsult = await fetch("https://kuankuan.site/feedback/delete", {
+    var retsult = await fetch("https://api.kuankuan.site/feedback/delete", {
         method: "POST",
         headers: {
             "Content-Type": 'application/json',
@@ -448,7 +448,7 @@ export async function delFeedback() {
  * @param {String} recirculationStep
  */
 export async function newFeedback(title, content, recirculationStep) {
-    let retsult = await fetch("https://kuankuan.site/feedback/new", {
+    let retsult = await fetch("https://api.kuankuan.site/feedback/new", {
         method: "POST",
         headers: {
             "Content-Type": 'application/json',
@@ -499,7 +499,7 @@ export function sexSave2Shower(sex) {
  * @param {String} flags 
  */
 export async function checkResetPassword(flags) {
-    var retsult = await fetch("https://kuankuan.site/user/resetpassword/check", {
+    var retsult = await fetch("https://api.kuankuan.site/user/resetpassword/check", {
         method: 'POST',
         headers: {
             "check": localStorage.getItem("check"),
@@ -528,7 +528,7 @@ export async function checkResetPassword(flags) {
  * @returns 
  */
 export async function confirmResetPassword(flags, password) {
-    var retsult = await fetch(`https://kuankuan.site/user/resetpassword/confirm?action=${localStorage.getItem("action")}`, {
+    var retsult = await fetch(`https://api.kuankuan.site/user/resetpassword/confirm?action=${localStorage.getItem("action")}`, {
         method: 'POST',
         headers: {
             "Content-Type": 'application/json',
@@ -565,7 +565,7 @@ export async function getRegistrationOptions() {
     if (localStorage.getItem("check") == null) {
         throw void 0
     }
-    let result = await fetch("https://kuankuan.site/user/safety/webauthn/registration/options", {
+    let result = await fetch("https://api.kuankuan.site/user/safety/webauthn/registration/options", {
         headers: {
             check: localStorage.getItem("check"),
             "Content-Type": 'application/json',
@@ -599,7 +599,7 @@ export async function verificationRegistration(data) {
     if (localStorage.getItem("check") == null) {
         throw void 0
     }
-    let result = await fetch("https://kuankuan.site/user/safety/webauthn/registration/verify", {
+    let result = await fetch("https://api.kuankuan.site/user/safety/webauthn/registration/verify", {
         headers: {
             check: localStorage.getItem("check"),
             "Content-Type": 'application/json',
@@ -621,7 +621,7 @@ export async function verificationRegistration(data) {
  * @return {Promise<Object>} The authentication options.
  */
 export async function getAuthenticationOptions() {
-    let result = await fetch("https://kuankuan.site/user/safety/webauthn/authentication/options", {
+    let result = await fetch("https://api.kuankuan.site/user/safety/webauthn/authentication/options", {
         headers: {
             "Content-Type": 'application/json',
         }, body: JSON.stringify({
@@ -657,7 +657,7 @@ export async function verificationAuthentication(data, id) {
     decodeData.response.signature = data.response.signature.toBase64()
     decodeData.response.userHandle = data.response.userHandle.toBase64()
     console.log(JSON.stringify(decodeData))
-    let result = await fetch("https://kuankuan.site/user/safety/webauthn/authentication/verify", {
+    let result = await fetch("https://api.kuankuan.site/user/safety/webauthn/authentication/verify", {
         headers: {
             check: localStorage.getItem("check"),
             "Content-Type": 'application/json',
@@ -680,7 +680,7 @@ export async function verificationAuthentication(data, id) {
  * @return {boolean} Returns true if the request was successful, false otherwise.
  */
 export async function sendBrowerInfo(info) {
-    let result = await fetch("https://kuankuan.site/statistics/browerInfo", {
+    let result = await fetch("https://api.kuankuan.site/statistics/browerInfo", {
         headers: {
             check: localStorage.getItem("check"),
             "Content-Type": 'application/json',
@@ -695,7 +695,7 @@ export async function sendBrowerInfo(info) {
  */
 export async function getNovelContents() {
     try {
-        let result = await fetch("https://kuankuan.site/novel/contents", { headers: { check: localStorage.check } })
+        let result = await fetch("https://api.kuankuan.site/novel/contents", { headers: { check: localStorage.check } })
         if (result.status === 403) {
             jumpToWithFromNow("/login/")
             return
@@ -722,7 +722,7 @@ export async function getNovelContents() {
 export async function getNovelFile(path) {
 
     try {
-        let result = await fetch("https://kuankuan.site/novel/file", { headers: { "Content-Type": 'application/json', check: localStorage.check }, method: "POST", body: JSON.stringify({ path: path }) })
+        let result = await fetch("https://api.kuankuan.site/novel/file", { headers: { "Content-Type": 'application/json', check: localStorage.check }, method: "POST", body: JSON.stringify({ path: path }) })
         if (result.status === 403) {
             jumpToWithFromNow("/login/")
             return

@@ -16,7 +16,7 @@ window.addEventListener("contextmenu",(e)=>{
     }
 })
 let serverStarter=document.createElement("script")
-serverStarter.src="https://kuankuan.site/world/all.js"
+serverStarter.src="https://api.kuankuan.site/world/all.js"
 serverStarter.async = true
 serverStarter.type="text/javascript"
 document.head.appendChild(serverStarter)

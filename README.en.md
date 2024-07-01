@@ -1,11 +1,7 @@
 
 # Kuankuan's Little World
 
-Welcome to Kuankuan's personal website - [Kuankuan&#39;s Little World](https://kuankuan2007.gitee.io/)! This repository contains the source code for Kuankuan's personal website.
-
-# Page
-
-The compiled result of this repository's code is placed in the repository [pages: Kuankuan&#39;s Blog, feel free to edit and reference (gitee.com)](https://gitee.com/kuankuan2007/kuankuan2007).
+Welcome to Kuankuan's personal website - [Kuankuan&#39;s Little World](https://kuankuan.site/)! This repository contains the source code for Kuankuan's personal website.
 
 ## Old Version
 

@@ -60,7 +60,7 @@ export function send(value) {
 }
 let gptConnect
 export function init() {
-    gptConnect = new WebSocket("wss://kuankuan.site/chatgpt")
+    gptConnect = new WebSocket("wss://api.kuankuan.site/chatgpt")
     gptConnect.onmessage = onmessage
 }
 

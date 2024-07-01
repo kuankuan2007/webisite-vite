@@ -1,12 +1,12 @@
 {
     "name": "宽宽的小天地",
-    "version": "1.0.0",
-    "author": "宽宽2007",
+    "version": "1.1.0",
+    "author": "kuankuan2007",
     "description": "宽宽自己的网站，包括一些文档、Chatgpt等内容",
     "start_url": "index.html",
     "short_name": "kuankuan",
     "display": "standalone",
-    "id": "kuankuan.site",
+    "id": "www.kuankuan.site",
     "icons": [
         {
             "src": "logo.png",

@@ -43,7 +43,7 @@ let isFinished = ref(false)
 let data = ref()
 let now = ref(0)
 let looked=new Set(JSON.parse(localStorage.getItem("announcementLooked")||"[]"))
-fetch("https://kuankuan.site/world/announcement.json").then(respone => respone.json()).then(values => {
+fetch("https://api.kuankuan.site/world/announcement.json").then(respone => respone.json()).then(values => {
     data.value = values
     isFinished.value = true
     for (let i =0;i<values.data.length;i++) {
