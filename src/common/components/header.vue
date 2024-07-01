@@ -26,10 +26,10 @@ import versionStatus from "./versionStatus.vue";
 import { ref } from "vue";
 const navVisibility = ref(false)
 var _hmt = _hmt || [];
-(function () {
+(function() {
   var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?446f9e42f304b5b9b7d11732fb496141";
-  var s = document.getElementsByTagName("script")[0];
+  hm.src = "https://hm.baidu.com/hm.js?7b0a335b2168cbbd83ded4984e0fa1d1";
+  var s = document.getElementsByTagName("script")[0]; 
   s.parentNode.insertBefore(hm, s);
 })();
 setTimeout(() => {
