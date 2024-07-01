@@ -31,7 +31,7 @@ export default defineConfig({
     open: true //如果存在本地服务端口，将在打包后自动展示
   }), sitemapPlugin(
     {
-      hostname: 'http://kuankuan2007.gitee.io/',
+      hostname: 'http://www.kuankuan.site/',
       changefreq: 'weekly',
       outDir:"builded/dist"
     }
