@@ -9,7 +9,3 @@
 	path = modifiedPackage/node-process
 	url = https://github.com/kuankuan2007/node-process.git
 	branch = kuankuan2007
-[submodule "builded"]
-	path = builded
-	url = https://gitee.com/kuankuan2007/kuankuan2007.git
-	branch = master
