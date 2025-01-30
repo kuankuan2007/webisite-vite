@@ -1,41 +1,42 @@
-# 宽宽的小天地
 
-欢迎访问宽宽的个人网站 - [宽宽的小天地](https://kuankuan.site/)！本仓库包含了宽宽的个人网站的源代码。
+# Kuankuan's Little World
 
-## 旧版本
+Welcome to Kuankuan's personal website - [Kuankuan&#39;s Little World](https://kuankuan.site/)! This repository contains the source code for Kuankuan's personal website.
 
-在此之前，有一个老版本的宽宽的个人网站已停止维护，您可以在[这里](https://gitee.com/kuankuan2007/website-old)找到。该版本仅供参考和存档，无法进行任何更改。
+## Old Version
 
-## 贡献
+Before this version, there was an old version of Kuankuan's personal website that is no longer maintained. You can find it [here](https://gitee.com/kuankuan2007/website-old). This version is provided for reference and archival purposes only and cannot be modified.
 
-如果您希望为这个仓库做贡献，请按照以下步骤：
+## Contributions
 
-1. 创建一个名为 `feet_(user)_(feature)` 的分支。
-2. 在分支上进行您的修改和改进。
-3. 提交您的分支，并向我们发送一个 Pull 请求。
+If you would like to contribute to this repository, please follow these steps:
 
-请注意，为了避免在不同平台之间的冲突，强烈建议确保 git 忽略大小写。您可以通过以下方式设置：
+1. Create a branch named `feet_(user)_(feature)`.
+2. Make your modifications and improvements on the branch.
+3. Submit your branch and send us a Pull Request.
+
+Please note that to avoid conflicts between different platforms, it is strongly recommended to ensure that git ignores case sensitivity. You can set it up by using the following command:
 
 ```bash
 git config core.ignorecase false
 ```
 
-## 技术栈
+## Technology Stack
 
-- 该项目使用了 Vite 和 Vue 进行开发。
-- 旧版本使用传统的 HTML、CSS 和 JS。
+- This project is developed using Vite and Vue.
+- The old version uses traditional HTML, CSS, and JS.
 
-## 开源协议
+## Open Source License
 
-本项目使用 MPL-2.0 开源协议。您可以在[LICENSE](./LICENSE)文件中找到更多详细信息。
+This project is licensed under MPL-2.0. You can find more detailed information in the [LICENSE](./LICENSE) file.
 
-## 其他信息
+## Other Information
 
-- `/src/common` 目录中存有一些整个网站都可能用到的资源。
-- 请参考项目根目录的 `.nvmrc` 文件中的 Node.js 版本要求。如果您安装了 nvm，也可以使用自动切换功能：
+- The `/src/common` directory contains some resources that may be used throughout the entire website.
+- Please refer to the `.nvmrc` file in the project's root directory for the required version of Node.js. If you have nvm installed, you can also use the automatic switching feature:
 
   ```bash
   nvm use
   ```
 
-感谢您对宽宽的小天地感兴趣，并为该项目做出贡献！
+Thank you for your interest in Kuankuan's Little World and for contributing to this project!
