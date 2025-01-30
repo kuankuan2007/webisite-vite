@@ -5,7 +5,7 @@
         <div @click="onclick" :href="props.href">
             <div>
                 <a :href="props.href">{{ props.content }}</a>
-                <linkLikeButton @click="copy" class="icon"><k-icons icon="copy" /></linkLikeButton>
+                <linkLikeButton @click.stop="copy" class="icon"><k-icons icon="copy" /></linkLikeButton>
             <div class="qrcode">
                 <p>{{ props.tips }}</p>
                 <img :src="qr">

@@ -52,6 +52,66 @@
       </div>
       <div>
         <div class="title">
+          <h2>X</h2>
+        </div>
+        <div>
+          <links copy-message="kuankuan2007" tips="用浏览器打开"
+            href="https://x.com/kuankuan2007"
+            content="kuankuan2007" />
+        </div>
+      </div>
+      <div>
+        <div class="title">
+          <h2>YouTube</h2>
+        </div>
+        <div>
+          <links copy-message="kuankuan2007" tips="用浏览器打开"
+            href="https://www.youtube.com/@kuankuan2007"
+            content="kuankuan2007" />
+        </div>
+      </div>
+      <div>
+        <div class="title">
+          <h2>Github</h2>
+        </div>
+        <div>
+          <links copy-message="kuankuan2007" tips="用浏览器打开"
+            href="https://www.github.com/kuankuan2007"
+            content="kuankuan2007" />
+        </div>
+      </div>
+      <div>
+        <div class="title">
+          <h2>Gitee</h2>
+        </div>
+        <div>
+          <links copy-message="kuankuan2007" tips="用浏览器打开"
+            href="https://www.gitee.com/kuankuan2007"
+            content="kuankuan2007" />
+        </div>
+      </div>
+      <div>
+        <div class="title">
+          <h2>Pypi</h2>
+        </div>
+        <div>
+          <links copy-message="kuankuan" 
+            href="https://pypi.org/user/kuankuan/"
+            content="kuankuan" />
+        </div>
+      </div>
+      <div>
+        <div class="title">
+          <h2>NPM</h2>
+        </div>
+        <div>
+          <links copy-message="kuankuan" 
+            href="https://www.npmjs.com/~kuankuan"
+            content="kuankuan" />
+        </div>
+      </div>
+      <div>
+        <div class="title">
           <h2>邮箱</h2>
         </div>
         <div>
